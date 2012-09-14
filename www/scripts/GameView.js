@@ -44,6 +44,19 @@ var GameView = new Class(
 		invContainer.adopt(inv3);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
+		var goLeft = new Element('div#goLeft.go', {
+			click: onGo
+		});
+		var goCenter = new Element('div#goCenter.go', {
+			click: onGo
+		});
+		var goRight = new Element('div#goRight.go', {
+			click: onGo
+		});
+		rep.adopt(goLeft);
+		rep.adopt(goCenter);
+		rep.adopt(goRight);
+
 
 		//start game
 		this.enterRoom();
@@ -84,6 +97,23 @@ var GameView = new Class(
 		//TODO: Unhide selection UI
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion, 
+	},
+	onGo: function(event) {
+		var id = event.target.id;
+		var target = '';
+		switch(id)
+		{
+			case 'goLeft' :
+				target = RESULT_LEFT;
+				break;
+			case 'goCenter' :
+				target = RESULT_CENTER;
+				break;
+			case 'goRight' :
+				target = RESULT_RIGHT;
+				break;
+		}
+		chooseResult(target);
 	},
 	chooseResult: function(result) {
 		// display result (result.sprite)

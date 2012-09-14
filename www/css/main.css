@@ -65,3 +65,26 @@ div.start {
 #inv3 {
 	background-image: url('img/cordova.png');
 }
+
+.go {
+	position: absolute;
+	width: 5em;
+	height: 5em;
+	border-radius: 5em;
+	background: #FFF;
+}
+
+#goLeft {
+	top: 50%;
+	left: 25%;
+}
+
+#goCenter {
+	top: 25%;
+	left: 50%;
+}
+
+#goRight {
+	top: 50%;
+	right: 25%;
+}
