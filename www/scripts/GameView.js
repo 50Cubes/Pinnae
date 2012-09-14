@@ -5,7 +5,7 @@ var GameView = new Class(
 		player: {},
 		results: [],
 		sounds: [],
-		roomResults: [],
+		roomResults: []
 	},
 	initialize: function(windowSize)
 	{
@@ -35,14 +35,14 @@ var GameView = new Class(
 		//TODO: Inventory UI
 		var bottomUi = new Element('div#bottomUi');
 		var invContainer = new Element('div#invContainer');
-		var inv1 = new Element('div#inv1.inv.reveal');
-		var inv2 = new Element('div#inv2.inv.reveal');
-		var inv3 = new Element('div#inv3.inv.reveal');
+		var inv0 = new Element('div#inv0.inv');
+		var inv1 = new Element('div#inv1.inv');
+		var inv2 = new Element('div#inv2.inv');
 		rep.adopt(bottomUi);
 		bottomUi.adopt(invContainer);
+		invContainer.adopt(inv0);
 		invContainer.adopt(inv1);
 		invContainer.adopt(inv2);
-		invContainer.adopt(inv3);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
 		var goLeft = new Element('div#goLeft.go');
