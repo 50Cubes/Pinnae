@@ -1,5 +1,7 @@
 #viewContainer {
 	font-size: 1em;
+	background: #000;
+	color: #FFF;
 }
 
 div.start {

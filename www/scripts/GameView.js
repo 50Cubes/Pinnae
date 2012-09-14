@@ -83,6 +83,8 @@ var GameView = new Class(
 		player.options.anxiety -= result.anxiety;
 		//update meter
 		$('.meter').attr('height', player.options.anxiety);
+		if(player.options.anxiety >= 100)
+			onGameOver();
 	},
 	playSound: function(soundFilePath, speed)
 	{
