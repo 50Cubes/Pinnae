@@ -44,7 +44,7 @@ var GameView = new Class(
 
 		//TODO: Unhide selection UI
 
-		setTimeout(onGameOver, 5000);
+		setTimeout(this.onGameOver.bind(this), 5000);
 
 	},
 	chooseResult: function(result) {
@@ -79,7 +79,7 @@ var GameView = new Class(
 			alert('mediaError');
 		}
 	},
-	onGameOver: function(e) {
+	onGameOver: function() {
 		this.options.rep.fireEvent(VIEW_NAV, EndView);
 	}
 });
