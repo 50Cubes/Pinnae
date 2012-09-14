@@ -28,13 +28,13 @@ var GameView = new Class(
 		rep.adopt(title);
 		
 		//TODO: Anxiety Meter
-		var anxietyFrame = new Element('div#meterFrame');
+		var anxietyFrame = new Element('div#meterFrame.hidden');
 		var anxietyMeter = new Element('div#meter');
 		anxietyMeter.setStyle('height', this.options.player.options.anxiety + '%');
 		rep.adopt(anxietyFrame);
 		anxietyFrame.adopt(anxietyMeter);
 		//TODO: Inventory UI
-		var bottomUi = new Element('div#bottomUi');
+		var bottomUi = new Element('div#bottomUi.hidden');
 		var invContainer = new Element('div#invContainer');
 		var inv0 = new Element('div#inv0.inv');
 		var inv1 = new Element('div#inv1.inv');
@@ -46,9 +46,9 @@ var GameView = new Class(
 		invContainer.adopt(inv2);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
-		var goLeft = new Element('div#goLeft.go');
-		var goCenter = new Element('div#goCenter.go');
-		var goRight = new Element('div#goRight.go');
+		var goLeft = new Element('div#goLeft.go.hidden');
+		var goCenter = new Element('div#goCenter.go.hidden');
+		var goRight = new Element('div#goRight.go.hidden');
 		goLeft.addEvent("click", this.onGo.bind(this));
 		goCenter.addEvent("click", this.onGo.bind(this));
 		goRight.addEvent("click", this.onGo.bind(this));
@@ -59,8 +59,10 @@ var GameView = new Class(
 
 
 		//start game
-		this.onHeartbeat();
-		this.enterRoom();
+		setTimeout(function() {
+			this.onHeartbeat();
+			this.enterRoom();
+		}.bind(this), 500);
 	},
 	enterRoom: function()
 	{
@@ -75,6 +77,10 @@ console.log("######## enter room ##########");
 		for (var i=0; i < 3; i++) {
 			var rand_result_index = Math.floor(Math.random()*1000) % cloned_results.length;
 			var rand_result = cloned_results[rand_result_index];
+			if(Math.floor((Math.random()*10)+1) <= 3)
+			{
+				rand_result.options.inventoryItem = true;
+			}
 			this.options.roomResults.push(rand_result);
 			cloned_results.splice(rand_result_index,1);
 			console.log("clone result length:" + cloned_results.length);
@@ -87,6 +93,9 @@ console.log("######## enter room ##########");
 		}
 
 		//TODO: Unhide selection UI
+		$('meterFrame').removeClass('hidden');
+		$('bottomUi').removeClass('hidden');
+		$$('.go').removeClass('hidden');
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
@@ -113,6 +122,11 @@ console.log("######## enter room ##########");
 		this.chooseResult(target);
 	},
 	chooseResult: function(direction) {
+		//hide ui
+		$('meterFrame').addClass('hidden');
+		$('bottomUi').addClass('hidden');
+		$$('.go').addClass('hidden');
+
 		//clear the previous room's presounds
 		for(var i = 0; i < this.options.roomResults.length; i++)
 		{
@@ -136,7 +150,18 @@ console.log("######## enter room ##########");
 			this.playRevealImage(result.options.sprite[1]);
 		}.bind(this),2000);
 
-		var player = this.options.player;
+		var player = this.options.player;	
+		if(result.inventoryItem)
+		{
+			$('inv' + player.item).addClass('reveal');
+			player.items++;
+			if(player.items >= 3)
+			{
+				this.bossBattle();
+				return;
+			}
+		}
+
 		//update player anxiety
 		player.options.anxiety += result.options.anxietyChange;
 		//update meter
@@ -147,7 +172,8 @@ console.log("######## enter room ##########");
 
 		//transition  
 		//TODO: fade out effect
-		setTimeout(this.enterRoom.bind(this),10000);
+		if(result.options.anxietyChange < 0)
+		  setTimeout(this.enterRoom.bind(this),10000);
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
@@ -217,5 +243,8 @@ console.log("playSound: " + soundFilePath);
 	},
 	onGameOver: function() {
 		this.options.rep.fireEvent(VIEW_NAV, EndView);
+	},
+	bossBattle: function(){
+		//fight the boss
 	}
 });
