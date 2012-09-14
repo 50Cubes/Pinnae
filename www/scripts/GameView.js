@@ -45,15 +45,13 @@ var GameView = new Class(
 		invContainer.adopt(inv3);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
-		var goLeft = new Element('div#goLeft.go', {
-			click: this.onGo
-		});
-		var goCenter = new Element('div#goCenter.go', {
-			click: this.onGo
-		});
-		var goRight = new Element('div#goRight.go', {
-			click: this.onGo
-		});
+		goLeft.addEvent("click", this.onGo.bind(this));
+		//goLeft.view = this;
+		goCenter.addEvent("click", this.onGo.bind(this));
+		//goCenter.view = this;
+		goRight.addEvent("click", this.onGo.bind(this));
+		//goRight.view = this;
+		
 		rep.adopt(goLeft);
 		rep.adopt(goCenter);
 		rep.adopt(goRight);
@@ -113,18 +111,20 @@ var GameView = new Class(
 				target = RESULT_RIGHT;
 				break;
 		}
-		chooseResult(target);
+		this.chooseResult(target);
 	},
 	chooseResult: function(direction) {
 		//clear the previous room's presounds
-	  for(var i = 0; i < this.options.roomResults.length; i++)
-	  {
-	  	var roomResult = this.options.roomResults[i];
-
-	  	this.stopSound(this.options.sounds[roomResult.options.preSound]);
-	  }
+		for(var i = 0; i < this.options.roomResults.length; i++)
+		{
+			var roomResult = this.options.roomResults[i];
+			
+			this.stopSound(this.options.sounds[roomResult.options.preSound]);
+		}
 
 		var result = this.options.roomResults[direction];
+		console.log("this.playSound: " + this.playSound);
+		
 		this.playSound(result.postSound[direction], result.soundDelay, false);
 
 		// display result (result.sprite)
@@ -150,12 +150,14 @@ var GameView = new Class(
 		setTimeout(this.enterRoom,10000);
 	},
 	stopSound: function(sound) {
+		if (!sound) return;
+		
 		if(typeof sound.stop == 'function') //cordova
-	    sound.stop();
-	  else {
-	  	sound.pause();
-	    sound.currentTime = 0;
-	  }
+			sound.stop();
+		else {
+			sound.pause();
+			sound.currentTime = 0;
+		}
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
