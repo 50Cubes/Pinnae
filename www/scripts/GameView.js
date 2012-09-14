@@ -26,11 +26,22 @@ var GameView = new Class(
 		rep.adopt(title);
 		
 		//TODO: Anxiety Meter
-		var anxietyFrame = new Element('div.meterFrame');
-		var anxietyMeter = new Element('div.meter');
+		var anxietyFrame = new Element('div#meterFrame');
+		var anxietyMeter = new Element('div#meter');
 		rep.adopt(anxietyFrame);
 		anxietyFrame.adopt(anxietyMeter);
 		//TODO: Inventory UI
+		var bottomUi = new Element('div#bottomUi');
+		var invContainer = new Element('div#invContainer');
+		var inv1 = new Element('div#inv1.inv.reveal');
+		var inv2 = new Element('div#inv2.inv.reveal');
+		var inv3 = new Element('div#inv3.inv.reveal');
+		rep.adopt(bottomUi);
+		bottomUi.adopt(invContainer);
+		invContainer.adopt(inv1);
+		invContainer.adopt(inv2);
+		invContainer.adopt(inv3);
+
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
 
 		//start game
@@ -71,18 +82,18 @@ var GameView = new Class(
 
 		//TODO: Unhide selection UI
 
-		// setTimeout(this.onGameOver.bind(this), 5000);//REMOVE THIS: Forces the game to be over in 5 seconds
-
+		//TODO: Increase anxiety the longer you're in the room without making deciscion, 
 	},
 	chooseResult: function(result) {
 		// display result (result.sprite)
 
+
 		//TODO: Update anxiety (result.anxiety)
 		var player = this.options.player;
 		//update player property
-		player.options.anxiety -= result.anxiety;
+		player.options.anxiety += result.anxiety;
 		//update meter
-		$('.meter').attr('height', player.options.anxiety);
+		$('meter').setStyle('height', player.options.anxiety + '%');
 		if(player.options.anxiety >= 100)
 			onGameOver();
 	},
