@@ -4,6 +4,10 @@
 	color: #FFF;
 }
 
+.hidden {
+	opacity: 0;
+}
+
 div.start {
   width: 100px;
   height: 100px;
@@ -17,6 +21,7 @@ div.start {
 	position: relative;
 	top: 10%;
 	left: 5%;
+	-webkit-transition:all 0.5s ease;
 }
 
 #meter {
@@ -34,6 +39,7 @@ div.start {
 	height: 25%;
 	position: absolute;
 	bottom: 0;
+	-webkit-transition:all 0.5s ease;
 }
 
 #invContainer {

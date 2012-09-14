@@ -28,13 +28,13 @@ var GameView = new Class(
 		rep.adopt(title);
 		
 		//TODO: Anxiety Meter
-		var anxietyFrame = new Element('div#meterFrame');
+		var anxietyFrame = new Element('div#meterFrame.hidden');
 		var anxietyMeter = new Element('div#meter');
 		anxietyMeter.setStyle('height', this.options.player.options.anxiety + '%');
 		rep.adopt(anxietyFrame);
 		anxietyFrame.adopt(anxietyMeter);
 		//TODO: Inventory UI
-		var bottomUi = new Element('div#bottomUi');
+		var bottomUi = new Element('div#bottomUi.hidden');
 		var invContainer = new Element('div#invContainer');
 		var inv0 = new Element('div#inv0.inv');
 		var inv1 = new Element('div#inv1.inv');
@@ -59,8 +59,10 @@ var GameView = new Class(
 
 
 		//start game
-		this.onHeartbeat();
-		this.enterRoom();
+		setTimeout(function() {
+			this.onHeartbeat();
+			this.enterRoom();
+		}.bind(this), 500);
 	},
 	enterRoom: function()
 	{
@@ -87,6 +89,8 @@ var GameView = new Class(
 		}
 
 		//TODO: Unhide selection UI
+		$('meterFrame').removeClass('hidden');
+		$('bottomUi').removeClass('hidden');
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
