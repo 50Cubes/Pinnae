@@ -66,7 +66,7 @@ var GameView = new Class(
 	},
 	enterRoom: function()
 	{
-		console.log("enter room");
+console.log("######## enter room ##########");
 		this.options.roomResults = [];
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
@@ -77,6 +77,10 @@ var GameView = new Class(
 		for (var i=0; i < 3; i++) {
 			var rand_result_index = Math.floor(Math.random()*1000) % cloned_results.length;
 			var rand_result = cloned_results[rand_result_index];
+			if(Math.floor((Math.random()*10)+1) <= 3)
+			{
+				rand_result.options.inventoryItem = true;
+			}
 			this.options.roomResults.push(rand_result);
 			cloned_results.splice(rand_result_index,1);
 			console.log("clone result length:" + cloned_results.length);
@@ -95,11 +99,10 @@ var GameView = new Class(
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
-	onHeartbeat: function() {
-		this.playSound('sound/heartbeat.mp3');
+	onHeartbeat: function(nextBeat) {
 		var calmPercentage = 100 - this.options.player.options.anxiety;
 		var nextBeat = calmPercentage * 5000;
-		setTimeout(this.onHeartbeat.bind(this), nextBeat);
+		this.playSound('sound/heartbeat.mp3',nextBeat,true);	
 	},
 	onGo: function(event) {
 		var id = event.target.id;
@@ -133,7 +136,7 @@ var GameView = new Class(
 		}
 
 		var result = this.options.roomResults[direction];
-		this.playSound(result.options.postSound[direction]);
+		this.playSound(result.options.postSound[direction],5000,false);
 
 		// display result (result.sprite)
 		//TODO: fade in effect
@@ -153,7 +156,18 @@ var GameView = new Class(
 			}.bind(this),2000);
 		}
 
-		var player = this.options.player;
+		var player = this.options.player;	
+		if(result.inventoryItem)
+		{
+			$('inv' + player.item).addClass('reveal');
+			player.items++;
+			if(player.items >= 3)
+			{
+				this.bossBattle();
+				return;
+			}
+		}
+
 		//update player anxiety
 		player.options.anxiety += result.options.anxietyChange;
 		//update meter
@@ -164,18 +178,23 @@ var GameView = new Class(
 
 		//transition  
 		//TODO: fade out effect
-		setTimeout(this.enterRoom.bind(this),10000);
+		if(result.options.anxietyChange < 0)
+		  setTimeout(this.enterRoom.bind(this),10000);
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
 		$('reveal_img').setStyle('background-image','url(' + image_url + ')');
 	},
 	stopSound: function(sound) {
+//console.log("calling stop sounds");
 		if (!sound) return;
 		
-		if(typeof sound.stop === 'function') //cordova
+		if(typeof sound.stop === 'function') { //cordova
+//console.log("stop sounds 1");
 			sound.stop();
+		}
 		else {
+//console.log("stop sounds 2");
 			sound.pause();
 			if(sound.currentTime !== 0)
 				sound.currentTime = 0;
@@ -183,6 +202,7 @@ var GameView = new Class(
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
+console.log("playSound: " + soundFilePath);		
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
 	    var sounds = this.options.sounds;
 		if(sounds[soundFilePath])
@@ -229,5 +249,8 @@ var GameView = new Class(
 	},
 	onGameOver: function() {
 		this.options.rep.fireEvent(VIEW_NAV, EndView);
+	},
+	bossBattle: function(){
+		//fight the boss
 	}
 });
