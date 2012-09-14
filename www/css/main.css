@@ -48,6 +48,9 @@ div.start {
 	height: 100%;
 	border: 1px solid #333;
 	float: left;
+	background-repeat: no-repeat;
+	background-size: 75%;
+	background-position: center;
 }
 
 .inv.reveal {
@@ -55,15 +58,15 @@ div.start {
 }
 
 #inv1 {
-	background-image: url('img/cordova.png');
+	background-image: url('../img/cordova.png');
 }
 
 #inv2 {
-	background-image: url('img/cordova.png');
+	background-image: url('../img/cordova.png');
 }
 
 #inv3 {
-	background-image: url('img/cordova.png');
+	background-image: url('../img/cordova.png');
 }
 
 .go {
