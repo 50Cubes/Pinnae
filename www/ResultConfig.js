@@ -5,5 +5,19 @@ var RESULTS_CONFIG = [
 		postSound: 'sound/scream.mp3',
 		sprite: 'img/cordova.png',
 		anxietyChange: 10
+	},
+	{
+		preSound: 'sound/keys.mp3',
+		soundDelay: 1000,
+		postSound: 'sound/snarl.mp3',
+		sprite: 'img/cordova.png',
+		anxietyChange: 20
+	},
+	{
+		preSound: 'sound/creeek.mp3',
+		soundDelay: 4000,
+		postSound: 'sound/keys.mp3',
+		sprite: 'img/cordova.png',
+		anxietyChange: 40
 	}
 ];
