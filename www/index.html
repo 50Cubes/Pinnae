@@ -1,99 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  <title></title>
-  
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
-	<meta charset="utf-8">
-
-
-	<!-- iPad/iPhone specific css below, add after your main css >
-	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
-	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
-	-->
-	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
-	<script src="scripts/libs/cordova-1.7.0.js"></script>
-	<script src="scripts/libs/mootools-core-1.4.5-full-nocompat-yc.js"></script>
-	<script src="scripts/libs/powertools-1.2.0.js"></script>
-	<script src="scripts/libs/ElementUtils.js"></script>
-	<script src="scripts/libs/ClassMethods.js"></script>
-	<script src="scripts/core/View.js"></script>
-	<script src="scripts/core/ViewController.js"></script>
-	<script src="scripts/MenuView.js"></script>
-	<!--
-	<script src="s/qunit.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen">
-	<link rel="stylesheet" type="text/css" href="c/test.css">
-	-->
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script type="text/javascript">
-
-	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
-	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-	for more details -jm */
-	/*
-	function handleOpenURL(url)
-	{
-		// TODO: do something with the url passed in.
-	}
-	*/
-	
-	function onBodyLoad()
-	{		
-		if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
-			$(document.body).addClass('device');
-			document.addEventListener("deviceready", onDeviceReady, false);
-		} else {
-			$(document.body).addClass('browser');
-			onDeviceReady(); //this is the browser
-		}
-	}
-	
-	/* When this function is called, Cordova has been initialized and is ready to roll */
-	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
-	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-	for more details -jm */
-	function onDeviceReady()
-	{
-		var body = $(document.body);
-		var bodySize = body.getSize();
-		var viewSize = {};
-		body.setStyle('width', bodySize.x);
-		body.setStyle('height', bodySize.y);
-		viewSize.x = bodySize.x;
-		viewSize.y = bodySize.y;
-
-		// log('viewSize.width', viewSize.x);
-		// log('viewSize.height', viewSize.y);
-
-		var viewController = new ViewController(viewSize);
-		body.adopt(viewController.options.viewContainer);
-
-
-		var heartSpeed = 1000;
-		heartBeat();
-
-		function heartBeat() {
-			var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
-			media.play();
-			heartSpeed -= heartSpeed >= 500 ? 25 : 0;
-			setTimeout(heartBeat, heartSpeed);
-			console.log('heartSpeed');
-		}
-
-		function mediaSuccess()
-		{
-			console.log('sucess');
-		}
-
-		function mediaError()
-		{
-			alert('mediaError');
-		}
-	}
-	</script>
-	</head>
-			<body onload="onBodyLoad()">
-	</body>
+<!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#  KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name = "format-detection" content = "telephone=no"/>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hello Cordova</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova™</h1>
+            <div id="deviceready">
+                <p class="status pending blink">Connecting to Device</p>
+                <p class="status complete blink hide">Device is Ready</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova-2.0.0.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
 </html>
