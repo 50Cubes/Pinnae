@@ -64,7 +64,7 @@ var GameView = new Class(
 	},
 	enterRoom: function()
 	{
-console.log("enter room");
+		console.log("enter room");
 		this.options.roomResults = [];
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
@@ -85,14 +85,6 @@ console.log("enter room");
 			console.log("rand result index: " + rand_result_index + "; presound: " + pre_sound + "; sound_delay: "+sound_delay);
 			this.playSound(pre_sound, sound_delay, true);
 		}
-
-		//play sounds for this room
-		//TODO: use random results instead of hardcoded ones (result.preSound, result.soundDelay)
-		/*
-		this.playSound('sound/creeek.mp3', 2000);
-		this.playSound('sound/keys.mp3', 2500);
-		this.playSound('sound/snarl.mp3', 3000);
-		*/
 
 		//TODO: Unhide selection UI
 
