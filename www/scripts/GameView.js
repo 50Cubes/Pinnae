@@ -45,6 +45,9 @@ var GameView = new Class(
 		invContainer.adopt(inv3);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
+		var goLeft = new Element('div#goLeft.go');
+		var goCenter = new Element('div#goCenter.go');
+		var goRight = new Element('div#goRight.go');
 		goLeft.addEvent("click", this.onGo.bind(this));
 		//goLeft.view = this;
 		goCenter.addEvent("click", this.onGo.bind(this));
