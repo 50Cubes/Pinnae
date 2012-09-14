@@ -148,7 +148,7 @@ console.log("enter room");
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
 		if(player.options.anxiety >= 100)
-			onGameOver();
+			this.onGameOver();
 
 		//transition  
 		//TODO: fade out effect
