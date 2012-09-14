@@ -4,7 +4,8 @@ var GameView = new Class(
 	options: {
 		player: {},
 		results: [],
-		sounds: []
+		sounds: [],
+		roomResults: [],
 	},
 	initialize: function(windowSize)
 	{
@@ -64,26 +65,25 @@ var GameView = new Class(
 	enterRoom: function()
 	{
 		console.log("enter room");
-		
+		this.options.roomResults = [];
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
 		//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
 		//		We will tweak this later to change the length of the game if its too long/short
 
 		var cloned_results = this.options.results.slice(0);
-		
 		for (var i=0; i < 3; i++) {
 			var rand_result_index = Math.floor(Math.random()*1000) % cloned_results.length;
 			var rand_result = cloned_results[rand_result_index];
-			
+			this.options.roomResults.push(rand_result);
 			cloned_results.splice(rand_result_index,1);
 			console.log("clone result length:" + cloned_results.length);
 			
-			var pre_sound = rand_result.options.preSound;
+			var pre_sound = rand_result.options.preSound[i];
 			var sound_delay = rand_result.options.soundDelay;
 			
 			console.log("rand result index: " + rand_result_index + "; presound: " + pre_sound + "; sound_delay: "+sound_delay);
-			this.playSound(pre_sound, sound_delay);
+			this.playSound(pre_sound, sound_delay, true);
 		}
 
 		//play sounds for this room
@@ -115,7 +115,9 @@ var GameView = new Class(
 		}
 		chooseResult(target);
 	},
-	chooseResult: function(result) {
+	chooseResult: function(direction) {
+		var result = this.options.roomResults[direction];
+		this.playSound(result.postSound[direction], result.soundDelay, false);
 		// display result (result.sprite)
 
 
@@ -128,7 +130,7 @@ var GameView = new Class(
 		if(player.options.anxiety >= 100)
 			onGameOver();
 	},
-	playSound: function(soundFilePath, speed)
+	playSound: function(soundFilePath, speed, loop)
 	{
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
 	    var sounds = this.options.sounds;
@@ -154,17 +156,6 @@ var GameView = new Class(
 		}
 		sounds[soundFilePath].play();
 		
-		
-		//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
-		variation = Math.floor((Math.random()*1000)+1) - 500; //random between -500 to +500 msec
-		
-		speed += variation;
-		
-		setTimeout(function()
-		{
-			this.playSound(soundFilePath, speed);
-		}.bind(this), speed);
-
 		function mediaSuccess()
 		{
 			console.log('sucess');
@@ -173,6 +164,19 @@ var GameView = new Class(
 		function mediaError()
 		{
 			alert('mediaError');
+		}
+
+		if(loop)
+		{
+			//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
+			variation = Math.floor((Math.random()*1000)+1) - 500; //random between -500 to +500 msec
+			
+			var newSpeed = speed + variation;
+			
+			setTimeout(function()
+			{
+				this.playSound(soundFilePath, speed, loop);
+			}.bind(this), newSpeed);
 		}
 	},
 	onGameOver: function() {
