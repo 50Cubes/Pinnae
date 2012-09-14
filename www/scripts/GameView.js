@@ -96,7 +96,14 @@ var GameView = new Class(
 
 		//TODO: Unhide selection UI
 
-		//TODO: Increase anxiety the longer you're in the room without making deciscion, 
+		//TODO: Increase anxiety the longer you're in the room without making deciscion,
+		this.onHeartbeat();
+	},
+	onHeartbeat: function() {
+		this.playSound('sound/heartbeat.mp3');
+		var calmPercentage = 100 - this.options.player.options.anxiety;
+		var nextBeat = calmPercentage * 5000;
+		setTimeout(this.onHeartbeat, nextBeat);
 	},
 	onGo: function(event) {
 		var id = event.target.id;
@@ -117,7 +124,7 @@ var GameView = new Class(
 	},
 	chooseResult: function(direction) {
 		var result = this.options.roomResults[direction];
-		this.playSound(result.postSound[direction], result.soundDelay, false);
+		this.playSound(result.postSound[direction]);
 		// display result (result.sprite)
 
 
@@ -166,7 +173,7 @@ var GameView = new Class(
 			alert('mediaError');
 		}
 
-		if(loop)
+		if(speed === undefined)
 		{
 			//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
 			variation = Math.floor((Math.random()*1000)+1) - 500; //random between -500 to +500 msec
@@ -175,7 +182,7 @@ var GameView = new Class(
 			
 			setTimeout(function()
 			{
-				this.playSound(soundFilePath, speed, loop);
+				this.playSound(soundFilePath, speed);
 			}.bind(this), newSpeed);
 		}
 	},
