@@ -26,6 +26,10 @@ var GameView = new Class(
 		rep.adopt(title);
 
 		//TODO: Anxiety Meter
+		var anxietyFrame = new Element('div.meterFrame');
+		var anxietyMeter = new Element('div.meter');
+		rep.adopt(anxietyFrame);
+		anxietyFrame.adopt(anxietyMeter);
 		//TODO: Inventory UI
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
 
@@ -42,9 +46,9 @@ var GameView = new Class(
 
 		//play sounds for this room
 		//TODO: use random results instead of hardcoded ones (result.preSound, result.soundDelay)
-		this.playSound('sound/creeek.mp3', 2000);
-		this.playSound('sound/keys.mp3', 2500);
-		this.playSound('sound/snarl.mp3', 3000);
+		// this.playSound('sound/creeek.mp3', 2000);
+		// this.playSound('sound/keys.mp3', 2500);
+		// this.playSound('sound/snarl.mp3', 3000);
 
 		//TODO: Unhide selection UI
 
@@ -54,7 +58,12 @@ var GameView = new Class(
 	chooseResult: function(result) {
 		// display result (result.sprite)
 
-		//
+		//TODO: Update anxiety (result.anxiety)
+		var player = this.options.player;
+		//update player property
+		player.options.anxiety -= result.anxiety;
+		//update meter
+		$('.meter').attr('height', player.options.anxiety);
 	},
 	playSound: function(soundFilePath, speed)
 	{
