@@ -98,3 +98,9 @@ h1 {
         padding-top:60px;   /* center the text */
     }
 }
+div.start
+{
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+}

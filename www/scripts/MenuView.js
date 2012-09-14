@@ -12,7 +12,7 @@ var MenuView = new Class({
 		var playButton = new Element('div.start', {
 			text: 'Play',
 			events: {
-				touch: this.onPlay.bind(this)
+				touch: this.onPlay
 			}
 		});
 		rep.adopt(playButton);

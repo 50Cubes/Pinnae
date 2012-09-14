@@ -12,7 +12,7 @@ var app = {
     },
     report: function(id) { 
         console.log("report:" + id);
-        alert("report:" + id);
+        // alert("report:" + id);
 
         var body = $(document.body);
         var bodySize = body.getSize();
@@ -30,24 +30,24 @@ var app = {
 
 
         var heartSpeed = 1000;
-        heartBeat();
-
-        function heartBeat() {
-            var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
-            media.play();
-            heartSpeed -= heartSpeed >= 500 ? 25 : 0;
-            setTimeout(heartBeat, heartSpeed);
-            console.log('heartSpeed');
-        }
-
-        function mediaSuccess()
-        {
-            console.log('sucess');
-        }
-
-        function mediaError()
-        {
-            alert('mediaError');
-        }
+        // heartBeat();
+        // 
+        // function heartBeat() {
+        //     var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
+        //     media.play();
+        //     heartSpeed -= heartSpeed >= 500 ? 25 : 0;
+        //     setTimeout(heartBeat, heartSpeed);
+        //     console.log('heartSpeed');
+        // }
+        // 
+        // function mediaSuccess()
+        // {
+        //     console.log('sucess');
+        // }
+        // 
+        // function mediaError()
+        // {
+        //     alert('mediaError');
+        // }
     }
 };
