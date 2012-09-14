@@ -5,7 +5,8 @@ var GameView = new Class(
 		player: {},
 		results: [],
 		sounds: [],
-		roomResults: []
+		roomResults: [],
+		roomResultsSoundTimers:[]
 	},
 	initialize: function(windowSize)
 	{
@@ -128,6 +129,11 @@ console.log("######## enter room ##########");
 		$$('.go').addClass('hidden');
 
 		//clear the previous room's presounds
+		for (var i=0; i < this.options.roomResultsSoundTimers.length; i++) {
+			clearTimeout(this.options.roomResultsSoundTimers[i]);	
+		}
+		this.options.roomResultsSoundTimers = [];
+		
 		for(var i = 0; i < this.options.roomResults.length; i++)
 		{
 			var roomResult = this.options.roomResults[i];
@@ -172,7 +178,7 @@ console.log("######## enter room ##########");
 
 		//transition  
 		//TODO: fade out effect
-		if(result.options.anxietyChange < 0)
+		if(result.options.anxietyChange <= 0)
 		  setTimeout(this.enterRoom.bind(this),10000);
 	},
 	playRevealImage: function(image_url) {
@@ -199,6 +205,7 @@ console.log("######## enter room ##########");
 console.log("playSound: " + soundFilePath);		
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
 	    var sounds = this.options.sounds;
+	      
 		if(sounds[soundFilePath])
 		{
 			this.stopSound(sounds[soundFilePath]);
@@ -235,10 +242,11 @@ console.log("playSound: " + soundFilePath);
 			
 			var newSpeed = speed + variation;
 			
-			setTimeout(function()
-			{
-				this.playSound(soundFilePath, speed, loop);
-			}.bind(this), newSpeed);
+			this.options.roomResultsSoundTimers.push(
+				setTimeout(function() {
+					this.playSound(soundFilePath, speed, loop);
+				}.bind(this), newSpeed)		
+			);
 		}
 	},
 	onGameOver: function() {
