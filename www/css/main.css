@@ -1,6 +1,29 @@
-div.start
-{
+#viewContainer {
+	font-size: 1em;
+	background: #000;
+	color: #FFF;
+}
+
+div.start {
   width: 100px;
   height: 100px;
   background-color: blue;
+}
+
+.meterFrame {
+	background: #333;
+	width: 25px;
+	height: 50%;
+	position: relative;
+	top: 10%;
+	left: 5%;
+}
+
+.meter {
+	background: #FFF;
+	width: 100%;
+	height: 25%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
 }
