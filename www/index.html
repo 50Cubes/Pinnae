@@ -12,15 +12,21 @@
 	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
 	-->
 	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
-	<script src="cordova-1.7.0.js"></script>
-	<script src="jquery-1.8.1.min.js"></script>
+	<script src="scripts/libs/cordova-1.7.0.js"></script>
+	<script src="scripts/libs/mootools-core-1.4.5-full-nocompat-yc.js"></script>
+	<script src="scripts/libs/powertools-1.2.0.js"></script>
+	<script src="scripts/libs/ElementUtils.js"></script>
+	<script src="scripts/libs/ClassMethods.js"></script>
+	<script src="scripts/core/View.js"></script>
+	<script src="scripts/core/ViewController.js"></script>
+	<script src="scripts/MenuView.js"></script>
 	<!--
 	<script src="s/qunit.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen">
 	<link rel="stylesheet" type="text/css" href="c/test.css">
 	-->
-	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<script type="text/javascript">
 
 	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
@@ -50,27 +56,35 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-		$('body').append('<p>onDeviceReady</p>');
-		// do your thing!
-		if($(document.body).hasClass('device'))
-		{
+		var body = $(document.body);
+		var bodySize = body.getSize();
+		var viewSize = {};
+		body.setStyle('width', bodySize.x);
+		body.setStyle('height', bodySize.y);
+		viewSize.x = bodySize.x;
+		viewSize.y = bodySize.y;
 
-		}
+		// log('viewSize.width', viewSize.x);
+		// log('viewSize.height', viewSize.y);
 
-		var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
+		var viewController = new ViewController(viewSize);
+		body.adopt(viewController.options.viewContainer);
+
 
 		var heartSpeed = 1000;
 		heartBeat();
 
 		function heartBeat() {
+			var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
 			media.play();
-			heartSpeed -= heartSpeed >= 400 ? 25 : 0;
+			heartSpeed -= heartSpeed >= 500 ? 25 : 0;
 			setTimeout(heartBeat, heartSpeed);
+			console.log('heartSpeed');
 		}
 
 		function mediaSuccess()
 		{
-			log('sucess');
+			console.log('sucess');
 		}
 
 		function mediaError()
