@@ -6,8 +6,8 @@ var Result = new Class({
   Implements: Options,
 	options:{
 		preSound: '',
-		postSound: '',
 		soundDelay: '',
+		postSound: '',
 		sprite: '',
 		anxietyChange: 0,
 		location: RESULT_LEFT

@@ -23,7 +23,7 @@ var GameView = new Class(
 
 		//TODO: Anxiety Meter
 		//TODO: Inventory UI
-		//TODO: Selection UI (hide by default with class 'hide', revealed in enterRoom)
+		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
 
 		//start game
 		this.enterRoom();
