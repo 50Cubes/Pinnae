@@ -50,13 +50,31 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
+		$('body').append('<p>onDeviceReady</p>');
 		// do your thing!
-		// navigator.notification.alert("Cordova is working")
-		// Lggr.init();
-		// Lggr.floatLog();
-
 		if($(document.body).hasClass('device'))
 		{
+
+		}
+
+		var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
+
+		var heartSpeed = 1000;
+		var interval = setInterval(heartBeat, heartSpeed);
+		media.play();
+
+		function heartBeat() {
+			
+		}
+
+		function mediaSuccess()
+		{
+			log('sucess');
+		}
+
+		function mediaError()
+		{
+			alert('mediaError');
 		}
 	}
 	</script>
