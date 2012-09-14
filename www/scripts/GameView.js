@@ -75,6 +75,10 @@ console.log("enter room");
 		for (var i=0; i < 3; i++) {
 			var rand_result_index = Math.floor(Math.random()*1000) % cloned_results.length;
 			var rand_result = cloned_results[rand_result_index];
+			if(Math.floor((Math.random()*10)+1) <= 3)
+			{
+				rand_result.options.inventoryItem = true;
+			}
 			this.options.roomResults.push(rand_result);
 			cloned_results.splice(rand_result_index,1);
 			console.log("clone result length:" + cloned_results.length);
@@ -141,7 +145,18 @@ console.log("enter room");
 		});
 		rep.adopt(sprite);
 
-		var player = this.options.player;
+		var player = this.options.player;	
+		if(result.inventoryItem)
+		{
+			$('inv' + player.item).addClass('reveal');
+			player.items++;
+			if(player.items >= 3)
+			{
+				this.bossBattle();
+				return;
+			}
+		}
+
 		//update player anxiety
 		player.options.anxiety += result.options.anxietyChange;
 		//update meter
@@ -152,7 +167,8 @@ console.log("enter room");
 
 		//transition  
 		//TODO: fade out effect
-		setTimeout(this.enterRoom.bind(this),10000);
+		if(result.options.anxietyChange < 0)
+		  setTimeout(this.enterRoom.bind(this),10000);
 	},
 	stopSound: function(sound) {
 		if (!sound) return;
@@ -213,5 +229,8 @@ console.log("enter room");
 	},
 	onGameOver: function() {
 		this.options.rep.fireEvent(VIEW_NAV, EndView);
+	},
+	bossBattle: function(){
+		//fight the boss
 	}
 });
