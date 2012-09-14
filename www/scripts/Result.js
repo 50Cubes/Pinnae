@@ -20,5 +20,6 @@ var Result = new Class({
 		this.options.postSound = data.postSound;
 		this.options.sprite = data.sprite;
 		this.options.anxietyChange = data.anxietyChange;
+		this.options.inventoryItem = data.inventoryItem;
 	}
 });
