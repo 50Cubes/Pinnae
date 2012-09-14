@@ -30,6 +30,7 @@ var GameView = new Class(
 		//TODO: Anxiety Meter
 		var anxietyFrame = new Element('div#meterFrame');
 		var anxietyMeter = new Element('div#meter');
+		anxietyMeter.setStyle('height', this.options.player.options.anxiety + '%');
 		rep.adopt(anxietyFrame);
 		anxietyFrame.adopt(anxietyMeter);
 		//TODO: Inventory UI
@@ -61,6 +62,7 @@ var GameView = new Class(
 
 
 		//start game
+		this.onHeartbeat();
 		this.enterRoom();
 	},
 	enterRoom: function()
@@ -98,7 +100,6 @@ var GameView = new Class(
 		//TODO: Unhide selection UI
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
-		this.onHeartbeat();
 	},
 	onHeartbeat: function() {
 		this.playSound('sound/heartbeat.mp3');
@@ -134,7 +135,6 @@ var GameView = new Class(
 
 		var result = this.options.roomResults[direction];
 		this.playSound(result.postSound[direction]);
-		// display result (result.sprite)
 
 		// display result (result.sprite)
 		//TODO: fade in effect
@@ -144,7 +144,6 @@ var GameView = new Class(
 		});
 		rep.adopt(sprite);
 
-		//TODO: Update anxiety (result.anxiety)
 		var player = this.options.player;
 		//update player property
 		player.options.anxiety += result.anxiety;
