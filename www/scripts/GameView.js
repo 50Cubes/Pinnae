@@ -44,6 +44,11 @@ var GameView = new Class(
 		//TODO: Unhide selection UI
 
 	},
+	chooseResult: function(result) {
+		// display result (result.sprite)
+
+		//
+	},
 	playSound: function(soundFilePath, speed)
 	{
 		var media = new Media(soundFilePath, mediaSuccess, mediaError);
