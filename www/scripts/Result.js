@@ -20,6 +20,6 @@ var Result = new Class({
 		this.options.postSound = options.postSound;
 		this.options.sprite = options.sprite;
 		this.options.anxietyChange = options.anxietyChange;
-		this.options.location = options.location;
+    // this.options.location = options.location;
 	}
 });

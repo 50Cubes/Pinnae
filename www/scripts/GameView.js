@@ -62,7 +62,9 @@ var GameView = new Class(
 			var media = new Media(soundFilePath, mediaSuccess, mediaError);
 			media.play();
 		} else {
-			//TODO: Add browser audio playing
+			var media = document.createElement('audio');
+			media.setAttribute('src', soundFilePath);
+			media.play();
 		}
 		setTimeout(function()
 		{
