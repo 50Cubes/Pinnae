@@ -3,7 +3,13 @@ var app = {
         this.bind();
     },
     bind: function() {
-        document.addEventListener('deviceready', this.deviceready, false);
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+            $(document.body).addClass('device');
+            document.addEventListener('deviceready', this.deviceready, false);
+        } else {
+            $(document.body).addClass('browser');
+            this.deviceready(); //this is the browser
+        }
     },
     deviceready: function() {
         // note that this is an event handler so the scope is that of the event
