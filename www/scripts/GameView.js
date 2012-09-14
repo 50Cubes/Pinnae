@@ -50,11 +50,8 @@ var GameView = new Class(
 		var goCenter = new Element('div#goCenter.go');
 		var goRight = new Element('div#goRight.go');
 		goLeft.addEvent("click", this.onGo.bind(this));
-		//goLeft.view = this;
 		goCenter.addEvent("click", this.onGo.bind(this));
-		//goCenter.view = this;
 		goRight.addEvent("click", this.onGo.bind(this));
-		//goRight.view = this;
 		
 		rep.adopt(goLeft);
 		rep.adopt(goCenter);
@@ -67,7 +64,7 @@ var GameView = new Class(
 	},
 	enterRoom: function()
 	{
-		console.log("enter room");
+console.log("enter room");
 		this.options.roomResults = [];
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
@@ -105,7 +102,7 @@ var GameView = new Class(
 		this.playSound('sound/heartbeat.mp3');
 		var calmPercentage = 100 - this.options.player.options.anxiety;
 		var nextBeat = calmPercentage * 5000;
-		setTimeout(this.onHeartbeat, nextBeat);
+		setTimeout(this.onHeartbeat.bind(this), nextBeat);
 	},
 	onGo: function(event) {
 		var id = event.target.id;
@@ -134,7 +131,7 @@ var GameView = new Class(
 		}
 
 		var result = this.options.roomResults[direction];
-		this.playSound(result.postSound[direction]);
+		this.playSound(result.options.postSound[direction]);
 
 		// display result (result.sprite)
 		//TODO: fade in effect
@@ -155,7 +152,7 @@ var GameView = new Class(
 
 		//transition  
 		//TODO: fade out effect
-		setTimeout(this.enterRoom,10000);
+		setTimeout(this.enterRoom.bind(this),10000);
 	},
 	stopSound: function(sound) {
 		if (!sound) return;
