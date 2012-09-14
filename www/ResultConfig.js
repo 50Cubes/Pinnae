@@ -14,7 +14,7 @@ var RESULTS_CONFIG = [
 		anxietyChange: 20
 	},
 	{
-		preSound: 'sound/creeek.mp3',
+		preSound: 'sound/snarl.mp3',
 		soundDelay: 4000,
 		postSound: 'sound/keys.mp3',
 		sprite: 'img/cordova.png',

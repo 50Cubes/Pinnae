@@ -3,7 +3,8 @@ var GameView = new Class(
 	Extends: View,
 	options: {
 		player: {},
-		results: []
+		results: [],
+		sounds: []
 	},
 	initialize: function(windowSize)
 	{
@@ -41,11 +42,11 @@ var GameView = new Class(
 		//TODO: set inventoryItem to true for 1 item (should only happen every 3 rooms...or reduce the chance so its around every 3 rooms) 
 		//		We will tweak this later to change the length of the game if its too long/short
 
-		var cloned_results = Array.clone(this.options.results);
+		var cloned_results = this.options.results.slice(0);
 		
 		for (var i=0; i < 3; i++) {
 			var rand_result_index = Math.floor(Math.random()*1000) % cloned_results.length;
-			var rand_result = this.options.results[rand_result_index];
+			var rand_result = cloned_results[rand_result_index];
 			
 			cloned_results.splice(rand_result_index,1);
 			console.log("clone result length:" + cloned_results.length);
@@ -78,16 +79,29 @@ var GameView = new Class(
 	playSound: function(soundFilePath, speed)
 	{
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
-	
-		if($(document.body).hasClass('device'))
+	    var sounds = this.options.sounds;
+		if(sounds[soundFilePath])
 		{
-			var media = new Media(soundFilePath, mediaSuccess, mediaError);
-			media.play();
-		} else {
-			var media = document.createElement('audio');
-			media.setAttribute('src', soundFilePath);
-			media.play();
+		  if(typeof sounds[soundFilePath].stop == 'function') //cordova
+	        sounds[soundFilePath].stop();
+	      else
+	        sounds[soundFilePath].currentTime = 0;
 		}
+		else
+		{
+		  if($(document.body).hasClass('device'))
+		  {
+			var media = new Media(soundFilePath, mediaSuccess, mediaError);
+		  }
+		  else
+		  {
+		  	var media = document.createElement('audio');
+		    media.setAttribute('src', soundFilePath);
+		  }
+		  sounds[soundFilePath] = media;
+		}
+		sounds[soundFilePath].play();
+		
 		
 		//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
 		variation = Math.floor((Math.random()*1000)+1) - 500; //random between -500 to +500 msec
