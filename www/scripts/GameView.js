@@ -126,9 +126,7 @@ var GameView = new Class(
 		}
 
 		var result = this.options.roomResults[direction];
-		console.log("this.playSound: " + this.playSound);
-		
-		this.playSound(result.postSound[direction], result.soundDelay, false);
+		this.playSound(result.options.postSound[direction], result.options.soundDelay, false);
 
 		// display result (result.sprite)
 		//TODO: fade in effect
