@@ -137,9 +137,13 @@ console.log("enter room");
 		//TODO: fade in effect
 		var rep = this.options.rep;
 		var sprite = new Element('img', {
-			src: result.options.sprite
+			id: 'reveal_img',
+			src: result.options.sprite[0]
 		});
 		rep.adopt(sprite);
+		setTimeout(function() {
+			this.playRevealImage(result.options.sprite[1]);
+		}.bind(this),2000);
 
 		var player = this.options.player;
 		//update player anxiety
@@ -153,6 +157,10 @@ console.log("enter room");
 		//transition  
 		//TODO: fade out effect
 		setTimeout(this.enterRoom.bind(this),10000);
+	},
+	playRevealImage: function(image_url) {
+		console.log("playRevealImage");
+		$('reveal_img').setAttribute('src',image_url);
 	},
 	stopSound: function(sound) {
 		if (!sound) return;
