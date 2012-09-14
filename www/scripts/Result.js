@@ -1,6 +1,6 @@
-var RESULT_LEFT = 'L';
-var RESULT_CENTER = 'C';
-var RESULT_RIGHT = 'R';
+var RESULT_LEFT = 0;
+var RESULT_CENTER = 1;
+var RESULT_RIGHT = 2;
 
 var Result = new Class({
 	Implements: Options,
