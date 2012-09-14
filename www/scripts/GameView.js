@@ -3,18 +3,24 @@ var GameView = new Class(
 	Extends: View,
 	options: {
 		player: {},
-		results: [],
+		badResults: [],
+		goodResults: [],
 		sounds: [],
-		roomResults: []
+		roomResults: [],
+		roomResultsSoundTimers:[]
 	},
 	initialize: function(windowSize)
 	{
 		//setup
 		this.options.player = new Player();
 		//TODO: generate random options (new Result)
-		var results = this.options.results;
+		var badResults = this.options.badResults;
+		var goodResults = this.options.goodResults;
 		Array.each(RESULTS_CONFIG, function(item, index, object){
-			results.push(new Result(item));
+			if(item.anxietyChange > 0)
+			  badResults.push(new Result(item));
+			else
+				goodResults.push(new Result(item));
 		});
 
 		//super init
@@ -28,13 +34,13 @@ var GameView = new Class(
 		rep.adopt(title);
 		
 		//TODO: Anxiety Meter
-		var anxietyFrame = new Element('div#meterFrame');
+		var anxietyFrame = new Element('div#meterFrame.hidden');
 		var anxietyMeter = new Element('div#meter');
 		anxietyMeter.setStyle('height', this.options.player.options.anxiety + '%');
 		rep.adopt(anxietyFrame);
 		anxietyFrame.adopt(anxietyMeter);
 		//TODO: Inventory UI
-		var bottomUi = new Element('div#bottomUi');
+		var bottomUi = new Element('div#bottomUi.hidden');
 		var invContainer = new Element('div#invContainer');
 		var inv0 = new Element('div#inv0.inv');
 		var inv1 = new Element('div#inv1.inv');
@@ -46,9 +52,9 @@ var GameView = new Class(
 		invContainer.adopt(inv2);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
-		var goLeft = new Element('div#goLeft.go');
-		var goCenter = new Element('div#goCenter.go');
-		var goRight = new Element('div#goRight.go');
+		var goLeft = new Element('div#goLeft.go.hidden');
+		var goCenter = new Element('div#goCenter.go.hidden');
+		var goRight = new Element('div#goRight.go.hidden');
 		goLeft.addEvent("click", this.onGo.bind(this));
 		goCenter.addEvent("click", this.onGo.bind(this));
 		goRight.addEvent("click", this.onGo.bind(this));
@@ -59,20 +65,25 @@ var GameView = new Class(
 
 
 		//start game
-		this.onHeartbeat();
-		this.enterRoom();
+		setTimeout(function() {
+			this.onHeartbeat();
+			this.enterRoom();
+		}.bind(this), 500);
 	},
 	enterRoom: function()
 	{
-		console.log("enter room");
+console.log("######## enter room ##########");
 		this.options.roomResults = [];
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
 		//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
 		//		We will tweak this later to change the length of the game if its too long/short
 
-		var cloned_results = this.options.results.slice(0);
-		for (var i=0; i < 3; i++) {
+		var rand_result_index = Math.floor(Math.random()*10) % this.options.goodResults.length;
+		this.options.roomResults.push(this.options.goodResults[rand_result_index])
+    
+		var cloned_results = this.options.badResults.slice(0);
+		for (var i=0; i < 2; i++) {
 			var rand_result_index = Math.floor(Math.random()*1000) % cloned_results.length;
 			var rand_result = cloned_results[rand_result_index];
 			this.options.roomResults.push(rand_result);
@@ -87,14 +98,16 @@ var GameView = new Class(
 		}
 
 		//TODO: Unhide selection UI
+		$('meterFrame').removeClass('hidden');
+		$('bottomUi').removeClass('hidden');
+		$$('.go').removeClass('hidden');
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
-	onHeartbeat: function() {
-		this.playSound('sound/heartbeat.mp3');
+	onHeartbeat: function(nextBeat) {
 		var calmPercentage = 100 - this.options.player.options.anxiety;
 		var nextBeat = calmPercentage * 5000;
-		setTimeout(this.onHeartbeat.bind(this), nextBeat);
+		this.playSound('sound/heartbeat.mp3',nextBeat,true);	
 	},
 	onGo: function(event) {
 		var id = event.target.id;
@@ -114,7 +127,17 @@ var GameView = new Class(
 		this.chooseResult(target);
 	},
 	chooseResult: function(direction) {
+		//hide ui
+		$('meterFrame').addClass('hidden');
+		$('bottomUi').addClass('hidden');
+		$$('.go').addClass('hidden');
+
 		//clear the previous room's presounds
+		for (var i=0; i < this.options.roomResultsSoundTimers.length; i++) {
+			clearTimeout(this.options.roomResultsSoundTimers[i]);	
+		}
+		this.options.roomResultsSoundTimers = [];
+		
 		for(var i = 0; i < this.options.roomResults.length; i++)
 		{
 			var roomResult = this.options.roomResults[i];
@@ -123,43 +146,68 @@ var GameView = new Class(
 		}
 
 		var result = this.options.roomResults[direction];
-		this.playSound(result.options.postSound[direction]);
+		this.playSound(result.options.postSound[direction],5000,false);
 
 		// display result (result.sprite)
 		//TODO: fade in effect
 		var rep = this.options.rep;
-		var sprite = new Element('img', {
-			id: 'reveal_img',
-			src: result.options.sprite[0]
+		var sprite = new Element('div#reveal_img', {
+			styles: {
+				'width': this.options.viewSize.x,
+				'height': this.options.viewSize.y
+			}
 		});
 		rep.adopt(sprite);
-		setTimeout(function() {
-			this.playRevealImage(result.options.sprite[1]);
-		}.bind(this),2000);
+		this.playRevealImage(result.options.sprite[0]);
+		if(result.options.sprite.length > 1)
+		{
+			setTimeout(function() {
+				this.playRevealImage(result.options.sprite[1]);
+			}.bind(this),2000);
+		}
 
-		var player = this.options.player;
+		var player = this.options.player;	
+		if(result.inventoryItem)
+		{
+			$('inv' + player.item).addClass('reveal');
+			player.items++;
+			if(player.items >= 3)
+			{
+				this.bossBattle();
+				return;
+			}
+		}
+
 		//update player anxiety
 		player.options.anxiety += result.options.anxietyChange;
 		//update meter
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
 		if(player.options.anxiety >= 100)
+		{
 			this.onGameOver();
+			return;
+		}
 
 		//transition  
 		//TODO: fade out effect
-		setTimeout(this.enterRoom.bind(this),10000);
+		if(result.options.anxietyChange <= 0)
+		  setTimeout(this.enterRoom.bind(this),10000);
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
-		$('reveal_img').setAttribute('src',image_url);
+		$('reveal_img').setStyle('background-image','url(' + image_url + ')');
 	},
 	stopSound: function(sound) {
+//console.log("calling stop sounds");
 		if (!sound) return;
 		
-		if(typeof sound.stop === 'function') //cordova
+		if(typeof sound.stop === 'function') { //cordova
+//console.log("stop sounds 1");
 			sound.stop();
+		}
 		else {
+//console.log("stop sounds 2");
 			sound.pause();
 			if(sound.currentTime !== 0)
 				sound.currentTime = 0;
@@ -167,8 +215,10 @@ var GameView = new Class(
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
+console.log("playSound: " + soundFilePath);		
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
 	    var sounds = this.options.sounds;
+	      
 		if(sounds[soundFilePath])
 		{
 			this.stopSound(sounds[soundFilePath]);
@@ -205,13 +255,17 @@ var GameView = new Class(
 			
 			var newSpeed = speed + variation;
 			
-			setTimeout(function()
-			{
-				this.playSound(soundFilePath, speed, loop);
-			}.bind(this), newSpeed);
+			this.options.roomResultsSoundTimers.push(
+				setTimeout(function() {
+					this.playSound(soundFilePath, speed, loop);
+				}.bind(this), newSpeed)		
+			);
 		}
 	},
 	onGameOver: function() {
 		this.options.rep.fireEvent(VIEW_NAV, EndView);
+	},
+	bossBattle: function(){
+		//fight the boss
 	}
 });
