@@ -116,10 +116,24 @@ var GameView = new Class(
 		chooseResult(target);
 	},
 	chooseResult: function(direction) {
+		//clear the previous room's presounds
+	  for(var i = 0; i < this.options.roomResults.length; i++)
+	  {
+	  	var roomResult = this.options.roomResults[i];
+
+	  	this.stopSound(this.options.sounds[roomResult.options.preSound]);
+	  }
+
 		var result = this.options.roomResults[direction];
 		this.playSound(result.postSound[direction], result.soundDelay, false);
-		// display result (result.sprite)
 
+		// display result (result.sprite)
+		//TODO: fade in effect
+		var rep = this.options.rep;
+		var sprite = new Element('img', {
+			src: result.options.sprite
+		});
+		rep.adopt(sprite);
 
 		//TODO: Update anxiety (result.anxiety)
 		var player = this.options.player;
@@ -127,8 +141,21 @@ var GameView = new Class(
 		player.options.anxiety += result.anxiety;
 		//update meter
 		$('meter').setStyle('height', player.options.anxiety + '%');
+
 		if(player.options.anxiety >= 100)
 			onGameOver();
+
+		//transition  
+		//TODO: fade out effect
+		setTimeout(this.enterRoom,10000);
+	},
+	stopSound: function(sound) {
+		if(typeof sound.stop == 'function') //cordova
+	    sound.stop();
+	  else {
+	  	sound.pause();
+	    sound.currentTime = 0;
+	  }
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
@@ -136,10 +163,7 @@ var GameView = new Class(
 	    var sounds = this.options.sounds;
 		if(sounds[soundFilePath])
 		{
-		  if(typeof sounds[soundFilePath].stop == 'function') //cordova
-	        sounds[soundFilePath].stop();
-	      else
-	        sounds[soundFilePath].currentTime = 0;
+			this.stopSound(sounds[soundFilePath]);
 		}
 		else
 		{
