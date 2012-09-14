@@ -13,13 +13,12 @@ var Result = new Class({
 		location: RESULT_LEFT,
 		inventoryItem: false
 	},
-	initialize: function(options)
+	initialize: function(data)
 	{
-		this.options.preSound = options.preSound;
-		this.options.soundDelay = options.soundDelay;
-		this.options.postSound = options.postSound;
-		this.options.sprite = options.sprite;
-		this.options.anxietyChange = options.anxietyChange;
-		this.options.location = options.location;
+		this.options.preSound = data.preSound;
+		this.options.soundDelay = data.soundDelay;
+		this.options.postSound = data.postSound;
+		this.options.sprite = data.sprite;
+		this.options.anxietyChange = data.anxietyChange;
 	}
 });

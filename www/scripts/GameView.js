@@ -10,6 +10,10 @@ var GameView = new Class(
 		//setup
 		this.options.player = new Player();
 		//TODO: generate random options (new Result)
+		var results = this.options.results;
+		Array.each(RESULTS_CONFIG, function(item, index, object){
+			results.push(new Result(item));
+		});
 
 		//super init
 		this.parent(windowSize);
@@ -44,7 +48,7 @@ var GameView = new Class(
 
 		//TODO: Unhide selection UI
 
-		setTimeout(this.onGameOver.bind(this), 5000);
+		// setTimeout(this.onGameOver.bind(this), 5000);//REMOVE THIS: Forces the game to be over in 5 seconds
 
 	},
 	chooseResult: function(result) {
