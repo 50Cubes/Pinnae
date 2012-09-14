@@ -1,4 +1,4 @@
-var MenuView = new Class({
+var EndView = new Class({
 	Extends: View,
 	initialize: function(windowSize){
 		//super init
@@ -8,19 +8,18 @@ var MenuView = new Class({
 		var rep = this.options.rep; //easy ref to rep
 
 		var title = new Element('h1#title', {
-			html: 'Herbert Pinnae'
+			html: 'Mommy....'
 		});
 		rep.adopt(title);
 
 		var playButton = new Element('div.start', {
-			text: 'Play',
+			text: 'Play Again',
 			events: {
 				touch: this.onPlay
 			}
 		});
 		rep.adopt(playButton);
 
-		//TODO: Intro Screen (use css animaiton to fade in)
 	},
 	onPlay: function(event) {
 		event.target.getParent('.view').fireEvent(VIEW_NAV, GameView);

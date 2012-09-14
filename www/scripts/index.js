@@ -3,7 +3,13 @@ var app = {
         this.bind();
     },
     bind: function() {
-        document.addEventListener('deviceready', this.deviceready, false);
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+            $(document.body).addClass('device');
+            document.addEventListener('deviceready', this.deviceready, false);
+        } else {
+            $(document.body).addClass('browser');
+            this.deviceready(); //this is the browser
+        }
     },
     deviceready: function() {
         // note that this is an event handler so the scope is that of the event
@@ -12,7 +18,7 @@ var app = {
     },
     report: function(id) { 
         console.log("report:" + id);
-        alert("report:" + id);
+        // alert("report:" + id);
 
         var body = $(document.body);
         var bodySize = body.getSize();
@@ -30,24 +36,24 @@ var app = {
 
 
         var heartSpeed = 1000;
-        heartBeat();
-
-        function heartBeat() {
-            var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
-            media.play();
-            heartSpeed -= heartSpeed >= 500 ? 25 : 0;
-            setTimeout(heartBeat, heartSpeed);
-            console.log('heartSpeed');
-        }
-
-        function mediaSuccess()
-        {
-            console.log('sucess');
-        }
-
-        function mediaError()
-        {
-            alert('mediaError');
-        }
+        // heartBeat();
+        // 
+        // function heartBeat() {
+        //     var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
+        //     media.play();
+        //     heartSpeed -= heartSpeed >= 500 ? 25 : 0;
+        //     setTimeout(heartBeat, heartSpeed);
+        //     console.log('heartSpeed');
+        // }
+        // 
+        // function mediaSuccess()
+        // {
+        //     console.log('sucess');
+        // }
+        // 
+        // function mediaError()
+        // {
+        //     alert('mediaError');
+        // }
     }
 };
