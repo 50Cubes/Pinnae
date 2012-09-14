@@ -28,13 +28,13 @@ var GameView = new Class(
 		rep.adopt(title);
 		
 		//TODO: Anxiety Meter
-		var anxietyFrame = new Element('div#meterFrame');
+		var anxietyFrame = new Element('div#meterFrame.hidden');
 		var anxietyMeter = new Element('div#meter');
 		anxietyMeter.setStyle('height', this.options.player.options.anxiety + '%');
 		rep.adopt(anxietyFrame);
 		anxietyFrame.adopt(anxietyMeter);
 		//TODO: Inventory UI
-		var bottomUi = new Element('div#bottomUi');
+		var bottomUi = new Element('div#bottomUi.hidden');
 		var invContainer = new Element('div#invContainer');
 		var inv0 = new Element('div#inv0.inv');
 		var inv1 = new Element('div#inv1.inv');
@@ -46,9 +46,9 @@ var GameView = new Class(
 		invContainer.adopt(inv2);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
-		var goLeft = new Element('div#goLeft.go');
-		var goCenter = new Element('div#goCenter.go');
-		var goRight = new Element('div#goRight.go');
+		var goLeft = new Element('div#goLeft.go.hidden');
+		var goCenter = new Element('div#goCenter.go.hidden');
+		var goRight = new Element('div#goRight.go.hidden');
 		goLeft.addEvent("click", this.onGo.bind(this));
 		goCenter.addEvent("click", this.onGo.bind(this));
 		goRight.addEvent("click", this.onGo.bind(this));
@@ -59,12 +59,14 @@ var GameView = new Class(
 
 
 		//start game
-		this.onHeartbeat();
-		this.enterRoom();
+		setTimeout(function() {
+			this.onHeartbeat();
+			this.enterRoom();
+		}.bind(this), 500);
 	},
 	enterRoom: function()
 	{
-console.log("enter room");
+		console.log("enter room");
 		this.options.roomResults = [];
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
@@ -90,15 +92,10 @@ console.log("enter room");
 			this.playSound(pre_sound, sound_delay, true);
 		}
 
-		//play sounds for this room
-		//TODO: use random results instead of hardcoded ones (result.preSound, result.soundDelay)
-		/*
-		this.playSound('sound/creeek.mp3', 2000);
-		this.playSound('sound/keys.mp3', 2500);
-		this.playSound('sound/snarl.mp3', 3000);
-		*/
-
 		//TODO: Unhide selection UI
+		$('meterFrame').removeClass('hidden');
+		$('bottomUi').removeClass('hidden');
+		$$('.go').removeClass('hidden');
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
@@ -126,6 +123,11 @@ console.log("enter room");
 		this.chooseResult(target);
 	},
 	chooseResult: function(direction) {
+		//hide ui
+		$('meterFrame').addClass('hidden');
+		$('bottomUi').addClass('hidden');
+		$$('.go').addClass('hidden');
+
 		//clear the previous room's presounds
 		for(var i = 0; i < this.options.roomResults.length; i++)
 		{
@@ -141,9 +143,13 @@ console.log("enter room");
 		//TODO: fade in effect
 		var rep = this.options.rep;
 		var sprite = new Element('img', {
-			src: result.options.sprite
+			id: 'reveal_img',
+			src: result.options.sprite[0]
 		});
 		rep.adopt(sprite);
+		setTimeout(function() {
+			this.playRevealImage(result.options.sprite[1]);
+		}.bind(this),2000);
 
 		var player = this.options.player;	
 		if(result.inventoryItem)
@@ -169,6 +175,10 @@ console.log("enter room");
 		//TODO: fade out effect
 		if(result.options.anxietyChange < 0)
 		  setTimeout(this.enterRoom.bind(this),10000);
+	},
+	playRevealImage: function(image_url) {
+		console.log("playRevealImage");
+		$('reveal_img').setAttribute('src',image_url);
 	},
 	stopSound: function(sound) {
 		if (!sound) return;
