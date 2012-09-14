@@ -198,7 +198,7 @@ console.log("enter room");
 			alert('mediaError');
 		}
 
-		if(speed === undefined)
+		if(loop)
 		{
 			//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
 			variation = Math.floor((Math.random()*1000)+1) - 500; //random between -500 to +500 msec
@@ -207,7 +207,7 @@ console.log("enter room");
 			
 			setTimeout(function()
 			{
-				this.playSound(soundFilePath, speed);
+				this.playSound(soundFilePath, speed, loop);
 			}.bind(this), newSpeed);
 		}
 	},
