@@ -147,14 +147,20 @@ console.log("######## enter room ##########");
 		// display result (result.sprite)
 		//TODO: fade in effect
 		var rep = this.options.rep;
-		var sprite = new Element('img', {
-			id: 'reveal_img',
-			src: result.options.sprite[0]
+		var sprite = new Element('div#reveal_img', {
+			styles: {
+				'width': this.options.viewSize.x,
+				'height': this.options.viewSize.y
+			}
 		});
 		rep.adopt(sprite);
-		setTimeout(function() {
-			this.playRevealImage(result.options.sprite[1]);
-		}.bind(this),2000);
+		this.playRevealImage(result.options.sprite[0]);
+		if(result.options.sprite.length > 1)
+		{
+			setTimeout(function() {
+				this.playRevealImage(result.options.sprite[1]);
+			}.bind(this),2000);
+		}
 
 		var player = this.options.player;	
 		if(result.inventoryItem)
@@ -183,7 +189,7 @@ console.log("######## enter room ##########");
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
-		$('reveal_img').setAttribute('src',image_url);
+		$('reveal_img').setStyle('background-image','url(' + image_url + ')');
 	},
 	stopSound: function(sound) {
 //console.log("calling stop sounds");
