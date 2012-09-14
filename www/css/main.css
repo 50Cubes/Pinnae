@@ -51,10 +51,16 @@ div.start {
 	background-repeat: no-repeat;
 	background-size: 75%;
 	background-position: center;
+	display: none;
 }
 
 .inv.reveal {
 	border: 1px solid #FFFFFF;
+	display: block;
+}
+
+#inv0 {
+	background-image: url('../img/cordova.png');
 }
 
 #inv1 {
@@ -62,10 +68,6 @@ div.start {
 }
 
 #inv2 {
-	background-image: url('../img/cordova.png');
-}
-
-#inv3 {
 	background-image: url('../img/cordova.png');
 }
 

@@ -5,7 +5,7 @@ var GameView = new Class(
 		player: {},
 		results: [],
 		sounds: [],
-		roomResults: [],
+		roomResults: []
 	},
 	initialize: function(windowSize)
 	{
@@ -30,19 +30,20 @@ var GameView = new Class(
 		//TODO: Anxiety Meter
 		var anxietyFrame = new Element('div#meterFrame');
 		var anxietyMeter = new Element('div#meter');
+		anxietyMeter.setStyle('height', this.options.player.options.anxiety + '%');
 		rep.adopt(anxietyFrame);
 		anxietyFrame.adopt(anxietyMeter);
 		//TODO: Inventory UI
 		var bottomUi = new Element('div#bottomUi');
 		var invContainer = new Element('div#invContainer');
-		var inv1 = new Element('div#inv1.inv.reveal');
-		var inv2 = new Element('div#inv2.inv.reveal');
-		var inv3 = new Element('div#inv3.inv.reveal');
+		var inv0 = new Element('div#inv0.inv');
+		var inv1 = new Element('div#inv1.inv');
+		var inv2 = new Element('div#inv2.inv');
 		rep.adopt(bottomUi);
 		bottomUi.adopt(invContainer);
+		invContainer.adopt(inv0);
 		invContainer.adopt(inv1);
 		invContainer.adopt(inv2);
-		invContainer.adopt(inv3);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
 		var goLeft = new Element('div#goLeft.go');
@@ -58,6 +59,7 @@ var GameView = new Class(
 
 
 		//start game
+		this.onHeartbeat();
 		this.enterRoom();
 	},
 	enterRoom: function()
@@ -95,7 +97,6 @@ console.log("enter room");
 		//TODO: Unhide selection UI
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
-		this.onHeartbeat();
 	},
 	onHeartbeat: function() {
 		this.playSound('sound/heartbeat.mp3');
@@ -130,7 +131,7 @@ console.log("enter room");
 		}
 
 		var result = this.options.roomResults[direction];
-		this.playSound(result.options.postSound[direction], result.options.soundDelay, false);
+		this.playSound(result.options.postSound[direction]);
 
 		// display result (result.sprite)
 		//TODO: fade in effect
@@ -140,7 +141,6 @@ console.log("enter room");
 		});
 		rep.adopt(sprite);
 
-		//TODO: Update anxiety (result.anxiety)
 		var player = this.options.player;
 		//update player property
 		player.options.anxiety += result.anxiety;
