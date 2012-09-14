@@ -56,11 +56,11 @@ var GameView = new Class(
 
 		//
 	},
-	playSound: function(soundFilePath, speed)
+	playSound: function(soundFilePath, speed, variation)
 	{
+		console.log("variation: " + variation);
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
-
-		//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
+	
 		if($(document.body).hasClass('device'))
 		{
 			var media = new Media(soundFilePath, mediaSuccess, mediaError);
@@ -70,9 +70,13 @@ var GameView = new Class(
 			media.setAttribute('src', soundFilePath);
 			media.play();
 		}
+		
+		//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
+		variation = Math.floor((Math.random()*1000)+1) - 500; //random between -500 to +500 msec
+		
 		setTimeout(function()
 		{
-			this.playSound(soundFilePath, speed);
+			this.playSound(soundFilePath, speed, variation);
 		}.bind(this), speed);
 
 		function mediaSuccess()
