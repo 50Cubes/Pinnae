@@ -46,9 +46,9 @@ var GameView = new Class(
 		invContainer.adopt(inv2);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
-		var goLeft = new Element('div#goLeft.go');
-		var goCenter = new Element('div#goCenter.go');
-		var goRight = new Element('div#goRight.go');
+		var goLeft = new Element('div#goLeft.go.hidden');
+		var goCenter = new Element('div#goCenter.go.hidden');
+		var goRight = new Element('div#goRight.go.hidden');
 		goLeft.addEvent("click", this.onGo.bind(this));
 		goCenter.addEvent("click", this.onGo.bind(this));
 		goRight.addEvent("click", this.onGo.bind(this));
@@ -91,6 +91,7 @@ var GameView = new Class(
 		//TODO: Unhide selection UI
 		$('meterFrame').removeClass('hidden');
 		$('bottomUi').removeClass('hidden');
+		$$('.go').removeClass('hidden');
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
@@ -118,6 +119,11 @@ var GameView = new Class(
 		this.chooseResult(target);
 	},
 	chooseResult: function(direction) {
+		//hide ui
+		$('meterFrame').addClass('hidden');
+		$('bottomUi').addClass('hidden');
+		$$('.go').addClass('hidden');
+
 		//clear the previous room's presounds
 		for(var i = 0; i < this.options.roomResults.length; i++)
 		{

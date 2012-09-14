@@ -83,6 +83,7 @@ div.start {
 	height: 5em;
 	border-radius: 5em;
 	background: #FFF;
+	-webkit-transition:all 0.5s ease;
 }
 
 #goLeft {
