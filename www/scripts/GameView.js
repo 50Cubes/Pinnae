@@ -142,8 +142,8 @@ console.log("enter room");
 		rep.adopt(sprite);
 
 		var player = this.options.player;
-		//update player property
-		player.options.anxiety += result.anxiety;
+		//update player anxiety
+		player.options.anxiety += result.options.anxiety;
 		//update meter
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
