@@ -6,7 +6,8 @@ var GameView = new Class(
 		badResults: [],
 		goodResults: [],
 		sounds: [],
-		roomResults: []
+		roomResults: [],
+		roomResultsSoundTimers:[]
 	},
 	initialize: function(windowSize)
 	{
@@ -71,7 +72,7 @@ var GameView = new Class(
 	},
 	enterRoom: function()
 	{
-		console.log("enter room");
+console.log("######## enter room ##########");
 		this.options.roomResults = [];
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
@@ -103,11 +104,10 @@ var GameView = new Class(
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
-	onHeartbeat: function() {
-		this.playSound('sound/heartbeat.mp3');
+	onHeartbeat: function(nextBeat) {
 		var calmPercentage = 100 - this.options.player.options.anxiety;
 		var nextBeat = calmPercentage * 5000;
-		setTimeout(this.onHeartbeat.bind(this), nextBeat);
+		this.playSound('sound/heartbeat.mp3',nextBeat,true);	
 	},
 	onGo: function(event) {
 		var id = event.target.id;
@@ -133,6 +133,11 @@ var GameView = new Class(
 		$$('.go').addClass('hidden');
 
 		//clear the previous room's presounds
+		for (var i=0; i < this.options.roomResultsSoundTimers.length; i++) {
+			clearTimeout(this.options.roomResultsSoundTimers[i]);	
+		}
+		this.options.roomResultsSoundTimers = [];
+		
 		for(var i = 0; i < this.options.roomResults.length; i++)
 		{
 			var roomResult = this.options.roomResults[i];
@@ -141,19 +146,25 @@ var GameView = new Class(
 		}
 
 		var result = this.options.roomResults[direction];
-		this.playSound(result.options.postSound[direction]);
+		this.playSound(result.options.postSound[direction],5000,false);
 
 		// display result (result.sprite)
 		//TODO: fade in effect
 		var rep = this.options.rep;
-		var sprite = new Element('img', {
-			id: 'reveal_img',
-			src: result.options.sprite[0]
+		var sprite = new Element('div#reveal_img', {
+			styles: {
+				'width': this.options.viewSize.x,
+				'height': this.options.viewSize.y
+			}
 		});
 		rep.adopt(sprite);
-		setTimeout(function() {
-			this.playRevealImage(result.options.sprite[1]);
-		}.bind(this),2000);
+		this.playRevealImage(result.options.sprite[0]);
+		if(result.options.sprite.length > 1)
+		{
+			setTimeout(function() {
+				this.playRevealImage(result.options.sprite[1]);
+			}.bind(this),2000);
+		}
 
 		var player = this.options.player;	
 		if(result.inventoryItem)
@@ -180,19 +191,23 @@ var GameView = new Class(
 
 		//transition  
 		//TODO: fade out effect
-		if(result.options.anxietyChange < 0)
+		if(result.options.anxietyChange <= 0)
 		  setTimeout(this.enterRoom.bind(this),10000);
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
-		$('reveal_img').setAttribute('src',image_url);
+		$('reveal_img').setStyle('background-image','url(' + image_url + ')');
 	},
 	stopSound: function(sound) {
+//console.log("calling stop sounds");
 		if (!sound) return;
 		
-		if(typeof sound.stop === 'function') //cordova
+		if(typeof sound.stop === 'function') { //cordova
+//console.log("stop sounds 1");
 			sound.stop();
+		}
 		else {
+//console.log("stop sounds 2");
 			sound.pause();
 			if(sound.currentTime !== 0)
 				sound.currentTime = 0;
@@ -200,8 +215,10 @@ var GameView = new Class(
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
+console.log("playSound: " + soundFilePath);		
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
 	    var sounds = this.options.sounds;
+	      
 		if(sounds[soundFilePath])
 		{
 			this.stopSound(sounds[soundFilePath]);
@@ -238,10 +255,11 @@ var GameView = new Class(
 			
 			var newSpeed = speed + variation;
 			
-			setTimeout(function()
-			{
-				this.playSound(soundFilePath, speed, loop);
-			}.bind(this), newSpeed);
+			this.options.roomResultsSoundTimers.push(
+				setTimeout(function() {
+					this.playSound(soundFilePath, speed, loop);
+				}.bind(this), newSpeed)		
+			);
 		}
 	},
 	onGameOver: function() {
