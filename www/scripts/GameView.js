@@ -46,13 +46,13 @@ var GameView = new Class(
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
 		var goLeft = new Element('div#goLeft.go', {
-			click: onGo
+			click: this.onGo
 		});
 		var goCenter = new Element('div#goCenter.go', {
-			click: onGo
+			click: this.onGo
 		});
 		var goRight = new Element('div#goRight.go', {
-			click: onGo
+			click: this.onGo
 		});
 		rep.adopt(goLeft);
 		rep.adopt(goCenter);
