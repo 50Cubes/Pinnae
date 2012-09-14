@@ -60,11 +60,12 @@
 		var media = new Media('sound/heartbeat.mp3', mediaSuccess, mediaError);
 
 		var heartSpeed = 1000;
-		var interval = setInterval(heartBeat, heartSpeed);
-		media.play();
+		heartBeat();
 
 		function heartBeat() {
-			
+			media.play();
+			heartSpeed -= heartSpeed >= 400 ? 25 : 0;
+			setTimeout(heartBeat, heartSpeed);
 		}
 
 		function mediaSuccess()
