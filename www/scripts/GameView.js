@@ -42,7 +42,7 @@ var GameView = new Class(
 		
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
-		//TODO: set inventoryItem to true for 1 item (should only happen every 3 rooms...or reduce the chance so its around every 3 rooms) 
+		//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
 		//		We will tweak this later to change the length of the game if its too long/short
 
 		var cloned_results = Array.clone(this.options.results);
