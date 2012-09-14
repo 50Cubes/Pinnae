@@ -161,11 +161,12 @@ var GameView = new Class(
 	stopSound: function(sound) {
 		if (!sound) return;
 		
-		if(typeof sound.stop == 'function') //cordova
+		if(typeof sound.stop === 'function') //cordova
 			sound.stop();
 		else {
 			sound.pause();
-			sound.currentTime = 0;
+			if(sound.currentTime !== 0)
+				sound.currentTime = 0;
 		}
 	},
 	playSound: function(soundFilePath, speed, loop)
