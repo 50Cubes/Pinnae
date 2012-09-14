@@ -3,6 +3,7 @@ var MenuView = new Class({
 	initialize: function(windowSize){
 		this.parent(windowSize);
 		var rep = this.options.rep;
+                         
 		var title = new Element('h1#title', {
 			html: 'Herbert Pinnae'
 		});
