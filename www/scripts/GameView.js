@@ -170,7 +170,7 @@ console.log("######## enter room ##########");
 			}.bind(this), 2000);
 		}
 
-		this.playSound(result.options.postSound[direction],0,false);
+		this.playSound(result.options.postSound,0,false);
 		
 		var player = this.options.player;	
 		if(result.inventoryItem)
