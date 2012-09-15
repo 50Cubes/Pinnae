@@ -30,7 +30,6 @@ var GameView = new Class(
 
 		//layout
 		var rep = this.options.rep;
-		rep.addEvent('swipe', this.onTouchMove.bind(this));
 
 		var doors = new Element('div#doors.fullscreenImage', {
 			styles: {
@@ -138,6 +137,7 @@ var GameView = new Class(
 		{
 			$('reveal_img').dispose();
 		}
+		this.options.rep.addEvent('swipe', this.onTouchMove.bind(this));
 
 		console.log("######## enter room ##########");
 		if (!this.options.isHitByMonster)
@@ -241,13 +241,14 @@ var GameView = new Class(
 
 		if (this.options.player.options.anxiety >= 100)
 		{
-			this.onGameOver();
+			this.onGameLose();
 			return;
 		}
 	},
 	chooseResult: function(direction)
 	{
 		console.log('chooseResult');
+		this.options.rep.removeEvents('swipe');
 		//hide ui
 		$('meterFrame').addClass('hidden');
 		$('bottomUi').addClass('hidden');
@@ -310,7 +311,7 @@ var GameView = new Class(
 			player.options.items++;
 			if(player.options.items >= 3)
 			{
-				this.bossBattle();
+				this.onGameWin();
 				return;
 			}
 		}
@@ -341,13 +342,16 @@ var GameView = new Class(
 	onGameOver: function()
 	{
 		this.removeEvents(SOUND_PLAYED);
-		this.options.rep.fireEvent(VIEW_NAV, EndView);
 		this.options.player.options.anxiety = 0;
 		this.options.player.options.items = 0;
 		this.stopAllSounds();
 	},
-	bossBattle: function()
-	{
-		//fight the boss
+	onGameWin: function(){
+		onGameOver();
+		this.options.rep.fireEvent(VIEW_NAV, WinView);
+	},
+	onGameLose: function(){
+		onGameOver();
+		this.options.rep.fireEvent(VIEW_NAV, LoseView);
 	}
 });
