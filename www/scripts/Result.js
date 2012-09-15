@@ -5,6 +5,7 @@ var RESULT_RIGHT = 2;
 var Result = new Class({
 	Implements: Options,
 	options:{
+		name: '',
 		preSound: '',
 		soundDelay: '',
 		postSound: '',
@@ -23,5 +24,6 @@ var Result = new Class({
 		this.options.sprite = data.sprite;
 		this.options.anxietyChange = data.anxietyChange;
 		this.options.inventoryItem = data.inventoryItem;
+		this.options.name = data.name;
 	}
 });

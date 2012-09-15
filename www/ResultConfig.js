@@ -16,9 +16,9 @@ var RESULTS_CONFIG = {
 			soundDelay: 1000,
 			postSound: 'sound/drop_post_good.mp3',
 			postDelay: 5000,
-			sprite: ['img/Grandpa_rock.jpg'],
+			sprite: ['img/Grandpa_toilet.jpg'],
 			anxietyChange: -10,
-			inventoryItem: false
+			inventoryItem: true
 		},
 		{
 			name: 'flap',
@@ -38,7 +38,7 @@ var RESULTS_CONFIG = {
 			postDelay: 5000,
 			sprite: ['img/Grandpa_rock.jpg'],
 			anxietyChange: -10,
-			inventoryItem: true	
+			inventoryItem: false	
 		},
 		{
 			name: 'snarl',
@@ -68,7 +68,7 @@ var RESULTS_CONFIG = {
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
 			anxietyChange: 0,
-			inventoryItem: false
+			inventoryItem: true
 		},
 		{
 			name: 'flap',
@@ -88,7 +88,7 @@ var RESULTS_CONFIG = {
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
 			anxietyChange: -10,
-			inventoryItem: true	
+			inventoryItem: false	
 		},
 		{
 			name: 'snarl',
@@ -141,7 +141,7 @@ var RESULTS_CONFIG = {
 			postDelay: 5000,
 			sprite: ['img/Monster_hamster1.jpg','img/Monster_hamster2.jpg '],
 			anxietyChange: 10,
-			inventoryItem: true	
+			inventoryItem: false	
 		},
 		{
 			name: 'snarl',
@@ -151,7 +151,7 @@ var RESULTS_CONFIG = {
 			postDelay: 5000,
 			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
 			anxietyChange: 10,
-			inventoryItem: true	
+			inventoryItem: false	
 		}
 	],
 
