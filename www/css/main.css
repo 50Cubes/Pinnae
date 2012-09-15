@@ -59,15 +59,15 @@
 }
 
 #inv0 {
-	background-image: url('../img/cordova.png');
+	background-image: url('../img/Icon_Hamper.png');
 }
 
 #inv1 {
-	background-image: url('../img/cordova.png');
+	background-image: url('../img/Icon_CLOTHES.png');
 }
 
 #inv2 {
-	background-image: url('../img/cordova.png');
+	background-image: url('../img/Icon_Detergent.png');
 }
 
 .go {
@@ -116,6 +116,10 @@
 	z-index: 99;
 }
 
+
+#cutscene {
+	background-image: url(../img/Door_entrance.gif);
+}
 
 #startScreen {
 	background-image: url(../img/Start_screen2.jpg);

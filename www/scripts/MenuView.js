@@ -36,6 +36,6 @@ var MenuView = new Class( {
 	},
 	onPlay: function(event) {
 		this.stopSound('sound/start_screen.mp3');
-		event.target.getParent('.view').fireEvent(VIEW_NAV, GameView);
+		event.target.getParent('.view').fireEvent(VIEW_NAV, CutsceneView);
 	}
 });
