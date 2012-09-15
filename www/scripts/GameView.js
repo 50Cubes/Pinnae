@@ -162,7 +162,7 @@ var GameView = new Class(
 		console.log('calmPercentage:', calmPercentage);
 		var nextBeat = calmPercentage * 3000;
 		console.log('nextBeat:', nextBeat);
-		this.playSound('sound/heartbeat.mp3', nextBeat, true);
+		this.deferSound('sound/heartbeat.mp3', nextBeat);
 	},
 	onGo: function(event)
 	{
