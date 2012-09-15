@@ -6,9 +6,9 @@ var GameView = new Class(
 		badResults: [],
 		goodResults: [],
 		roomResults: [],
-		isHitByMonster: false,
-		lastDirection: -1,
-		heartbeatInterval: null
+		isHitByMonster: false, //player ran into a monster
+		lastDirection: -1, //direction that the character just walked towards
+		unknownSounds: [] //sounds that scare you when you hear them(all result sounds)
 	},
 	initialize: function(windowSize)
 	{
@@ -54,17 +54,16 @@ var GameView = new Class(
 		invContainer.adopt(inv2);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
-		var goLeft = new Element('div#goLeft.go.hidden');
-		var goCenter = new Element('div#goCenter.go.hidden');
-		var goRight = new Element('div#goRight.go.hidden');
-		goLeft.addEvent("click", this.onGo.bind(this));
-		goCenter.addEvent("click", this.onGo.bind(this));
-		goRight.addEvent("click", this.onGo.bind(this));
+		// var goLeft = new Element('div#goLeft.go.hidden');
+		// var goCenter = new Element('div#goCenter.go.hidden');
+		// var goRight = new Element('div#goRight.go.hidden');
+		// goLeft.addEvent("click", this.onGo.bind(this));
+		// goCenter.addEvent("click", this.onGo.bind(this));
+		// goRight.addEvent("click", this.onGo.bind(this));
 
-		rep.adopt(goLeft);
-		rep.adopt(goCenter);
-		rep.adopt(goRight);
-
+		// rep.adopt(goLeft);
+		// rep.adopt(goCenter);
+		// rep.adopt(goRight);
 
 		//start game timeout (for some reason need to wait to initiate game)
 		setTimeout(function()
@@ -95,7 +94,8 @@ var GameView = new Class(
 			  //footsteps sound
 			  this.playSound(FOOTSTEPS, 0, false);
 		  }
-		  
+		  	
+		  	//Select random results
 			var rand_result_index = Math.floor(Math.random() * 10) % this.options.goodResults.length;
 			this.options.roomResults.push(this.options.goodResults[rand_result_index]);			
 			var cloned_results = this.options.badResults.slice(0);
@@ -116,28 +116,24 @@ var GameView = new Class(
 			shuffle(this.options.roomResults);
 			for(var i = 0; i < this.options.roomResults.length; i++)
 			{				
-			  this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
+				this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay);	
+				this.options.unknownSounds.push(this.options.roomResults[i].options.preSound[i]);
+				this.addEvent(SOUND_PLAYED, this.onSoundPlayed.bind(this));
 			}
 		}
 		else
 		{
 			console.log("========== HIT BY Monster replay same room!!!! ========");
 			
-			if (-1 != this.options.lastDirection)
+			if (-1 !== this.options.lastDirection)
 			{
 			  //slamdoor sound
 			  this.playSound(DOOR_SLAMMING[this.options.lastDirection], 0, false);
 			}
-			
-			if (this.options.player.options.anxiety >= 100)
-			{
-				this.onGameOver();
-				return;
-			}
 
 			for(var i = 0; i < this.options.roomResults.length; i++)
 			{
-			  this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
+			  this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay);	
 			}
 		}
 		this.options.isHitByMonster = false;
@@ -150,10 +146,22 @@ var GameView = new Class(
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
+	onSoundPlayed: function(soundFilePath) {
+		if(this.options.unknownSounds.indexOf(soundFilePath) !== -1)
+		{
+			this.changeAnxiety(5);
+		}
+	},
 	changeAnxiety: function(change) {
 		//set value
-		if(change > 0)
-			this.options.player.options.anxiety += change;
+		var player = this.options.player;
+		if(player.options.anxiety + change > 0)
+			player.options.anxiety += change;
+		else
+			player.options.anxiety = 0;
+
+		//update meter
+		$('meter').setStyle('height', player.options.anxiety + '%');
 
 		//update heartbeat interval
 		var calmPercentage = (100 - this.options.player.options.anxiety) / 100;
@@ -161,6 +169,13 @@ var GameView = new Class(
 		var nextBeat = Math.max(calmPercentage * 3000, 700);
 		console.log('nextBeat:', nextBeat);
 		this.loopSound('sound/heartbeat.mp3', nextBeat);
+
+
+		if (this.options.player.options.anxiety >= 100)
+		{
+			this.onGameOver();
+			return;
+		}
 	},
 	onGo: function(event)
 	{
@@ -193,14 +208,16 @@ var GameView = new Class(
 		{
 			var roomResult = this.options.roomResults[i];
 			this.stopSound(roomResult.options.preSound[i]);
+			this.removeEvents(SOUND_PLAYED);
+			this.options.unknownSounds = [];
 		}
     
-	    if (-1 != this.options.lastDirection)
+		if (-1 !== this.options.lastDirection)
 		{
-      //open door sound
+		//open door sound
 		  this.playSound(DOOR_CREAKING[this.options.lastDirection], 0, false);
-    }
-    
+		}
+		
 		var result = this.options.roomResults[direction];
 
 		// display result (result.sprite)
@@ -251,13 +268,6 @@ var GameView = new Class(
 
 		//update player anxiety
 		this.changeAnxiety(result.options.anxietyChange);
-		
-		if (player.options.anxiety < 0) {
-			player.options.anxiety = 0;	
-		}
-		
-		//update meter
-		$('meter').setStyle('height', player.options.anxiety + '%');
 
 		setTimeout(this.enterRoom.bind(this), result.options.postDelay);
 	},
@@ -282,6 +292,9 @@ var GameView = new Class(
 	onGameOver: function()
 	{
 		this.options.rep.fireEvent(VIEW_NAV, EndView);
+		this.options.player.options.anxiety = 0;
+		this.options.player.options.items = 0;
+		this.stopAllSounds();
 	},
 	bossBattle: function()
 	{

@@ -1,4 +1,5 @@
 var VIEW_NAV = 'VIEW_NAV';
+var SOUND_PLAYED = 'SOUND_PLAYED';
 
 var View = new Class({
 	Implements: [Options, Events],
@@ -19,31 +20,29 @@ var View = new Class({
 	},
 	stopAllSounds: function() {
 		Object.each(this.options.sounds, function(item, key, object){
-			stopSound(key);
+			this.stopSound(key);
 			delete this.options.sounds[key];
-		});
+		}.bind(this));
 	},
-	stopSound: function(sound_path)
+	stopSound: function(soundFilePath)
 	{
-		console.log("stopSound:", sound_path);
-		var sound = this.options.sounds[sound_path];
+		console.log("stopSound:", soundFilePath);
+		var sound = this.options.sounds[soundFilePath];
 
 		if (!sound) return;
 
 		if (typeof sound.stop === 'function')
 		{ //cordova
-			console.log("stop sounds 1: sound_path: " + sound_path);
+			console.log("stop sounds 1: soundFilePath: " + soundFilePath);
 			sound.stop();
 		}
 		else
 		{
-			console.log("stop sounds 2: sound_path: " + sound_path);
+			console.log("stop sounds 2: soundFilePath: " + soundFilePath);
 			sound.pause();
 			if (sound.currentTime !== 0) sound.currentTime = 0;
 		}
-
-		clearTimeout(this.options.soundTimers[sound_path]);
-		delete this.options.soundTimers[sound_path];
+		this.removeSoundTimer(soundFilePath);
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
@@ -95,7 +94,16 @@ var View = new Class({
 		var timer = setTimeout(function()
 		{
 			this.playSound(soundFilePath, speed, true);
+			this.fireEvent(SOUND_PLAYED, soundFilePath);
 		}.bind(this), speed);
+		this.removeSoundTimer(soundFilePath);
 		this.options.soundTimers[soundFilePath] = timer;
+	},
+	removeSoundTimer: function(soundFilePath){
+		if(this.options.soundTimers[soundFilePath])
+		{
+			clearTimeout(this.options.soundTimers[soundFilePath]);
+			delete this.options.soundTimers[soundFilePath];
+		}
 	}
 });

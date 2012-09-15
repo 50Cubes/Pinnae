@@ -42,14 +42,13 @@ div.start {
 
 #bottomUi {
 	width: 100%;
-	height: 25%;
+	height: 10%;
 	position: absolute;
 	bottom: 0;
 	-webkit-transition:all 0.5s ease;
 }
 
 #invContainer {
-	background: #333;
 	width: 50%;
 	height: 100%;
 	margin: 0 auto;
