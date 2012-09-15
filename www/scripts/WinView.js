@@ -7,7 +7,7 @@ var EndView = new Class({
 		//layout
 		var rep = this.options.rep; //easy ref to rep
 
-		var endScreen = new Element('div#endScreen.fullscreenImage', {
+		var winScreen = new Element('div#winScreen.fullscreenImage', {
 			styles: {
 				'width': this.options.viewSize.x,
 				'height': this.options.viewSize.y
@@ -16,8 +16,8 @@ var EndView = new Class({
 				touch: this.onPlay.bind(this)
 			}
 		});
-		rep.adopt(endScreen);
-		endScreen.addCssAnimation('fadeIn');
+		rep.adopt(winScreen);
+		winScreen.addCssAnimation('fadeIn');
 
 		this.playSound('sound/start_screen.mp3', 32000, true);
 	},

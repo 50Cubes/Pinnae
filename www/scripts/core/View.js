@@ -67,6 +67,7 @@ var View = new Class({
 			this.options.sounds[soundFilePath] = media;
 		}
 		media.play();
+		this.fireEvent(SOUND_PLAYED, soundFilePath);
 
 		function mediaSuccess()
 		{
@@ -101,7 +102,8 @@ var View = new Class({
 		{
 			this.playSound(soundFilePath, speed, true);
 			// console.log('loopSound:', soundFilePath);
-			this.fireEvent(SOUND_PLAYED, soundFilePath);
+			// console.log('**loopCheck**');
+			// console.log(this.options.soundTimers[soundFilePath]);
 		}.bind(this), speed);
 		this.removeSoundTimer(soundFilePath);
 		this.options.soundTimers[soundFilePath] = timer;
