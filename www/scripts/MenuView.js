@@ -11,6 +11,7 @@ var MenuView = new Class({
 			html: 'Herbert Pinnae'
 		});
 		rep.adopt(title);
+		title.addCssAnimation('fadeIn');
 
 		var playButton = new Element('div.start', {
 			text: 'Play',
@@ -19,8 +20,20 @@ var MenuView = new Class({
 			}
 		});
 		rep.adopt(playButton);
+		playButton.addCssAnimation('fadeIn');
 
-		//TODO: Intro Screen (use css animaiton to fade in)
+		var headphonesIntro = new Element('div#headphones.fullscreenImage', {
+			styles: {
+				'width': this.options.viewSize.x,
+				'height': this.options.viewSize.y
+			}
+		});
+		rep.adopt(headphonesIntro);
+		headphonesIntro.addCssAnimation('fadeOut');
+
+		setTimeout(function() {
+			headphonesIntro.dispose();
+		}, 5000);
 	},
 	onPlay: function(event) {
 		event.target.getParent('.view').fireEvent(VIEW_NAV, GameView);

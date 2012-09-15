@@ -180,7 +180,7 @@ var GameView = new Class(
 
 		// display result (result.sprite)
 		var rep = this.options.rep;
-		var sprite = new Element('div#reveal_img', {
+		var sprite = new Element('div#reveal_img.fullscreenImage', {
 			styles: {
 				'width': this.options.viewSize.x,
 				'height': this.options.viewSize.y
