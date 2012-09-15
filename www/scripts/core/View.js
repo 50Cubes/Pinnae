@@ -25,7 +25,7 @@ var View = new Class({
 	},
 	stopSound: function(sound_path)
 	{
-		//console.log("calling stop sounds");
+		console.log("stopSound:", sound_path);
 		var sound = this.options.sounds[sound_path];
 
 		if (!sound) return;
@@ -49,26 +49,25 @@ var View = new Class({
 	{
 		console.log("playSound: " + soundFilePath);
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
-		var sounds = this.options.sounds;
-
-		if (sounds[soundFilePath])
+		var media = this.options.sounds[soundFilePath];
+		if (media)
 		{
-			this.stopSound(sounds[soundFilePath], soundFilePath);
+			this.stopSound(soundFilePath);
 		}
 		else
 		{
 			if ($(document.body).hasClass('device'))
 			{
-				var media = new Media(soundFilePath, mediaSuccess, mediaError);
+				media = new Media(soundFilePath, mediaSuccess, mediaError);
 			}
 			else
 			{
-				var media = document.createElement('audio');
+				media = document.createElement('audio');
 				media.setAttribute('src', soundFilePath);
 			}
-			sounds[soundFilePath] = media;
+			this.options.sounds[soundFilePath] = media;
 		}
-		sounds[soundFilePath].play();
+		media.play();
 
 		function mediaSuccess()
 		{

@@ -195,7 +195,7 @@ var GameView = new Class(
 			this.stopSound(roomResult.options.preSound[i]);
 		}
     
-    if (-1 != this.options.lastDirection)
+	    if (-1 != this.options.lastDirection)
 		{
       //open door sound
 		  this.playSound(DOOR_CREAKING[this.options.lastDirection], 0, false);
