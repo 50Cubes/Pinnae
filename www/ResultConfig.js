@@ -1,15 +1,17 @@
 var RESULTS_CONFIG = {
 	good: [
 		{
+			name: 'bubbler',
 			preSound: ['sound/bubbler_pre_L.mp3', 'sound/bubbler_pre_F.mp3', 'sound/bubbler_pre_R.mp3'],
 			soundDelay: 3000,
-			postSound: 'sound/bubber_post_good.mp3',
+			postSound: 'sound/bubbler_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Grandpa_rock.jpg'],
 			anxietyChange: -10,
 			inventoryItem: false
 		},
 		{
+			name: 'drop',
 			preSound: ['sound/drop_pre_L.mp3', 'sound/drop_pre_F.mp3', 'sound/drop_pre_R.mp3'],
 			soundDelay: 1000,
 			postSound: 'sound/drop_post_good.mp3',
@@ -19,6 +21,7 @@ var RESULTS_CONFIG = {
 			inventoryItem: false
 		},
 		{
+			name: 'flap',
 			preSound: ['sound/flap_pre_L.mp3', 'sound/flap_pre_F.mp3', 'sound/flap_pre_R.mp3'],
 			soundDelay: 4000,
 			postSound: 'sound/flap_post_good.mp3',
@@ -28,6 +31,7 @@ var RESULTS_CONFIG = {
 			inventoryItem: false
 		},
 		{
+			name: 'nibbler',
 			preSound: ['sound/nibbler_pre_L.mp3', 'sound/nibbler_pre_F.mp3', 'sound/nibbler_pre_R.mp3'],
 			soundDelay: 4000,
 			postSound: 'sound/nibbler_post_good.mp3',
@@ -37,6 +41,7 @@ var RESULTS_CONFIG = {
 			inventoryItem: true	
 		},
 		{
+			name: 'snarl',
 			preSound: ['sound/snarl_pre_L.mp3', 'sound/snarl_pre_F.mp3', 'sound/snarl_pre_R.mp3'],
 			soundDelay: 4000,
 			postSound: 'sound/snarl_post_good.mp3',
@@ -46,9 +51,50 @@ var RESULTS_CONFIG = {
 			inventoryItem: true	
 		},
 		{
+			name: 'bubbler',
+			preSound: ['sound/bubbler_pre_L.mp3', 'sound/bubbler_pre_F.mp3', 'sound/bubbler_pre_R.mp3'],
+			soundDelay: 3000,
+			postSound: 'sound/neutral.mp3',
+			postDelay: 5000,
+			sprite: ['img/Neutral_1.jpg'],
+			anxietyChange: 0,
+			inventoryItem: false
+		},
+		{
+			name: 'drop',
+			preSound: ['sound/drop_pre_L.mp3', 'sound/drop_pre_F.mp3', 'sound/drop_pre_R.mp3'],
+			soundDelay: 1000,
+			postSound: 'sound/neutral.mp3',
+			postDelay: 5000,
+			sprite: ['img/Neutral_1.jpg'],
+			anxietyChange: 0,
+			inventoryItem: false
+		},
+		{
+			name: 'flap',
+			preSound: ['sound/flap_pre_L.mp3', 'sound/flap_pre_F.mp3', 'sound/flap_pre_R.mp3'],
+			soundDelay: 4000,
+			postSound: 'sound/flap_post_good.mp3',
+			postDelay: 5000,
+			sprite: ['img/Neutral_1.jpg'],
+			anxietyChange: 0,
+			inventoryItem: false
+		},
+		{
+			name: 'nibbler',
+			preSound: ['sound/nibbler_pre_L.mp3', 'sound/nibbler_pre_F.mp3', 'sound/nibbler_pre_R.mp3'],
+			soundDelay: 4000,
+			postSound: 'sound/neutral.mp3',
+			postDelay: 5000,
+			sprite: ['img/Neutral_1.jpg'],
+			anxietyChange: -10,
+			inventoryItem: true	
+		},
+		{
+			name: 'snarl',
 			preSound: ['sound/snarl_pre_L.mp3', 'sound/snarl_pre_F.mp3', 'sound/snarl_pre_R.mp3'],
 			soundDelay: 4000,
-			postSound: 'sound/snarl_post_good.mp3',
+			postSound: 'sound/neutral.mp3',
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
 			anxietyChange: 0,
@@ -58,6 +104,7 @@ var RESULTS_CONFIG = {
 
 	bad: [
 		{
+			name: 'bubbler',
 			preSound: ['sound/bubbler_pre_L.mp3', 'sound/bubbler_pre_F.mp3', 'sound/bubbler_pre_R.mp3'],
 			soundDelay: 3000,
 			postSound: 'sound/bubbler_post_bad.mp3',
@@ -67,6 +114,7 @@ var RESULTS_CONFIG = {
 			inventoryItem: false
 		},
 		{
+			name: 'drop',
 			preSound: ['sound/drop_pre_L.mp3', 'sound/drop_pre_F.mp3', 'sound/drop_pre_R.mp3'],
 			soundDelay: 1000,
 			postSound: 'sound/drop_post_bad.mp3',
@@ -76,6 +124,7 @@ var RESULTS_CONFIG = {
 			inventoryItem: false
 		},
 		{
+			name: 'flap',
 			preSound: ['sound/flap_pre_L.mp3', 'sound/flap_pre_F.mp3', 'sound/flap_pre_R.mp3'],
 			soundDelay: 4000,
 			postSound: 'sound/flap_post_bad.mp3',
@@ -85,6 +134,7 @@ var RESULTS_CONFIG = {
 			inventoryItem: false
 		},
 		{
+			name: 'nibbler',
 			preSound: ['sound/nibbler_pre_L.mp3', 'sound/nibbler_pre_F.mp3', 'sound/nibbler_pre_R.mp3'],
 			soundDelay: 4000,
 			postSound: 'sound/nibbler_post_bad.mp3',
@@ -94,6 +144,7 @@ var RESULTS_CONFIG = {
 			inventoryItem: true	
 		},
 		{
+			name: 'snarl',
 			preSound: ['sound/snarl_pre_L.mp3', 'sound/snarl_pre_F.mp3', 'sound/snarl_pre_R.mp3'],
 			soundDelay: 4000,
 			postSound: 'sound/snarl_post_bad.mp3',
@@ -103,33 +154,15 @@ var RESULTS_CONFIG = {
 			inventoryItem: true	
 		}
 	],
-	sister: [
-		{
-			preSound: ['sound/flap_pre_L.mp3', 'sound/flap_pre_F.mp3', 'sound/flap_pre_R.mp3'],
-			soundDelay: 4000,
-			postSound: 'sound/flap_post_bad.mp3',
-			postDelay: 5000,
-			sprite: ['img/Monster_Bat1.jpg','img/Monster_Bat1.jpg'],
-			anxietyChange: 40,
-			inventoryItem: false
-		},
-		{
-			preSound: ['sound/nibbler_pre_L.mp3', 'sound/nibbler_pre_F.mp3', 'sound/nibbler_pre_R.mp3'],
-			soundDelay: 4000,
-			postSound: 'sound/nibbler_post_bad.mp3',
-			postDelay: 5000,
-			sprite: ['img/Monster_hamster1.jpg','img/Monster_hamster2.jpg '],
-			anxietyChange: 10,
-			inventoryItem: true	
-		},
-		{
-			preSound: ['sound/snarl_pre_L.mp3', 'sound/snarl_pre_F.mp3', 'sound/snarl_pre_R.mp3'],
-			soundDelay: 4000,
-			postSound: 'sound/snarl_post_bad.mp3',
-			postDelay: 5000,
-			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
-			anxietyChange: 10,
-			inventoryItem: true	
-		}
-	]
+
+	sister: {
+		name: 'sister',
+		preSound: 'sound/flap_pre_F.mp3',
+		soundDelay: 4000,
+		postSound: 'sound/flap_post_bad.mp3',
+		postDelay: 5000,
+		sprite: ['img/Monster_Sister1.jpg','img/Monster_Sister1.jpg'],
+		anxietyChange: 0,
+		inventoryItem: false
+	},
 };
