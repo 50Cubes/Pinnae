@@ -50,7 +50,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'drop',
 			preSound: DROP,
-			soundDelay: 16000,
+			soundDelay: 14000,
 			postSound: 'sound/grandpa_on_toilet.mp3',
 			postDelay: 5000,
 			sprite: ['img/Grandpa_toilet.jpg'],
@@ -60,7 +60,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'snarl',
 			preSound: SNARL,
-			soundDelay: 16000,
+			soundDelay: 23000,
 			postSound: 'sound/grandpa_eating_cookies.mp3',
 			postDelay: 5000,
 			sprite: ['img/Grandpa_cookies.jpg'],
@@ -82,7 +82,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'burst',
 			preSound: BURST,
-			soundDelay: 10000,
+			soundDelay: 17000,
 			postSound: 'sound/flap_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
@@ -92,7 +92,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'hiss',
 			preSound: HISS,
-			soundDelay: 10000,
+			soundDelay: 11000,
 			postSound: 'sound/flap_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
@@ -102,7 +102,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'whistle',
 			preSound: WHISTLE,
-			soundDelay: 10000,
+			soundDelay: 12000,
 			postSound: 'sound/flap_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
@@ -126,7 +126,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'nibbler',
 			preSound: NIBBLER,
-			soundDelay: 10000,
+			soundDelay: 19000,
 			postSound: 'sound/hamster_eats_you.mp3',
 			postDelay: 5000,
 			sprite: ['img/Monster_hamster1.jpg','img/Monster_hamster2.jpg '],
@@ -136,7 +136,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'flap',
 			preSound: FLAP,
-			soundDelay: 10000,
+			soundDelay: 14000,
 			postSound: 'sound/bat_eats_you.mp3',
 			postDelay: 5000,
 			sprite: ['img/Monster_Bat1.jpg', 'img/Monster_Bat2.jpg'],
@@ -146,7 +146,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'laugh',
 			preSound: LAUGH,
-			soundDelay: 10000,
+			soundDelay: 16000,
 			postSound: 'sound/tiger_monster',
 			postDelay: 5000,
 			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
@@ -156,7 +156,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'runningwater',
 			preSound: RUNNING_WATER,
-			soundDelay: 10000,
+			soundDelay: 20000,
 			postSound: 'sound/toilet_monster.mp3',
 			postDelay: 5000,
 			sprite: ['img/Monster_Toilet1.jpg', 'img/Monster_Toilet2.jpg'],
@@ -176,7 +176,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'witch',
 			preSound: BUBBLER,
-			soundDelay: 10000,
+			soundDelay: 16000,
 			postSound: 'sound/witch_stirring_pot.mp3',
 			postDelay: 5000,
 			sprite: ['img/Monster_Witch1.jpg', 'img/Monster_Witch2.jpg'],
