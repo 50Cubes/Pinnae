@@ -146,7 +146,7 @@ console.log("######## enter room ##########");
 		{
 			var roomResult = this.options.roomResults[i];
 			
-			this.stopSound(this.options.sounds[roomResult.options.preSound]);
+			this.stopSound(this.options.sounds[roomResult.options.preSound],roomResult.options.preSound);
 		}
 
 		var result = this.options.roomResults[direction];
@@ -208,16 +208,16 @@ console.log("######## enter room ##########");
 		console.log("playRevealImage");
 		$('reveal_img').setStyle('background-image','url(' + image_url + ')');
 	},
-	stopSound: function(sound) {
+	stopSound: function(sound,sound_path) {
 //console.log("calling stop sounds");
 		if (!sound) return;
 		
 		if(typeof sound.stop === 'function') { //cordova
-//console.log("stop sounds 1");
+console.log("stop sounds 1: sound_path: " + sound_path);
 			sound.stop();
 		}
 		else {
-//console.log("stop sounds 2");
+console.log("stop sounds 2: sound_path: " + sound_path);
 			sound.pause();
 			if(sound.currentTime !== 0)
 				sound.currentTime = 0;
@@ -231,7 +231,7 @@ console.log("playSound: " + soundFilePath);
 	      
 		if(sounds[soundFilePath])
 		{
-			this.stopSound(sounds[soundFilePath]);
+			this.stopSound(sounds[soundFilePath],soundFilePath);
 		}
 		else
 		{
