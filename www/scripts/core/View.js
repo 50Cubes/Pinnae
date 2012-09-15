@@ -89,19 +89,20 @@ var View = new Class({
 	deferSound: function(soundFilePath, speed){
 		//random varition on any deffered sound
 		var newSpeed = this.randSpeed(speed);
-		// console.log('newSpeed:', newSpeed);
+		console.log('deferSound:', soundFilePath);
 		this.options.deffered[soundFilePath] = speed;
 		this.loopSound(soundFilePath, newSpeed);
 	},
 	randSpeed: function(speed) {
-		return Number.random(speed * 0.5, speed * 2);
+		var newSpeed = Number.random(speed * 0.75, speed * 1.25);
+		console.log('newSpeed:', newSpeed);
+		return newSpeed;
 	},
 	loopSound: function(soundFilePath, speed) {
 		// console.log('speed:', speed);
 		var timer = setTimeout(function()
 		{
 			this.playSound(soundFilePath, speed, true);
-			// console.log('loopSound:', soundFilePath);
 			// console.log('**loopCheck**');
 			// console.log(this.options.soundTimers[soundFilePath]);
 		}.bind(this), speed);

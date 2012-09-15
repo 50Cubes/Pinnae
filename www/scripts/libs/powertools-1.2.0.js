@@ -316,11 +316,16 @@ provides: Swipe
 ...
 */
 
+var SWIPE_LEFT = 'left';
+var SWIPE_RIGHT = 'right';
+var SWIPE_UP = 'up';
+var SWIPE_DOWN = 'down';
+
 (function(){
 
 var name = 'swipe',
 	distanceKey = name + ':distance',
-	cancelKey = name + ':cancelVertical',
+	// cancelKey = name + ':cancelVertical',
 	dflt = 50;
 
 var start = {}, disabled, active;
@@ -344,22 +349,37 @@ var events = {
 		
 		var touch = event.changedTouches[0],
 			end = {x: touch.pageX, y: touch.pageY};
-		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > 10){
-			active = false;
-			return;
-		}
-		
-		var distance = this.retrieve(distanceKey, dflt),
-			delta = end.x - start.x,
-			isLeftSwipe = delta < -distance,
-			isRightSwipe = delta > distance;
+		// if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > 10){
+		//		active = false;
+		//		return;
+		// }
 
-		if (!isRightSwipe && !isLeftSwipe)
+		var swipe = '';
+		
+		var distanceX = this.retrieve(distanceKey, dflt),
+			deltaX = end.x - start.x,
+			isLeftSwipe = deltaX < -distanceX,
+			isRightSwipe = deltaX > distanceX;
+
+		var distanceY = this.retrieve(distanceKey, dflt),
+			deltaY = end.y - start.y,
+			isUpSwipe = deltaY < -distanceY,
+			isDownSwipe = deltaY > distanceY;
+
+		if(Math.abs(deltaX) > Math.abs(deltaY) && (isLeftSwipe || isRightSwipe))
+			swipe = isLeftSwipe ? SWIPE_LEFT : SWIPE_RIGHT;
+		else if(isUpSwipe || isDownSwipe)
+			swipe = isUpSwipe ? SWIPE_UP : SWIPE_DOWN;
+
+
+
+		if (swipe === '')
 			return;
+		console.log('swipe:' +  swipe);
 		
 		event.preventDefault();
 		active = false;
-		event.direction = (isLeftSwipe ? 'left' : 'right');
+		event.direction = swipe;
 		event.start = start;
 		event.end = end;
 		

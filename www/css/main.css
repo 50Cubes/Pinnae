@@ -104,6 +104,19 @@
 	/*-webkit-transition:all 0.5s ease;*/
 }
 
+#anxiety {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	opacity: 0;
+	-webkit-animation-duration: 2s;
+	   -moz-animation-duration: 2s;
+	     -o-animation-duration: 2s;
+	        animation-duration: 2s;
+	z-index: 99;
+}
+
+
 #startScreen {
 	background-image: url(../img/Start_screen.jpg);
 	-webkit-animation-duration: 5s;
