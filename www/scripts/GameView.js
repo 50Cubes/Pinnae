@@ -9,7 +9,8 @@ var GameView = new Class(
 		roomResults: [],
 		roomResultsSoundTimers: [],
 		isHitByMonster: false,
-		lastDirection: -1
+		lastDirection: -1,
+		heartbeatInterval: null
 	},
 	initialize: function(windowSize)
 	{
@@ -67,12 +68,12 @@ var GameView = new Class(
 		rep.adopt(goRight);
 
 
-		//start game
+		//start game timeout (for some reason need to wait to initiate game)
 		setTimeout(function()
 		{
-			this.onHeartbeat();
+			this.changeAnxiety(0);
 			this.enterRoom();
-		}.bind(this), 500);
+		}.bind(this), 100);
 	},
 	enterRoom: function()
 	{
@@ -109,7 +110,7 @@ var GameView = new Class(
 				  this.options.roomResults.push(rand_result);
 				  if(this.options.roomResults.length >= 3)
 				  {
-				  	break;
+					break;
 				  }
 				}
 				cloned_results.splice(rand_result_index, 1);
@@ -151,10 +152,16 @@ var GameView = new Class(
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
-	onHeartbeat: function(nextBeat)
-	{
-		var calmPercentage = 100 - this.options.player.options.anxiety;
-		var nextBeat = calmPercentage * 5000;
+	changeAnxiety: function(change) {
+		//set value
+		if(change > 0)
+			this.options.player.options.anxiety += change;
+
+		//update heartbeat interval
+		var calmPercentage = (100 - this.options.player.options.anxiety) / 100;
+		console.log('calmPercentage:', calmPercentage);
+		var nextBeat = calmPercentage * 3000;
+		console.log('nextBeat:', nextBeat);
 		this.playSound('sound/heartbeat.mp3', nextBeat, true);
 	},
 	onGo: function(event)
@@ -253,7 +260,7 @@ var GameView = new Class(
 		}
 
 		//update player anxiety
-		player.options.anxiety += result.options.anxietyChange;			
+		this.changeAnxiety(result.options.anxietyChange);
 		
 		if (player.options.anxiety < 0) {
 			player.options.anxiety = 0;	
