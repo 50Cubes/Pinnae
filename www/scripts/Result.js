@@ -8,6 +8,7 @@ var Result = new Class({
 		preSound: '',
 		soundDelay: '',
 		postSound: '',
+		postDelay: 5000,
 		sprite: '',
 		anxietyChange: 0,
 		location: RESULT_LEFT,
@@ -18,6 +19,7 @@ var Result = new Class({
 		this.options.preSound = data.preSound;
 		this.options.soundDelay = data.soundDelay;
 		this.options.postSound = data.postSound;
+		this.options.postDelay = data.postDelay;
 		this.options.sprite = data.sprite;
 		this.options.anxietyChange = data.anxietyChange;
 		this.options.inventoryItem = data.inventoryItem;

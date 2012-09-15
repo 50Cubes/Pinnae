@@ -206,12 +206,12 @@ var GameView = new Class(
 				}
 
 				//goes to next room
-				setTimeout(this.enterRoom.bind(this), 4000);
 
 			}.bind(this), 2000);
 		}
 
-	  this.playSound(result.options.postSound, 0, false);
+	  	this.playSound(result.options.postSound, 0, false);
+		setTimeout(this.enterRoom.bind(this), result.options.postDelay);
 		
 		var player = this.options.player;	
 		if(result.options.inventoryItem)
