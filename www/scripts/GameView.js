@@ -317,6 +317,7 @@ var GameView = new Class(
 		{	
 			$('inv' + player.options.items).addClass('reveal');
 			player.options.items++;
+			this.playSound(REWARD,0,false);
 			if(player.options.items >= 3)
 			{
 				this.onGameWin();
