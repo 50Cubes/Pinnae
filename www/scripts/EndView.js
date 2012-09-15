@@ -7,11 +7,6 @@ var EndView = new Class({
 		//layout
 		var rep = this.options.rep; //easy ref to rep
 
-		var title = new Element('h1#title', {
-			html: 'Mommy....'
-		});
-		rep.adopt(title);
-
 		var playButton = new Element('div.start', {
 			text: 'Play Again',
 			events: {

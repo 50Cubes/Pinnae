@@ -29,6 +29,7 @@ var GameView = new Class(
 		this.parent(windowSize);
 
 		//layout
+		var rep = this.options.rep;
 
 		//TODO: Anxiety Meter
 		var anxietyFrame = new Element('div#meterFrame.hidden');
