@@ -8,7 +8,7 @@ var GameView = new Class(
 		sounds: [],
 		roomResults: [],
 		roomResultsSoundTimers: [],
-		isHitBadMonster: false
+		isHitByMonster: false
 	},
 	initialize: function(windowSize)
 	{
@@ -81,7 +81,7 @@ var GameView = new Class(
 		}
 
 		console.log("######## enter room ##########");
-		if (!this.options.isHitBadMonster)
+		if (!this.options.isHitByMonster)
 		{ //if not hit bad monster last time, reset everything.
 			console.log("========== NOT HIT BY Monster~~~ ========");
 			this.options.roomResults = [];
@@ -120,7 +120,7 @@ var GameView = new Class(
 			  this.playSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
 			}
 		}
-		this.options.isHitBadMonster = false;
+		this.options.isHitByMonster = false;
 
 
 		//TODO: Unhide selection UI
@@ -197,21 +197,21 @@ var GameView = new Class(
 				this.playRevealImage(result.options.sprite[1]);
 				sprite.addCssAnimation('tada');
 
-				this.options.isHitBadMonster = false;
+				this.options.isHitByMonster = false;
 				//after reveal the image, go to the next room
 				if (result.options.anxietyChange > 0)
 				{
 					//replay the last room since you get hit by a monster.
-					this.options.isHitBadMonster = true;
+					this.options.isHitByMonster = true;
 				}
 
 				//goes to next room
-				setTimeout(this.enterRoom.bind(this), 4000);
 
 			}.bind(this), 2000);
 		}
 
-	  this.playSound(result.options.postSound, 0, false);
+	  	this.playSound(result.options.postSound, 0, false);
+		setTimeout(this.enterRoom.bind(this), result.options.postDelay);
 		
 		var player = this.options.player;	
 		if(result.options.inventoryItem)
