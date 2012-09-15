@@ -22,9 +22,7 @@ var CutsceneView = new Class( {
 	
 		setTimeout(function() {
 			this.stopSound('sound/start_screen.mp3');
-			event.target.getParent('.view').fireEvent(VIEW_NAV, GameView);
+			this.options.rep.fireEvent(VIEW_NAV, GameView);
 		}.bind(this), 30000);
-	},
-	onPlay: function(event) {
 	}
 });
