@@ -29,11 +29,6 @@ var GameView = new Class(
 		this.parent(windowSize);
 
 		//layout
-		var rep = this.options.rep;
-		var title = new Element('h1#title', {
-			html: 'Game View'
-		});
-		rep.adopt(title);
 
 		//TODO: Anxiety Meter
 		var anxietyFrame = new Element('div#meterFrame.hidden');
@@ -142,7 +137,7 @@ var GameView = new Class(
 
 
 		//TODO: Unhide selection UI
-		$('meterFrame').removeClass('hidden');
+		// $('meterFrame').removeClass('hidden');
 		$('bottomUi').removeClass('hidden');
 		$$('.go').removeClass('hidden');
 
@@ -163,8 +158,13 @@ var GameView = new Class(
 		else
 			player.options.anxiety = 0;
 
-		//update meter
+		//update styles
 		$('meter').setStyle('height', player.options.anxiety + '%');
+
+		var anxPercentage = player.options.anxiety / 100;
+		var blur = anxPercentage * 300 + 'px';
+		var spread = anxPercentage * 100 + 'px';
+		$('viewContainer').setStyle('box-shadow', '0px 0px ' + blur + ' ' + spread + ' #660000 inset');
 
 		//update heartbeat interval
 		var calmPercentage = (100 - this.options.player.options.anxiety) / 100;
