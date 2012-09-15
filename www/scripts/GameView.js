@@ -58,6 +58,15 @@ var GameView = new Class(
 		invContainer.adopt(inv1);
 		invContainer.adopt(inv2);
 
+		//anxiety blur
+		var anxiety = new Element('div#anxiety.animated', {
+			styles: {
+				'width': this.options.viewSize.x,
+				'height': this.options.viewSize.y
+			}
+		});
+		rep.adopt(anxiety);
+
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
 		// if($(document.body).hasClass('browser'))
 		// {
@@ -167,7 +176,7 @@ var GameView = new Class(
 			shuffle(this.options.roomResults);
 			for(var i = 0; i < this.options.roomResults.length; i++)
 			{				
-				this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay);	
+				this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay + (i * 5000));	
 				this.options.unknownSounds.push(this.options.roomResults[i].options.preSound[i]);
 			}
 		}
@@ -183,7 +192,7 @@ var GameView = new Class(
 
 			for(var i = 0; i < this.options.roomResults.length; i++)
 			{
-			  this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay);	
+			  this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay + (i * 5000));	
 			}
 		}
 		this.options.isHitByMonster = false;
@@ -201,6 +210,9 @@ var GameView = new Class(
 		{
 			// console.log('that', soundFilePath, 'scary');
 			this.changeAnxiety(5);
+		} else if(soundFilePath === HEARTBEAT)
+		{
+			$('anxiety').addCssAnimation('flash');
 		}
 	},
 	changeAnxiety: function(change) {
@@ -217,7 +229,7 @@ var GameView = new Class(
 		var anxPercentage = player.options.anxiety / 100;
 		var blur = anxPercentage * 300 + 'px';
 		var spread = anxPercentage * 100 + 'px';
-		$('doors').setStyle('box-shadow', '0px 0px ' + blur + ' ' + spread + ' #660000 inset');
+		$('anxiety').setStyle('box-shadow', '0px 0px ' + blur + ' ' + spread + ' #660000 inset');
 
 		//update heartbeat interval
 		var calmPercentage = (100 - this.options.player.options.anxiety) / 100;
