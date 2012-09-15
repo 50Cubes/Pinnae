@@ -310,7 +310,8 @@ var GameView = new Class(
 		if (loop)
 		{
 			//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
-			variation = Math.floor((Math.random() * 1000) + 1) - 500; //random between -500 to +500 msec
+			variation = Number.random(-2000, 2000);
+			console.log('variation:', variation);
 			var newSpeed = speed + variation;
 
 			this.options.roomResultsSoundTimers.push(
