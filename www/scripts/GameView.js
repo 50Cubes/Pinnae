@@ -136,10 +136,11 @@ console.log("######## enter room ##########");
 		}
 
 		var result = this.options.roomResults[direction];
+
+		//play post sound
 		this.playSound(result.options.postSound[direction],5000,false);
 
 		// display result (result.sprite)
-		//TODO: fade in effect
 		var rep = this.options.rep;
 		var sprite = new Element('div#reveal_img', {
 			styles: {
@@ -148,12 +149,14 @@ console.log("######## enter room ##########");
 			}
 		});
 		rep.adopt(sprite);
+		sprite.addCssAnimation('fadeIn');
 		this.playRevealImage(result.options.sprite[0]);
 		if(result.options.sprite.length > 1)
 		{
 			setTimeout(function() {
 				this.playRevealImage(result.options.sprite[1]);
-			}.bind(this),2000);
+				sprite.addCssAnimation('tada');
+			}.bind(this), 2000);
 		}
 
 		var player = this.options.player;	
@@ -179,11 +182,12 @@ console.log("######## enter room ##########");
 		//transition  
 		//TODO: fade out effect
 		if(result.options.anxietyChange < 0)
-		  setTimeout(this.enterRoom.bind(this),10000);
+		  setTimeout(this.enterRoom.bind(this),4000);
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
-		$('reveal_img').setStyle('background-image','url(' + image_url + ')');
+		var image = $('reveal_img');
+		image.setStyle('background-image','url(' + image_url + ')');
 	},
 	stopSound: function(sound) {
 //console.log("calling stop sounds");
