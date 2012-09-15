@@ -117,10 +117,6 @@
 }
 
 
-#cutscene {
-	background-image: url(../img/Door_entrance.gif);
-}
-
 #startScreen {
 	background-image: url(../img/Start_screen2.jpg);
 	-webkit-animation-duration: 5s;
