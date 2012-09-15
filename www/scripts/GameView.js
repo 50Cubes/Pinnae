@@ -151,9 +151,6 @@ console.log("######## enter room ##########");
 
 		var result = this.options.roomResults[direction];
 
-		//play post sound
-		this.playSound(result.options.postSound[direction],5000,false);
-
 		// display result (result.sprite)
 		var rep = this.options.rep;
 		var sprite = new Element('div#reveal_img', {
