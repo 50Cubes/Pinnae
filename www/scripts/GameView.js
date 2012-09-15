@@ -7,7 +7,8 @@ var GameView = new Class(
 		goodResults: [],
 		sounds: [],
 		roomResults: [],
-		roomResultsSoundTimers:[]
+		roomResultsSoundTimers: [],
+		isHitBadMonster: false
 	},
 	initialize: function(windowSize)
 	{
@@ -33,7 +34,7 @@ var GameView = new Class(
 			html: 'Game View'
 		});
 		rep.adopt(title);
-		
+
 		//TODO: Anxiety Meter
 		var anxietyFrame = new Element('div#meterFrame.hidden');
 		var anxietyMeter = new Element('div#meter');
@@ -59,49 +60,68 @@ var GameView = new Class(
 		goLeft.addEvent("click", this.onGo.bind(this));
 		goCenter.addEvent("click", this.onGo.bind(this));
 		goRight.addEvent("click", this.onGo.bind(this));
-		
+
 		rep.adopt(goLeft);
 		rep.adopt(goCenter);
 		rep.adopt(goRight);
 
 
 		//start game
-		setTimeout(function() {
+		setTimeout(function()
+		{
 			this.onHeartbeat();
 			this.enterRoom();
 		}.bind(this), 500);
 	},
 	enterRoom: function()
 	{
-		if ($('reveal_img')) {
+		if ($('reveal_img'))
+		{
 			$('reveal_img').dispose();
 		}
-		
-console.log("######## enter room ##########");
-		this.options.roomResults = [];
-		// pick 3 random Results
-		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
-		//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
-		//		We will tweak this later to change the length of the game if its too long/short
 
-		var rand_result_index = Math.floor(Math.random()*10) % this.options.goodResults.length;
-		this.options.roomResults.push(this.options.goodResults[rand_result_index])
-    
-		var cloned_results = this.options.badResults.slice(0);
-		for (var i=0; i < 2; i++) {
-			var rand_result_index = Math.floor(Math.random()*1000) % cloned_results.length;
-			var rand_result = cloned_results[rand_result_index];
-			this.options.roomResults.push(rand_result);
-			cloned_results.splice(rand_result_index,1);
-			console.log("clone result length:" + cloned_results.length);
-			
-			var pre_sound = rand_result.options.preSound[i];
-			var sound_delay = rand_result.options.soundDelay;
-			
-			console.log("rand result index: " + rand_result_index + "; presound: " + pre_sound + "; sound_delay: "+sound_delay);
-			this.playSound(pre_sound, sound_delay, true);
+		console.log("######## enter room ##########");
+		if (!this.options.isHitBadMonster)
+		{ //if not hit bad monster last time, reset everything.
+			console.log("========== NOT HIT BY Monster~~~ ========");
+			this.options.roomResults = [];
+			// pick 3 random Results
+			//TODO: get random results (var rand = Number.random(minNum, maxNum);)
+			//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
+			//		We will tweak this later to change the length of the game if its too long/short
+			var rand_result_index = Math.floor(Math.random() * 10) % this.options.goodResults.length;
+			this.options.roomResults.push(this.options.goodResults[rand_result_index])
+
+			var cloned_results = this.options.badResults.slice(0);
+			for (var i = 0; i < 2; i++)
+			{
+				var rand_result_index = Math.floor(Math.random() * 1000) % cloned_results.length;
+				var rand_result = cloned_results[rand_result_index];
+				this.options.roomResults.push(rand_result);
+				cloned_results.splice(rand_result_index, 1);
+				console.log("clone result length:" + cloned_results.length);
+
+				var pre_sound = rand_result.options.preSound[i];
+				var sound_delay = rand_result.options.soundDelay;
+
+				console.log("rand result index: " + rand_result_index + "; presound: " + pre_sound + "; sound_delay: " + sound_delay);
+				this.playSound(pre_sound, sound_delay, true);
+			}
+			shuffle(this.options.roomResults);
 		}
-		shuffle(this.options.roomResults);
+		else
+		{
+			console.log("========== HIT BY Monster replay same room!!!! ========");
+			for (var i = 0; i < 2; i++)
+			{
+				var rand_result = this.options.roomResults[i];
+				var pre_sound = rand_result.options.preSound[i];
+				var sound_delay = rand_result.options.soundDelay;
+				this.playSound(pre_sound, sound_delay, true);
+			}
+		}
+		this.options.isHitBadMonster = false;
+
 
 		//TODO: Unhide selection UI
 		$('meterFrame').removeClass('hidden');
@@ -110,45 +130,50 @@ console.log("######## enter room ##########");
 
 		//TODO: Increase anxiety the longer you're in the room without making deciscion,
 	},
-	onHeartbeat: function(nextBeat) {
+	onHeartbeat: function(nextBeat)
+	{
 		var calmPercentage = 100 - this.options.player.options.anxiety;
 		var nextBeat = calmPercentage * 5000;
-		this.playSound('sound/heartbeat.mp3',nextBeat,true);	
+		this.playSound('sound/heartbeat.mp3', nextBeat, true);
 	},
-	onGo: function(event) {
+	onGo: function(event)
+	{
 		var id = event.target.id;
 		var target = '';
-		switch(id)
+		switch (id)
 		{
-			case 'goLeft' :
-				target = RESULT_LEFT;
-				break;
-			case 'goCenter' :
-				target = RESULT_CENTER;
-				break;
-			case 'goRight' :
-				target = RESULT_RIGHT;
-				break;
+		case 'goLeft':
+			target = RESULT_LEFT;
+			break;
+		case 'goCenter':
+			target = RESULT_CENTER;
+			break;
+		case 'goRight':
+			target = RESULT_RIGHT;
+			break;
 		}
 		this.chooseResult(target);
 	},
-	chooseResult: function(direction) {
+	chooseResult: function(direction)
+	{
 		//hide ui
 		$('meterFrame').addClass('hidden');
 		$('bottomUi').addClass('hidden');
 		$$('.go').addClass('hidden');
 
 		//clear the previous room's presounds
-		for (var i=0; i < this.options.roomResultsSoundTimers.length; i++) {
-			clearTimeout(this.options.roomResultsSoundTimers[i]);	
+		for (var i = 0; i < this.options.roomResultsSoundTimers.length; i++)
+		{
+			clearTimeout(this.options.roomResultsSoundTimers[i]);
 		}
 		this.options.roomResultsSoundTimers = [];
-		
-		for(var i = 0; i < this.options.roomResults.length; i++)
+
+		//stop the roomResult's sounds
+		for (var i = 0; i < this.options.roomResults.length; i++)
 		{
 			var roomResult = this.options.roomResults[i];
-			
-			this.stopSound(this.options.sounds[roomResult.options.preSound],roomResult.options.preSound);
+
+			this.stopSound(this.options.sounds[roomResult.options.preSound[i]], roomResult.options.preSound[i]);
 		}
 
 		var result = this.options.roomResults[direction];
@@ -164,15 +189,29 @@ console.log("######## enter room ##########");
 		rep.adopt(sprite);
 		sprite.addCssAnimation('fadeIn');
 		this.playRevealImage(result.options.sprite[0]);
-		if(result.options.sprite.length > 1)
+		if (result.options.sprite.length > 1)
 		{
-			setTimeout(function() {
+			//play another sprite image
+			setTimeout(function()
+			{
 				this.playRevealImage(result.options.sprite[1]);
 				sprite.addCssAnimation('tada');
+
+				this.options.isHitBadMonster = false;
+				//after reveal the image, go to the next room
+				if (result.options.anxietyChange > 0)
+				{
+					//replay the last room since you get hit by a monster.
+					this.options.isHitBadMonster = true;
+				}
+
+				//goes to next room
+				setTimeout(this.enterRoom.bind(this), 4000);
+
 			}.bind(this), 2000);
 		}
 
-		this.playSound(result.options.postSound[direction],0,false);
+	  this.playSound(result.options.postSound, 0, false);
 		
 		var player = this.options.player;	
 		if(result.options.inventoryItem)
@@ -191,7 +230,7 @@ console.log("######## enter room ##########");
 		//update meter
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
-		if(player.options.anxiety >= 100)
+		if (player.options.anxiety >= 100)
 		{
 			this.onGameOver();
 			return;
@@ -199,59 +238,95 @@ console.log("######## enter room ##########");
 
 		//transition  
 		//TODO: fade out effect
-		if(result.options.anxietyChange <= 0) {
-			console.log("going to next room");
-		  setTimeout(this.enterRoom.bind(this),4000);
-		}
-		else {
-			console.log("not going to next room");
-		}
+		//		if(result.options.anxietyChange <= 0) {
+		//			console.log("going to next room");
+		//		  setTimeout(this.enterRoom.bind(this),4000);
+		//		}
+		//		else {
+		//			//get a bad result, stay in the same room with the same 3 choices.
+		//			//hide the reveal image, show the buttons/guage/inventory again.			
+		//console.log("*************** not going to next room *************");
+		//			
+		//			if ($('reveal_img')) {
+		//				$('reveal_img').dispose();
+		//			}
+		//			//show the buttons
+		//			$('meterFrame').removeClass('hidden');
+		//			$('bottomUi').removeClass('hidden');
+		//			$$('.go').removeClass('hidden');
+		//			
+		//			//restart those 3 sounds		
+		//			for(var i = 0; i < this.options.roomResults.length; i++)
+		//			{
+		//				var roomResult = this.options.roomResults[i];
+		//				
+		//console.log("restart sounds["+i+"]: " + roomResult.options.preSound[i]);				
+		//				this.playSound(roomResult.options.preSound[i],roomResult.options.soundDelay,true);
+		//			}
+		//			
+		//			//
+		//		}
 	},
-	playRevealImage: function(image_url) {
+	playRevealImage: function(image_url)
+	{
 		console.log("playRevealImage");
+		if (!$('reveal_img'))
+		{
+			var rep = this.options.rep;
+			var sprite = new Element('div#reveal_img', {
+				styles: {
+					'width': this.options.viewSize.x,
+					'height': this.options.viewSize.y
+				}
+			});
+			rep.adopt(sprite);
+		}
+
 		var image = $('reveal_img');
-		image.setStyle('background-image','url(' + image_url + ')');
+		image.setStyle('background-image', 'url(' + image_url + ')');
 	},
-	stopSound: function(sound,sound_path) {
-//console.log("calling stop sounds");
+	stopSound: function(sound, sound_path)
+	{
+		//console.log("calling stop sounds");
 		if (!sound) return;
-		
-		if(typeof sound.stop === 'function') { //cordova
-console.log("stop sounds 1: sound_path: " + sound_path);
+
+		if (typeof sound.stop === 'function')
+		{ //cordova
+			console.log("stop sounds 1: sound_path: " + sound_path);
 			sound.stop();
 		}
-		else {
-console.log("stop sounds 2: sound_path: " + sound_path);
+		else
+		{
+			console.log("stop sounds 2: sound_path: " + sound_path);
 			sound.pause();
-			if(sound.currentTime !== 0)
-				sound.currentTime = 0;
+			if (sound.currentTime !== 0) sound.currentTime = 0;
 		}
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
-console.log("playSound: " + soundFilePath);		
+		console.log("playSound: " + soundFilePath);
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
-	    var sounds = this.options.sounds;
-	      
-		if(sounds[soundFilePath])
+		var sounds = this.options.sounds;
+
+		if (sounds[soundFilePath])
 		{
-			this.stopSound(sounds[soundFilePath],soundFilePath);
+			this.stopSound(sounds[soundFilePath], soundFilePath);
 		}
 		else
 		{
-		  if($(document.body).hasClass('device'))
-		  {
-			var media = new Media(soundFilePath, mediaSuccess, mediaError);
-		  }
-		  else
-		  {
-		  	var media = document.createElement('audio');
-		    media.setAttribute('src', soundFilePath);
-		  }
-		  sounds[soundFilePath] = media;
+			if ($(document.body).hasClass('device'))
+			{
+				var media = new Media(soundFilePath, mediaSuccess, mediaError);
+			}
+			else
+			{
+				var media = document.createElement('audio');
+				media.setAttribute('src', soundFilePath);
+			}
+			sounds[soundFilePath] = media;
 		}
 		sounds[soundFilePath].play();
-		
+
 		function mediaSuccess()
 		{
 			console.log('sucess');
@@ -262,24 +337,25 @@ console.log("playSound: " + soundFilePath);
 			alert('mediaError');
 		}
 
-		if(loop)
+		if (loop)
 		{
 			//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
-			variation = Math.floor((Math.random()*1000)+1) - 500; //random between -500 to +500 msec
-			
+			variation = Math.floor((Math.random() * 1000) + 1) - 500; //random between -500 to +500 msec
 			var newSpeed = speed + variation;
-			
+
 			this.options.roomResultsSoundTimers.push(
-				setTimeout(function() {
-					this.playSound(soundFilePath, speed, loop);
-				}.bind(this), newSpeed)		
-			);
+			setTimeout(function()
+			{
+				this.playSound(soundFilePath, speed, loop);
+			}.bind(this), newSpeed));
 		}
 	},
-	onGameOver: function() {
+	onGameOver: function()
+	{
 		this.options.rep.fireEvent(VIEW_NAV, EndView);
 	},
-	bossBattle: function(){
+	bossBattle: function()
+	{
 		//fight the boss
 	}
 });
