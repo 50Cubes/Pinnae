@@ -226,6 +226,11 @@ var GameView = new Class(
 
 		//update player anxiety
 		player.options.anxiety += result.options.anxietyChange;			
+		
+		if (player.options.anxiety < 0) {
+			player.options.anxiety = 0;	
+		}
+		
 		//update meter
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
