@@ -7,21 +7,18 @@ var MenuView = new Class( {
 		//layout
 		var rep = this.options.rep; //easy ref to rep
 
-		var title = new Element('h1#title', {
-			html: 'Herbert Pinnae'
-		});
-		rep.adopt(title);
-		title.addCssAnimation('fadeIn');
-
-		var playButton = new Element('div.start', {
-			text: 'Play',
+		var startScreen = new Element('div#startScreen.fullscreenImage', {
+			styles: {
+				'width': this.options.viewSize.x,
+				'height': this.options.viewSize.y
+			},
 			events: {
 				touch: this.onPlay.bind(this)
 			}
 		});
-		rep.adopt(playButton);
-		playButton.addCssAnimation('fadeIn');
-	
+		rep.adopt(startScreen);
+		startScreen.addCssAnimation('fadeIn');
+
 		this.playSound('sound/start_screen.mp3', 32000, true);
 
 		var headphonesIntro = new Element('div#headphones.fullscreenImage', {

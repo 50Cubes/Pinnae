@@ -7,13 +7,17 @@ var EndView = new Class({
 		//layout
 		var rep = this.options.rep; //easy ref to rep
 
-		var playButton = new Element('div.start', {
-			text: 'Play Again',
+		var endScreen = new Element('div#endScreen.fullscreenImage', {
+			styles: {
+				'width': this.options.viewSize.x,
+				'height': this.options.viewSize.y
+			},
 			events: {
 				touch: this.onPlay.bind(this)
 			}
 		});
-		rep.adopt(playButton);
+		rep.adopt(endScreen);
+		endScreen.addCssAnimation('fadeIn');
 
 		this.playSound('sound/start_screen.mp3', 32000, true);
 	},

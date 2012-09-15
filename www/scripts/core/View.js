@@ -7,7 +7,8 @@ var View = new Class({
 		rep: {},
 		viewSize: {},
 		sounds: {},
-		soundTimers: {}
+		soundTimers: {},
+		deffered: {}
 	},
 	initialize: function (windowSize) {
 		this.options.rep = new Element('div.view', {
@@ -47,7 +48,6 @@ var View = new Class({
 	playSound: function(soundFilePath, speed, loop)
 	{
 		// console.log("playSound: " + soundFilePath);
-		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
 		var media = this.options.sounds[soundFilePath];
 		if (media)
 		{
@@ -80,21 +80,27 @@ var View = new Class({
 
 		if (loop)
 		{
+			if(this.options.deffered[soundFilePath])
+				speed = this.randSpeed(this.options.deffered[soundFilePath]);
 			this.loopSound(soundFilePath, speed);
 		}
 	},
 	deferSound: function(soundFilePath, speed){
 		//random varition on any deffered sound
-		var newSpeed = Number.random(speed * 0.5, speed * 2);
+		var newSpeed = this.randSpeed(speed);
 		// console.log('newSpeed:', newSpeed);
+		this.options.deffered[soundFilePath] = speed;
 		this.loopSound(soundFilePath, newSpeed);
+	},
+	randSpeed: function(speed) {
+		return Number.random(speed * 0.5, speed * 2);
 	},
 	loopSound: function(soundFilePath, speed) {
 		// console.log('speed:', speed);
 		var timer = setTimeout(function()
 		{
 			this.playSound(soundFilePath, speed, true);
-			console.log('loopSound:', soundFilePath);
+			// console.log('loopSound:', soundFilePath);
 			this.fireEvent(SOUND_PLAYED, soundFilePath);
 		}.bind(this), speed);
 		this.removeSoundTimer(soundFilePath);
