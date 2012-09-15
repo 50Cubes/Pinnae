@@ -3,18 +3,24 @@ var GameView = new Class(
 	Extends: View,
 	options: {
 		player: {},
-		results: [],
+		badResults: [],
+		goodResults: [],
 		sounds: [],
-		roomResults: []
+		roomResults: [],
+		roomResultsSoundTimers:[]
 	},
 	initialize: function(windowSize)
 	{
 		//setup
 		this.options.player = new Player();
 		//TODO: generate random options (new Result)
-		var results = this.options.results;
+		var badResults = this.options.badResults;
+		var goodResults = this.options.goodResults;
 		Array.each(RESULTS_CONFIG, function(item, index, object){
-			results.push(new Result(item));
+			if(item.anxietyChange > 0)
+			  badResults.push(new Result(item));
+			else
+				goodResults.push(new Result(item));
 		});
 
 		//super init
@@ -66,6 +72,10 @@ var GameView = new Class(
 	},
 	enterRoom: function()
 	{
+		if ($('reveal_img')) {
+			$('reveal_img').dispose();
+		}
+		
 console.log("######## enter room ##########");
 		this.options.roomResults = [];
 		// pick 3 random Results
@@ -73,14 +83,13 @@ console.log("######## enter room ##########");
 		//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
 		//		We will tweak this later to change the length of the game if its too long/short
 
-		var cloned_results = this.options.results.slice(0);
-		for (var i=0; i < 3; i++) {
+		var rand_result_index = Math.floor(Math.random()*10) % this.options.goodResults.length;
+		this.options.roomResults.push(this.options.goodResults[rand_result_index])
+    
+		var cloned_results = this.options.badResults.slice(0);
+		for (var i=0; i < 2; i++) {
 			var rand_result_index = Math.floor(Math.random()*1000) % cloned_results.length;
 			var rand_result = cloned_results[rand_result_index];
-			if(Math.floor((Math.random()*10)+1) <= 3)
-			{
-				rand_result.options.inventoryItem = true;
-			}
 			this.options.roomResults.push(rand_result);
 			cloned_results.splice(rand_result_index,1);
 			console.log("clone result length:" + cloned_results.length);
@@ -128,6 +137,11 @@ console.log("######## enter room ##########");
 		$$('.go').addClass('hidden');
 
 		//clear the previous room's presounds
+		for (var i=0; i < this.options.roomResultsSoundTimers.length; i++) {
+			clearTimeout(this.options.roomResultsSoundTimers[i]);	
+		}
+		this.options.roomResultsSoundTimers = [];
+		
 		for(var i = 0; i < this.options.roomResults.length; i++)
 		{
 			var roomResult = this.options.roomResults[i];
@@ -138,7 +152,7 @@ console.log("######## enter room ##########");
 		var result = this.options.roomResults[direction];
 
 		//play post sound
-		this.playSound(result.options.postSound[direction],5000,false);
+		this.playSound(result.optiongsts.postSound[direction],5000,false);
 
 		// display result (result.sprite)
 		var rep = this.options.rep;
@@ -159,6 +173,8 @@ console.log("######## enter room ##########");
 			}.bind(this), 2000);
 		}
 
+		this.playSound(result.options.postSound[direction],0,false);
+		
 		var player = this.options.player;	
 		if(result.inventoryItem)
 		{
@@ -177,12 +193,20 @@ console.log("######## enter room ##########");
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
 		if(player.options.anxiety >= 100)
+		{
 			this.onGameOver();
+			return;
+		}
 
 		//transition  
 		//TODO: fade out effect
-		if(result.options.anxietyChange < 0)
+		if(result.options.anxietyChange <= 0) {
+			console.log("going to next room");
 		  setTimeout(this.enterRoom.bind(this),4000);
+		}
+		else {
+			console.log("not going to next room");
+		}
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
@@ -209,6 +233,7 @@ console.log("######## enter room ##########");
 console.log("playSound: " + soundFilePath);		
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
 	    var sounds = this.options.sounds;
+	      
 		if(sounds[soundFilePath])
 		{
 			this.stopSound(sounds[soundFilePath]);
@@ -245,10 +270,11 @@ console.log("playSound: " + soundFilePath);
 			
 			var newSpeed = speed + variation;
 			
-			setTimeout(function()
-			{
-				this.playSound(soundFilePath, speed, loop);
-			}.bind(this), newSpeed);
+			this.options.roomResultsSoundTimers.push(
+				setTimeout(function() {
+					this.playSound(soundFilePath, speed, loop);
+				}.bind(this), newSpeed)		
+			);
 		}
 	},
 	onGameOver: function() {
