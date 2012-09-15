@@ -17,10 +17,12 @@ var GameView = new Class(
 		//TODO: generate random options (new Result)
 		var badResults = this.options.badResults;
 		var goodResults = this.options.goodResults;
-		Array.each(RESULTS_CONFIG, function(item, index, object)
-		{
-			if (item.anxietyChange > 0) badResults.push(new Result(item));
-			else goodResults.push(new Result(item));
+		Array.each(RESULTS_CONFIG.good, function(item, index, object){
+				goodResults.push(new Result(item));
+		});
+
+		Array.each(RESULTS_CONFIG.bad, function(item, index, object){
+			  badResults.push(new Result(item));
 		});
 
 		//super init
@@ -105,6 +107,7 @@ var GameView = new Class(
 				console.log("rand result index: " + rand_result_index + "; presound: " + pre_sound + "; sound_delay: " + sound_delay);
 				this.playSound(pre_sound, sound_delay, true);
 			}
+			shuffle(this.options.roomResults);
 		}
 		else
 		{
@@ -118,6 +121,7 @@ var GameView = new Class(
 			}
 		}
 		this.options.isHitByMonster = false;
+
 
 		//TODO: Unhide selection UI
 		$('meterFrame').removeClass('hidden');
@@ -207,14 +211,14 @@ var GameView = new Class(
 			}.bind(this), 2000);
 		}
 
-		this.playSound(result.options.postSound, 0, false);
-
-		var player = this.options.player;
-		if (result.inventoryItem)
+	  this.playSound(result.options.postSound, 0, false);
+		
+		var player = this.options.player;	
+		if(result.options.inventoryItem)
 		{
-			$('inv' + player.item).addClass('reveal');
-			player.items++;
-			if (player.items >= 3)
+			$('inv' + player.options.item).addClass('reveal');
+			player.options.items++;
+			if(player.options.items >= 3)
 			{
 				this.bossBattle();
 				return;
