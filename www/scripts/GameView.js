@@ -162,7 +162,7 @@ var GameView = new Class(
 		console.log('calmPercentage:', calmPercentage);
 		var nextBeat = calmPercentage * 3000;
 		console.log('nextBeat:', nextBeat);
-		this.deferSound('sound/heartbeat.mp3', nextBeat);
+		this.loopSound('sound/heartbeat.mp3', nextBeat);
 	},
 	onGo: function(event)
 	{
@@ -343,19 +343,21 @@ var GameView = new Class(
 
 		if (loop)
 		{
-			this.deferSound(soundFilePath, speed);
+			this.loopSound(soundFilePath, speed);
 		}
 	},
 	deferSound: function(soundFilePath, speed){
 		//random varition on any deffered sound
 		var newSpeed = Number.random(speed * 0.5, speed * 2);
 		console.log('newSpeed:', newSpeed);
-
+		this.loopSound(soundFilePath, newSpeed);
+	},
+	loopSound: function(soundFilePath, speed) {
 		this.options.roomResultsSoundTimers.push(
 		setTimeout(function()
 		{
 			this.playSound(soundFilePath, speed, true);
-		}.bind(this), newSpeed));
+		}.bind(this), speed));
 	},
 	onGameOver: function()
 	{
