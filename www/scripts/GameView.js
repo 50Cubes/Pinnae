@@ -110,7 +110,7 @@ var GameView = new Class(
 			shuffle(this.options.roomResults);
 			for(var i = 0; i < this.options.roomResults.length; i++)
 			{				
-			  this.playSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
+			  this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
 			}
 		}
 		else
@@ -124,7 +124,7 @@ var GameView = new Class(
 
 			for(var i = 0; i < this.options.roomResults.length; i++)
 			{
-			  this.playSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
+			  this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
 			}
 		}
 		this.options.isHitByMonster = false;
@@ -223,7 +223,7 @@ var GameView = new Class(
 			}.bind(this), 2000);
 		}
 
-	  this.playSound(result.options.postSound, 0, false);
+		this.playSound(result.options.postSound, 0, false);
 		
 		var player = this.options.player;	
 		if(result.options.inventoryItem)
@@ -321,17 +321,20 @@ var GameView = new Class(
 
 		if (loop)
 		{
-			//TODO: add a random variation(+/- 500ms) to the speed so that its not always the same repeat pattern
-			variation = Number.random(-2000, 2000);
-			console.log('variation:', variation);
-			var newSpeed = speed + variation;
-
-			this.options.roomResultsSoundTimers.push(
-			setTimeout(function()
-			{
-				this.playSound(soundFilePath, speed, loop);
-			}.bind(this), newSpeed));
+			this.deferSound(soundFilePath, speed);
 		}
+	},
+	deferSound: function(soundFilePath, speed){
+		//random varition on any deffered sound
+		variation = Number.random(-2000, 2000);
+		console.log('variation:', variation);
+		var newSpeed = speed + variation;
+
+		this.options.roomResultsSoundTimers.push(
+		setTimeout(function()
+		{
+			this.playSound(soundFilePath, speed, true);
+		}.bind(this), newSpeed));
 	},
 	onGameOver: function()
 	{
