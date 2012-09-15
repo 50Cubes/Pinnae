@@ -212,6 +212,11 @@ var GameView = new Class(
 			this.changeAnxiety(5);
 		} else if(soundFilePath === HEARTBEAT)
 		{
+			var player = this.options.player;
+			var anxPercentage = player.options.anxiety / 100;
+			var blur = anxPercentage * 300 + 'px';
+			var spread = anxPercentage * 100 + 'px';
+			$('anxiety').setStyle('box-shadow', '0px 0px ' + blur + ' ' + spread + ' #660000 inset');
 			$('anxiety').addCssAnimation('flash');
 		}
 	},
@@ -223,13 +228,16 @@ var GameView = new Class(
 		else
 			player.options.anxiety = 0;
 
+		//calm animation
+		if(change < 0)
+		{
+			$('anxiety').setStyle('box-shadow', '0px 0px 300px 100px #FFFFFF inset');
+			$('anxiety').addCssAnimation('flash');
+		}
+
 		//update styles
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
-		var anxPercentage = player.options.anxiety / 100;
-		var blur = anxPercentage * 300 + 'px';
-		var spread = anxPercentage * 100 + 'px';
-		$('anxiety').setStyle('box-shadow', '0px 0px ' + blur + ' ' + spread + ' #660000 inset');
 
 		//update heartbeat interval
 		var calmPercentage = (100 - this.options.player.options.anxiety) / 100;
@@ -347,11 +355,11 @@ var GameView = new Class(
 		this.stopAllSounds();
 	},
 	onGameWin: function(){
-		onGameOver();
+		this.onGameOver();
 		this.options.rep.fireEvent(VIEW_NAV, WinView);
 	},
 	onGameLose: function(){
-		onGameOver();
+		this.onGameOver();
 		this.options.rep.fireEvent(VIEW_NAV, LoseView);
 	}
 });

@@ -47,7 +47,6 @@ var View = new Class({
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
-		// console.log("playSound: " + soundFilePath);
 		var media = this.options.sounds[soundFilePath];
 		if (media)
 		{
@@ -66,6 +65,8 @@ var View = new Class({
 			}
 			this.options.sounds[soundFilePath] = media;
 		}
+		
+		console.log("playSound: " + soundFilePath);
 		media.play();
 		this.fireEvent(SOUND_PLAYED, soundFilePath);
 
