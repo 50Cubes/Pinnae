@@ -115,6 +115,12 @@ var GameView = new Class(
 		else
 		{
 			console.log("========== HIT BY Monster replay same room!!!! ========");
+			if (this.options.player.options.anxiety >= 100)
+			{
+				this.onGameOver();
+				return;
+			}
+
 			for(var i = 0; i < this.options.roomResults.length; i++)
 			{
 			  this.playSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
@@ -210,7 +216,7 @@ var GameView = new Class(
 			}.bind(this), 2000);
 		}
 
-	  	this.playSound(result.options.postSound, 0, false);
+	  this.playSound(result.options.postSound, 0, false);
 		
 		var player = this.options.player;	
 		if(result.options.inventoryItem)
@@ -226,16 +232,15 @@ var GameView = new Class(
 
 		//update player anxiety
 		player.options.anxiety += result.options.anxietyChange;			
+		
+		if (player.options.anxiety < 0) {
+			player.options.anxiety = 0;	
+		}
+		
 		//update meter
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
-		if (player.options.anxiety >= 100)
-		{
-			this.onGameOver();
-			return;
-		}
 		setTimeout(this.enterRoom.bind(this), result.options.postDelay);
-
 	},
 	playRevealImage: function(image_url)
 	{
