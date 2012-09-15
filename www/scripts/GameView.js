@@ -72,6 +72,10 @@ var GameView = new Class(
 	},
 	enterRoom: function()
 	{
+		if ($('reveal_img')) {
+			$('reveal_img').dispose();
+		}
+		
 console.log("######## enter room ##########");
 		this.options.roomResults = [];
 		// pick 3 random Results
@@ -146,7 +150,6 @@ console.log("######## enter room ##########");
 		}
 
 		var result = this.options.roomResults[direction];
-		this.playSound(result.options.postSound[direction],5000,false);
 
 		// display result (result.sprite)
 		//TODO: fade in effect
@@ -166,6 +169,8 @@ console.log("######## enter room ##########");
 			}.bind(this),2000);
 		}
 
+		this.playSound(result.options.postSound[direction],0,false);
+		
 		var player = this.options.player;	
 		if(result.inventoryItem)
 		{
@@ -191,8 +196,13 @@ console.log("######## enter room ##########");
 
 		//transition  
 		//TODO: fade out effect
-		if(result.options.anxietyChange <= 0)
+		if(result.options.anxietyChange <= 0) {
+			console.log("going to next room");
 		  setTimeout(this.enterRoom.bind(this),10000);
+		}
+		else {
+			console.log("not going to next room");
+		}
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
