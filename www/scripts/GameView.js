@@ -160,7 +160,7 @@ var GameView = new Class(
 		//update heartbeat interval
 		var calmPercentage = (100 - this.options.player.options.anxiety) / 100;
 		console.log('calmPercentage:', calmPercentage);
-		var nextBeat = calmPercentage * 3000;
+		var nextBeat = Math.max(calmPercentage * 3000, 700);
 		console.log('nextBeat:', nextBeat);
 		this.loopSound('sound/heartbeat.mp3', nextBeat);
 	},
@@ -353,6 +353,7 @@ var GameView = new Class(
 		this.loopSound(soundFilePath, newSpeed);
 	},
 	loopSound: function(soundFilePath, speed) {
+		console.log('speed:', speed);
 		this.options.roomResultsSoundTimers.push(
 		setTimeout(function()
 		{
