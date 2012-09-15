@@ -16,11 +16,12 @@ var GameView = new Class(
 		//TODO: generate random options (new Result)
 		var badResults = this.options.badResults;
 		var goodResults = this.options.goodResults;
-		Array.each(RESULTS_CONFIG, function(item, index, object){
-			if(item.anxietyChange > 0)
-			  badResults.push(new Result(item));
-			else
+		Array.each(RESULTS_CONFIG.good, function(item, index, object){
 				goodResults.push(new Result(item));
+		});
+
+		Array.each(RESULTS_CONFIG.bad, function(item, index, object){
+			  badResults.push(new Result(item));
 		});
 
 		//super init
@@ -100,6 +101,7 @@ console.log("######## enter room ##########");
 			console.log("rand result index: " + rand_result_index + "; presound: " + pre_sound + "; sound_delay: "+sound_delay);
 			this.playSound(pre_sound, sound_delay, true);
 		}
+		shuffle(this.options.roomResults);
 
 		//TODO: Unhide selection UI
 		$('meterFrame').removeClass('hidden');
@@ -173,11 +175,11 @@ console.log("######## enter room ##########");
 		this.playSound(result.options.postSound[direction],0,false);
 		
 		var player = this.options.player;	
-		if(result.inventoryItem)
+		if(result.options.inventoryItem)
 		{
-			$('inv' + player.item).addClass('reveal');
-			player.items++;
-			if(player.items >= 3)
+			$('inv' + player.options.item).addClass('reveal');
+			player.options.items++;
+			if(player.options.items >= 3)
 			{
 				this.bossBattle();
 				return;
