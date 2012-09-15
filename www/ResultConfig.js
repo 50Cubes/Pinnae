@@ -13,22 +13,12 @@ var RESULTS_CONFIG = {
 		{
 			name: 'drop',
 			preSound: ['sound/drop_pre_L.mp3', 'sound/drop_pre_F.mp3', 'sound/drop_pre_R.mp3'],
-			soundDelay: 1000,
+			soundDelay: 3000,
 			postSound: 'sound/drop_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Grandpa_toilet.jpg'],
 			anxietyChange: -10,
 			inventoryItem: true
-		},
-		{
-			name: 'flap',
-			preSound: ['sound/flap_pre_L.mp3', 'sound/flap_pre_F.mp3', 'sound/flap_pre_R.mp3'],
-			soundDelay: 4000,
-			postSound: 'sound/flap_post_good.mp3',
-			postDelay: 5000,
-			sprite: ['img/Grandpa_rock.jpg'],
-			anxietyChange: -10,
-			inventoryItem: false
 		},
 		{
 			name: 'nibbler',
@@ -50,6 +40,8 @@ var RESULTS_CONFIG = {
 			anxietyChange: -10,
 			inventoryItem: true	
 		},
+
+		//Nuetral
 		{
 			name: 'bubbler',
 			preSound: ['sound/bubbler_pre_L.mp3', 'sound/bubbler_pre_F.mp3', 'sound/bubbler_pre_R.mp3'],
@@ -63,7 +55,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'drop',
 			preSound: ['sound/drop_pre_L.mp3', 'sound/drop_pre_F.mp3', 'sound/drop_pre_R.mp3'],
-			soundDelay: 1000,
+			soundDelay: 3000,
 			postSound: 'sound/neutral.mp3',
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
@@ -116,7 +108,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'drop',
 			preSound: ['sound/drop_pre_L.mp3', 'sound/drop_pre_F.mp3', 'sound/drop_pre_R.mp3'],
-			soundDelay: 1000,
+			soundDelay: 3000,
 			postSound: 'sound/drop_post_bad.mp3',
 			postDelay: 5000,
 			sprite: ['img/Monster_Toilet1.jpg','img/Monster_Toilet2.jpg'],
