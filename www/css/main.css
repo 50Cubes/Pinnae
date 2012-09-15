@@ -101,7 +101,7 @@ div.start {
 	right: 25%;
 }
 
-#reveal_img {
+.fullscreenImage {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -109,4 +109,13 @@ div.start {
 	background-repeat: no-repeat;
 	background-position: center;
 	/*-webkit-transition:all 0.5s ease;*/
+}
+
+#headphones {
+	background-image: url(../img/Headphones.jpg);
+	opacity: 0;
+	-webkit-animation-duration: 5s;
+	   -moz-animation-duration: 5s;
+	     -o-animation-duration: 5s;
+	        animation-duration: 5s;
 }
