@@ -211,7 +211,6 @@ var GameView = new Class(
 		{
 			var roomResult = this.options.roomResults[i];
 			this.stopSound(roomResult.options.preSound[i]);
-			this.removeEvents(SOUND_PLAYED);
 			this.options.unknownSounds = [];
 		}
     
@@ -294,6 +293,7 @@ var GameView = new Class(
 	},
 	onGameOver: function()
 	{
+		this.removeEvents(SOUND_PLAYED);
 		this.options.rep.fireEvent(VIEW_NAV, EndView);
 		this.options.player.options.anxiety = 0;
 		this.options.player.options.items = 0;
