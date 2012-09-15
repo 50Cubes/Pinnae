@@ -5,7 +5,7 @@ var RESULTS_CONFIG = {
 			soundDelay: 3000,
 			postSound: 'sound/bubber_post_good.mp3',
 			postDelay: 5000,
-			sprite: ['img/Monster_hamster1.jpg','img/Monster_hamster2.jpg'],
+			sprite: ['img/Grandpa_rock.jpg'],
 			anxietyChange: -10,
 			inventoryItem: false
 		},
@@ -14,7 +14,7 @@ var RESULTS_CONFIG = {
 			soundDelay: 1000,
 			postSound: 'sound/drop_post_good.mp3',
 			postDelay: 5000,
-			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
+			sprite: ['img/Grandpa_rock.jpg'],
 			anxietyChange: -10,
 			inventoryItem: false
 		},
@@ -23,7 +23,7 @@ var RESULTS_CONFIG = {
 			soundDelay: 4000,
 			postSound: 'sound/flap_post_good.mp3',
 			postDelay: 5000,
-			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
+			sprite: ['img/Grandpa_rock.jpg'],
 			anxietyChange: -10,
 			inventoryItem: false
 		},
@@ -32,7 +32,7 @@ var RESULTS_CONFIG = {
 			soundDelay: 4000,
 			postSound: 'sound/nibbler_post_good.mp3',
 			postDelay: 5000,
-			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
+			sprite: ['img/Grandpa_rock.jpg'],
 			anxietyChange: -10,
 			inventoryItem: true	
 		},
@@ -41,8 +41,17 @@ var RESULTS_CONFIG = {
 			soundDelay: 4000,
 			postSound: 'sound/snarl_post_good.mp3',
 			postDelay: 5000,
-			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
+			sprite: ['img/Grandpa_rock.jpg'],
 			anxietyChange: -10,
+			inventoryItem: true	
+		},
+		{
+			preSound: ['sound/snarl_pre_L.mp3', 'sound/snarl_pre_F.mp3', 'sound/snarl_pre_R.mp3'],
+			soundDelay: 4000,
+			postSound: 'sound/snarl_post_good.mp3',
+			postDelay: 5000,
+			sprite: ['img/Neutral_1.jpg'],
+			anxietyChange: 0,
 			inventoryItem: true	
 		}
 	],
@@ -66,6 +75,35 @@ var RESULTS_CONFIG = {
 			anxietyChange: 20,
 			inventoryItem: false
 		},
+		{
+			preSound: ['sound/flap_pre_L.mp3', 'sound/flap_pre_F.mp3', 'sound/flap_pre_R.mp3'],
+			soundDelay: 4000,
+			postSound: 'sound/flap_post_bad.mp3',
+			postDelay: 5000,
+			sprite: ['img/Monster_Bat1.jpg','img/Monster_Bat1.jpg'],
+			anxietyChange: 40,
+			inventoryItem: false
+		},
+		{
+			preSound: ['sound/nibbler_pre_L.mp3', 'sound/nibbler_pre_F.mp3', 'sound/nibbler_pre_R.mp3'],
+			soundDelay: 4000,
+			postSound: 'sound/nibbler_post_bad.mp3',
+			postDelay: 5000,
+			sprite: ['img/Monster_hamster1.jpg','img/Monster_hamster2.jpg '],
+			anxietyChange: 10,
+			inventoryItem: true	
+		},
+		{
+			preSound: ['sound/snarl_pre_L.mp3', 'sound/snarl_pre_F.mp3', 'sound/snarl_pre_R.mp3'],
+			soundDelay: 4000,
+			postSound: 'sound/snarl_post_bad.mp3',
+			postDelay: 5000,
+			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
+			anxietyChange: 10,
+			inventoryItem: true	
+		}
+	],
+	sister: [
 		{
 			preSound: ['sound/flap_pre_L.mp3', 'sound/flap_pre_F.mp3', 'sound/flap_pre_R.mp3'],
 			soundDelay: 4000,
