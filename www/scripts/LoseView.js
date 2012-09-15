@@ -1,4 +1,4 @@
-var EndView = new Class({
+var LoseView = new Class({
 	Extends: View,
 	initialize: function(windowSize){
 		//super init
