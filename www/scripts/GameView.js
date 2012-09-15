@@ -7,7 +7,8 @@ var GameView = new Class(
 		goodResults: [],
 		sounds: [],
 		roomResults: [],
-		roomResultsSoundTimers:[]
+		roomResultsSoundTimers:[],
+		isHitBadMonster: false
 	},
 	initialize: function(windowSize)
 	{
@@ -77,6 +78,8 @@ var GameView = new Class(
 		}
 		
 console.log("######## enter room ##########");
+		if (!this.options.isHitBadMonster) { //if not hit bad monster last time, reset everything.
+console.log("========== NOT HIT BY Monster~~~ ========");
 		this.options.roomResults = [];
 		// pick 3 random Results
 		//TODO: get random results (var rand = Number.random(minNum, maxNum);)
@@ -100,6 +103,17 @@ console.log("######## enter room ##########");
 			console.log("rand result index: " + rand_result_index + "; presound: " + pre_sound + "; sound_delay: "+sound_delay);
 			this.playSound(pre_sound, sound_delay, true);
 		}
+		}
+		else {
+console.log("========== HIT BY Monster replay same room!!!! ========");
+			for (var i=0; i < 2; i++) {
+				var rand_result = this.options.roomResults[i];		
+				var pre_sound = rand_result.options.preSound[i];
+				var sound_delay = rand_result.options.soundDelay;
+				this.playSound(pre_sound, sound_delay, true);
+			}
+		}
+		this.options.isHitBadMonster = false;
 
 		//TODO: Unhide selection UI
 		$('meterFrame').removeClass('hidden');
@@ -142,11 +156,12 @@ console.log("######## enter room ##########");
 		}
 		this.options.roomResultsSoundTimers = [];
 		
+		//stop the roomResult's sounds
 		for(var i = 0; i < this.options.roomResults.length; i++)
 		{
 			var roomResult = this.options.roomResults[i];
 			
-			this.stopSound(this.options.sounds[roomResult.options.preSound],roomResult.options.preSound);
+			this.stopSound(this.options.sounds[roomResult.options.preSound[i]],roomResult.options.preSound[i]);
 		}
 
 		var result = this.options.roomResults[direction];
@@ -167,6 +182,17 @@ console.log("######## enter room ##########");
 			setTimeout(function() {
 				this.playRevealImage(result.options.sprite[1]);
 				sprite.addCssAnimation('tada');
+				
+				this.options.isHitBadMonster = false;
+				//after reveal the image, go to the next room
+				if(result.options.anxietyChange > 0) {
+					//replay the last room since you get hit by a monster.
+					
+					this.options.isHitBadMonster = true;
+				}
+				
+				setTimeout(this.enterRoom.bind(this),4000);
+				
 			}.bind(this), 2000);
 		}
 
@@ -197,16 +223,48 @@ console.log("######## enter room ##########");
 
 		//transition  
 		//TODO: fade out effect
-		if(result.options.anxietyChange <= 0) {
-			console.log("going to next room");
-		  setTimeout(this.enterRoom.bind(this),4000);
-		}
-		else {
-			console.log("not going to next room");
-		}
+//		if(result.options.anxietyChange <= 0) {
+//			console.log("going to next room");
+//		  setTimeout(this.enterRoom.bind(this),4000);
+//		}
+//		else {
+//			//get a bad result, stay in the same room with the same 3 choices.
+//			//hide the reveal image, show the buttons/guage/inventory again.			
+//console.log("*************** not going to next room *************");
+//			
+//			if ($('reveal_img')) {
+//				$('reveal_img').dispose();
+//			}
+//			//show the buttons
+//			$('meterFrame').removeClass('hidden');
+//			$('bottomUi').removeClass('hidden');
+//			$$('.go').removeClass('hidden');
+//			
+//			//restart those 3 sounds		
+//			for(var i = 0; i < this.options.roomResults.length; i++)
+//			{
+//				var roomResult = this.options.roomResults[i];
+//				
+//console.log("restart sounds["+i+"]: " + roomResult.options.preSound[i]);				
+//				this.playSound(roomResult.options.preSound[i],roomResult.options.soundDelay,true);
+//			}
+//			
+//			//
+//		}
 	},
 	playRevealImage: function(image_url) {
-		console.log("playRevealImage");
+console.log("playRevealImage");
+		if (!$('reveal_img')) {
+			var rep = this.options.rep;
+			var sprite = new Element('div#reveal_img', {
+				styles: {
+					'width': this.options.viewSize.x,
+					'height': this.options.viewSize.y
+				}
+			});
+			rep.adopt(sprite);
+		}
+		
 		var image = $('reveal_img');
 		image.setStyle('background-image','url(' + image_url + ')');
 	},
