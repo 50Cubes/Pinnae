@@ -12,6 +12,7 @@ Element.implement({
 		function startAnimation() {
 			target.addEventListener('webkitAnimationEnd', removeAnimationClass);
 			target.addClass(animationClass);
+			target.addClass('animated');
 		}
 
 		function removeAnimationClass(event){

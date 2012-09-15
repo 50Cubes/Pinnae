@@ -31,7 +31,7 @@ div.start {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	-webkit-transition:all 0.5s ease;
+	-webkit-transition:all 1.5s ease;
 }
 
 #bottomUi {
@@ -100,6 +100,7 @@ div.start {
 	top: 50%;
 	right: 25%;
 }
+
 #reveal_img {
 	position: absolute;
 	top: 0px;
@@ -107,4 +108,5 @@ div.start {
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-position: center;
+	/*-webkit-transition:all 0.5s ease;*/
 }

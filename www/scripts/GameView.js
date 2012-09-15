@@ -72,6 +72,10 @@ var GameView = new Class(
 	},
 	enterRoom: function()
 	{
+		if ($('reveal_img')) {
+			$('reveal_img').dispose();
+		}
+		
 console.log("######## enter room ##########");
 		this.options.roomResults = [];
 		// pick 3 random Results
@@ -142,14 +146,12 @@ console.log("######## enter room ##########");
 		{
 			var roomResult = this.options.roomResults[i];
 			
-			this.stopSound(this.options.sounds[roomResult.options.preSound]);
+			this.stopSound(this.options.sounds[roomResult.options.preSound],roomResult.options.preSound);
 		}
 
 		var result = this.options.roomResults[direction];
-		this.playSound(result.options.postSound[direction],5000,false);
 
 		// display result (result.sprite)
-		//TODO: fade in effect
 		var rep = this.options.rep;
 		var sprite = new Element('div#reveal_img', {
 			styles: {
@@ -158,14 +160,18 @@ console.log("######## enter room ##########");
 			}
 		});
 		rep.adopt(sprite);
+		sprite.addCssAnimation('fadeIn');
 		this.playRevealImage(result.options.sprite[0]);
 		if(result.options.sprite.length > 1)
 		{
 			setTimeout(function() {
 				this.playRevealImage(result.options.sprite[1]);
-			}.bind(this),2000);
+				sprite.addCssAnimation('tada');
+			}.bind(this), 2000);
 		}
 
+		this.playSound(result.options.postSound[direction],0,false);
+		
 		var player = this.options.player;	
 		if(result.inventoryItem)
 		{
@@ -191,23 +197,29 @@ console.log("######## enter room ##########");
 
 		//transition  
 		//TODO: fade out effect
-		if(result.options.anxietyChange <= 0)
-		  setTimeout(this.enterRoom.bind(this),10000);
+		if(result.options.anxietyChange <= 0) {
+			console.log("going to next room");
+		  setTimeout(this.enterRoom.bind(this),4000);
+		}
+		else {
+			console.log("not going to next room");
+		}
 	},
 	playRevealImage: function(image_url) {
 		console.log("playRevealImage");
-		$('reveal_img').setStyle('background-image','url(' + image_url + ')');
+		var image = $('reveal_img');
+		image.setStyle('background-image','url(' + image_url + ')');
 	},
-	stopSound: function(sound) {
+	stopSound: function(sound,sound_path) {
 //console.log("calling stop sounds");
 		if (!sound) return;
 		
 		if(typeof sound.stop === 'function') { //cordova
-//console.log("stop sounds 1");
+console.log("stop sounds 1: sound_path: " + sound_path);
 			sound.stop();
 		}
 		else {
-//console.log("stop sounds 2");
+console.log("stop sounds 2: sound_path: " + sound_path);
 			sound.pause();
 			if(sound.currentTime !== 0)
 				sound.currentTime = 0;
@@ -221,7 +233,7 @@ console.log("playSound: " + soundFilePath);
 	      
 		if(sounds[soundFilePath])
 		{
-			this.stopSound(sounds[soundFilePath]);
+			this.stopSound(sounds[soundFilePath],soundFilePath);
 		}
 		else
 		{
