@@ -8,7 +8,7 @@ var GameView = new Class(
 		sounds: [],
 		roomResults: [],
 		roomResultsSoundTimers: [],
-		isHitBadMonster: false
+		isHitByMonster: false
 	},
 	initialize: function(windowSize)
 	{
@@ -79,7 +79,7 @@ var GameView = new Class(
 		}
 
 		console.log("######## enter room ##########");
-		if (!this.options.isHitBadMonster)
+		if (!this.options.isHitByMonster)
 		{ //if not hit bad monster last time, reset everything.
 			console.log("========== NOT HIT BY Monster~~~ ========");
 			this.options.roomResults = [];
@@ -117,7 +117,7 @@ var GameView = new Class(
 				this.playSound(pre_sound, sound_delay, true);
 			}
 		}
-		this.options.isHitBadMonster = false;
+		this.options.isHitByMonster = false;
 
 		//TODO: Unhide selection UI
 		$('meterFrame').removeClass('hidden');
@@ -193,12 +193,12 @@ var GameView = new Class(
 				this.playRevealImage(result.options.sprite[1]);
 				sprite.addCssAnimation('tada');
 
-				this.options.isHitBadMonster = false;
+				this.options.isHitByMonster = false;
 				//after reveal the image, go to the next room
 				if (result.options.anxietyChange > 0)
 				{
 					//replay the last room since you get hit by a monster.
-					this.options.isHitBadMonster = true;
+					this.options.isHitByMonster = true;
 				}
 
 				//goes to next room
@@ -232,36 +232,6 @@ var GameView = new Class(
 			return;
 		}
 
-		//transition  
-		//TODO: fade out effect
-		//		if(result.options.anxietyChange <= 0) {
-		//			console.log("going to next room");
-		//		  setTimeout(this.enterRoom.bind(this),4000);
-		//		}
-		//		else {
-		//			//get a bad result, stay in the same room with the same 3 choices.
-		//			//hide the reveal image, show the buttons/guage/inventory again.			
-		//console.log("*************** not going to next room *************");
-		//			
-		//			if ($('reveal_img')) {
-		//				$('reveal_img').dispose();
-		//			}
-		//			//show the buttons
-		//			$('meterFrame').removeClass('hidden');
-		//			$('bottomUi').removeClass('hidden');
-		//			$$('.go').removeClass('hidden');
-		//			
-		//			//restart those 3 sounds		
-		//			for(var i = 0; i < this.options.roomResults.length; i++)
-		//			{
-		//				var roomResult = this.options.roomResults[i];
-		//				
-		//console.log("restart sounds["+i+"]: " + roomResult.options.preSound[i]);				
-		//				this.playSound(roomResult.options.preSound[i],roomResult.options.soundDelay,true);
-		//			}
-		//			
-		//			//
-		//		}
 	},
 	playRevealImage: function(image_url)
 	{
