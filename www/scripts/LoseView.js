@@ -1,4 +1,4 @@
-var MenuView = new Class( {
+var EndView = new Class({
 	Extends: View,
 	initialize: function(windowSize){
 		//super init
@@ -7,7 +7,7 @@ var MenuView = new Class( {
 		//layout
 		var rep = this.options.rep; //easy ref to rep
 
-		var startScreen = new Element('div#startScreen.fullscreenImage', {
+		var loseScreen = new Element('div#loseScreen.fullscreenImage', {
 			styles: {
 				'width': this.options.viewSize.x,
 				'height': this.options.viewSize.y
@@ -16,23 +16,10 @@ var MenuView = new Class( {
 				touch: this.onPlay.bind(this)
 			}
 		});
-		rep.adopt(startScreen);
-		startScreen.addCssAnimation('fadeIn');
+		rep.adopt(loseScreen);
+		loseScreen.addCssAnimation('fadeIn');
 
 		this.playSound('sound/start_screen.mp3', 32000, true);
-
-		var headphonesIntro = new Element('div#headphones.fullscreenImage', {
-			styles: {
-				'width': this.options.viewSize.x,
-				'height': this.options.viewSize.y
-			}
-		});
-		rep.adopt(headphonesIntro);
-		headphonesIntro.addCssAnimation('fadeOut');
-	
-		setTimeout(function() {
-			headphonesIntro.dispose();
-		}, 5000);
 	},
 	onPlay: function(event) {
 		this.stopSound('sound/start_screen.mp3');

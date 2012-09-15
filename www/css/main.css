@@ -2,23 +2,10 @@
 	font-size: 1em;
 	background: #000;
 	color: #FFF;
-	-webkit-transition:all 1s cubic-bezier(0.175, 0.885, 0.320, 1.275);
 }
 
 .hidden {
 	opacity: 0;
-}
-
-div.start {
-	width: 4em;
-	background-color: blue;
-	background-color: #333333;
-	border-radius: 25px;
-	line-height: 1em;
-	font-size: 3em;
-	padding: 1em;
-	margin: 25% auto 0 auto;
-	text-align: center;
 }
 
 #meterFrame {
@@ -117,11 +104,41 @@ div.start {
 	/*-webkit-transition:all 0.5s ease;*/
 }
 
-#headphones {
-	background-image: url(../img/Headphones.jpg);
-	opacity: 0;
+#startScreen {
+	background-image: url(../img/Start_screen.jpg);
 	-webkit-animation-duration: 5s;
 	   -moz-animation-duration: 5s;
 	     -o-animation-duration: 5s;
 	        animation-duration: 5s;
 }
+
+#loseScreen {
+	background-image: url(../img/Lose_screen.jpg);
+	-webkit-animation-duration: 5s;
+	   -moz-animation-duration: 5s;
+	     -o-animation-duration: 5s;
+	        animation-duration: 5s;
+}
+
+#winScreen {
+	background-image: url(../img/Win_screen.jpg);
+	-webkit-animation-duration: 5s;
+	   -moz-animation-duration: 5s;
+	     -o-animation-duration: 5s;
+	        animation-duration: 5s;
+}
+
+#headphones {
+	background-image: url(../img/Headphones.jpg);
+	opacity: 0;
+	-webkit-animation-duration: 3s;
+	   -moz-animation-duration: 3s;
+	     -o-animation-duration: 3s;
+	        animation-duration: 3s;
+}
+
+#doors {
+	background-image: url(../img/Basement_bg_All.jpg);
+	-webkit-transition:all 1s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+

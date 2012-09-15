@@ -31,6 +31,14 @@ var GameView = new Class(
 		//layout
 		var rep = this.options.rep;
 
+		var doors = new Element('div#doors.fullscreenImage', {
+			styles: {
+				'width': this.options.viewSize.x,
+				'height': this.options.viewSize.y
+			}
+		});
+		rep.adopt(doors);
+
 		//TODO: Anxiety Meter
 		var anxietyFrame = new Element('div#meterFrame.hidden');
 		var anxietyMeter = new Element('div#meter');
@@ -165,7 +173,7 @@ var GameView = new Class(
 		var anxPercentage = player.options.anxiety / 100;
 		var blur = anxPercentage * 300 + 'px';
 		var spread = anxPercentage * 100 + 'px';
-		$('viewContainer').setStyle('box-shadow', '0px 0px ' + blur + ' ' + spread + ' #660000 inset');
+		$('doors').setStyle('box-shadow', '0px 0px ' + blur + ' ' + spread + ' #660000 inset');
 
 		//update heartbeat interval
 		var calmPercentage = (100 - this.options.player.options.anxiety) / 100;
