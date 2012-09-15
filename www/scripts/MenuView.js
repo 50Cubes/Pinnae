@@ -19,7 +19,7 @@ var MenuView = new Class( {
 		rep.adopt(startScreen);
 		startScreen.addCssAnimation('fadeIn');
 
-		this.playSound('sound/start_screen.mp3', 32000, true);
+		this.playSound('sound/start_screen.mp3', 160000, true);
 
 		var headphonesIntro = new Element('div#headphones.fullscreenImage', {
 			styles: {
