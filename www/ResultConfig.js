@@ -8,7 +8,7 @@ var BUBBLE2 = ['sound/bubble2_pre_L.mp3', 'sound/bubble2_pre_F.mp3', 'sound/bubb
 //NEUTRAL
 var BURST = ['sound/burst_pre_L.mp3', 'sound/burst_pre_F.mp3', 'sound/burst_pre_R.mp3'];
 var HISS = ['sound/hiss_pre_L.mp3', 'sound/hiss_pre_F.mp3', 'sound/hiss_pre_R.mp3'];
-var WHISTLE = ['sound/whistle_pre_R.mp3', 'sound/whistle_pre_R.mp3', 'sound/whistle_pre_R.mp3'];
+var WHISTLE = ['sound/whistle_pre_L.mp3', 'sound/whistle_pre_F.mp3', 'sound/whistle_pre_R.mp3'];
 var SCRAPE = ['sound/scrape_pre_L.mp3', 'sound/scrape_pre_F.mp3', 'sound/scrape_pre_R.mp3'];
 var BUZZ = ['sound/buzz_pre_L.mp3', 'sound/buzz_pre_F.mp3', 'sound/buzz_pre_R.mp3'];
 
