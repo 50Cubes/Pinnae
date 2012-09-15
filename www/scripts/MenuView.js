@@ -38,7 +38,7 @@ var MenuView = new Class( {
 		}, 5000);
 	},
 	onPlay: function(event) {
-	  this.stopSound(this.options.sounds['sound/start_screen.mp3'], 'sound/start_screen.mp3');
+		this.stopSound('sound/start_screen.mp3');
 		event.target.getParent('.view').fireEvent(VIEW_NAV, GameView);
 	}
 });

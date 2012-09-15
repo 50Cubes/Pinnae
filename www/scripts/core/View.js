@@ -6,7 +6,7 @@ var View = new Class({
 		rep: {},
 		viewSize: {},
 		sounds: {},
-		soundTimers: []
+		soundTimers: {}
 	},
 	initialize: function (windowSize) {
 		this.options.rep = new Element('div.view', {
@@ -17,9 +17,17 @@ var View = new Class({
 		});
 		this.options.viewSize = windowSize;
 	},
-	stopSound: function(sound, sound_path)
+	stopAllSounds: function() {
+		Object.each(this.options.sounds, function(item, key, object){
+			stopSound(key);
+			delete this.options.sounds[key];
+		});
+	},
+	stopSound: function(sound_path)
 	{
 		//console.log("calling stop sounds");
+		var sound = this.options.sounds[sound_path];
+
 		if (!sound) return;
 
 		if (typeof sound.stop === 'function')
@@ -33,6 +41,9 @@ var View = new Class({
 			sound.pause();
 			if (sound.currentTime !== 0) sound.currentTime = 0;
 		}
+
+		clearTimeout(this.options.soundTimers[sound_path]);
+		delete this.options.soundTimers[sound_path];
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
@@ -82,10 +93,10 @@ var View = new Class({
 	},
 	loopSound: function(soundFilePath, speed) {
 		console.log('speed:', speed);
-		this.options.soundTimers.push(
-		setTimeout(function()
+		var timer = setTimeout(function()
 		{
 			this.playSound(soundFilePath, speed, true);
-		}.bind(this), speed));
+		}.bind(this), speed);
+		this.options.soundTimers[soundFilePath] = timer;
 	}
 });

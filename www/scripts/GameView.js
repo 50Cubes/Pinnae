@@ -188,19 +188,11 @@ var GameView = new Class(
 		$('bottomUi').addClass('hidden');
 		$$('.go').addClass('hidden');
 
-		//clear the previous room's presounds
-		for (var i = 0; i < this.options.soundTimers.length; i++)
-		{
-			clearTimeout(this.options.soundTimers[i]);
-		}
-		this.options.soundTimers = [];
-
 		//stop the roomResult's sounds
 		for (var i = 0; i < this.options.roomResults.length; i++)
 		{
 			var roomResult = this.options.roomResults[i];
-
-			this.stopSound(this.options.sounds[roomResult.options.preSound[i]], roomResult.options.preSound[i]);
+			this.stopSound(roomResult.options.preSound[i]);
 		}
     
     if (-1 != this.options.lastDirection)
