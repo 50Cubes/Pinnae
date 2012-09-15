@@ -30,6 +30,7 @@ var GameView = new Class(
 
 		//layout
 		var rep = this.options.rep;
+		rep.addEvent('swipe', this.onTouchMove.bind(this));
 
 		var doors = new Element('div#doors.fullscreenImage', {
 			styles: {
@@ -58,16 +59,19 @@ var GameView = new Class(
 		invContainer.adopt(inv2);
 
 		//TODO: Result Selection UI (hide by default with class 'hide', revealed in enterRoom)
-		// var goLeft = new Element('div#goLeft.go.hidden');
-		// var goCenter = new Element('div#goCenter.go.hidden');
-		// var goRight = new Element('div#goRight.go.hidden');
-		// goLeft.addEvent("click", this.onGo.bind(this));
-		// goCenter.addEvent("click", this.onGo.bind(this));
-		// goRight.addEvent("click", this.onGo.bind(this));
+		// if($(document.body).hasClass('browser'))
+		// {
+		// 	var goLeft = new Element('div#goLeft.go.hidden');
+		// 	var goCenter = new Element('div#goCenter.go.hidden');
+		// 	var goRight = new Element('div#goRight.go.hidden');
+		// 	goLeft.addEvent("click", this.onGo.bind(this));
+		// 	goCenter.addEvent("click", this.onGo.bind(this));
+		// 	goRight.addEvent("click", this.onGo.bind(this));
 
-		// rep.adopt(goLeft);
-		// rep.adopt(goCenter);
-		// rep.adopt(goRight);
+		// 	rep.adopt(goLeft);
+		// 	rep.adopt(goCenter);
+		// 	rep.adopt(goRight);
+		// }
 
 		//listen for scary stuff
 		this.addEvent(SOUND_PLAYED, this.onSoundPlayed.bind(this));
@@ -78,6 +82,46 @@ var GameView = new Class(
 			this.changeAnxiety(0);
 			this.enterRoom();
 		}.bind(this), 100);
+	},
+	onTouchMove: function(event)
+	{
+		console.log('onTouchMove');
+		console.log(event.direction);
+		var target;
+		switch(event.direction)
+		{
+			case SWIPE_LEFT :
+				target = RESULT_LEFT;
+				break;
+			case SWIPE_UP :
+				target = RESULT_CENTER;
+				break;
+			case SWIPE_RIGHT :
+				target = RESULT_RIGHT;
+				break;
+		}
+		console.log('target:' + target);
+		this.options.lastDirection = target;
+		this.chooseResult(target);
+	},
+	onGo: function(event)
+	{
+		var id = event.target.id;
+		var target = '';
+		switch (id)
+		{
+		case 'goLeft':
+			target = RESULT_LEFT;
+			break;
+		case 'goCenter':
+			target = RESULT_CENTER;
+			break;
+		case 'goRight':
+			target = RESULT_RIGHT;
+			break;
+		}
+		this.options.lastDirection = target;
+		this.chooseResult(target);
 	},
 	enterRoom: function()
 	{
@@ -155,7 +199,7 @@ var GameView = new Class(
 	onSoundPlayed: function(soundFilePath) {
 		if(this.options.unknownSounds.indexOf(soundFilePath) !== -1)
 		{
-			console.log('that', soundFilePath, 'scary');
+			// console.log('that', soundFilePath, 'scary');
 			this.changeAnxiety(5);
 		}
 	},
@@ -177,9 +221,9 @@ var GameView = new Class(
 
 		//update heartbeat interval
 		var calmPercentage = (100 - this.options.player.options.anxiety) / 100;
-		console.log('calmPercentage:', calmPercentage);
+		// console.log('calmPercentage:', calmPercentage);
 		var nextBeat = Math.max(calmPercentage * 3000, 700);
-		console.log('nextBeat:', nextBeat);
+		// console.log('nextBeat:', nextBeat);
 		this.loopSound('sound/heartbeat.mp3', nextBeat);
 
 
@@ -189,27 +233,9 @@ var GameView = new Class(
 			return;
 		}
 	},
-	onGo: function(event)
-	{
-		var id = event.target.id;
-		var target = '';
-		switch (id)
-		{
-		case 'goLeft':
-			target = RESULT_LEFT;
-			break;
-		case 'goCenter':
-			target = RESULT_CENTER;
-			break;
-		case 'goRight':
-			target = RESULT_RIGHT;
-			break;
-		}
-		this.options.lastDirection = target;
-		this.chooseResult(target);
-	},
 	chooseResult: function(direction)
 	{
+		console.log('chooseResult');
 		//hide ui
 		$('meterFrame').addClass('hidden');
 		$('bottomUi').addClass('hidden');
