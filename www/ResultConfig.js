@@ -16,7 +16,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'bubbler',
 			preSound: BUBBLER,
-			soundDelay: 6000,
+			soundDelay: 36000,
 			postSound: 'sound/bubbler_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Grandpa_rock.jpg'],
@@ -26,7 +26,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'drop',
 			preSound: DROP,
-			soundDelay: 6000,
+			soundDelay: 36000,
 			postSound: 'sound/drop_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Grandpa_toilet.jpg'],
@@ -36,7 +36,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'drop',
 			preSound: DROP,
-			soundDelay: 6000,
+			soundDelay: 36000,
 			postSound: 'sound/drop_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Grandpa_toilet.jpg'],
@@ -48,7 +48,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'flap',
 			preSound: FLAP,
-			soundDelay: 8000,
+			soundDelay: 20000,
 			postSound: 'sound/flap_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
@@ -58,7 +58,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'flap',
 			preSound: FLAP,
-			soundDelay: 8000,
+			soundDelay: 20000,
 			postSound: 'sound/flap_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
@@ -68,7 +68,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'flap',
 			preSound: FLAP,
-			soundDelay: 8000,
+			soundDelay: 20000,
 			postSound: 'sound/flap_post_good.mp3',
 			postDelay: 5000,
 			sprite: ['img/Neutral_1.jpg'],
@@ -82,7 +82,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'nibbler',
 			preSound: NIBBLER,
-			soundDelay: 8000,
+			soundDelay: 20000,
 			postSound: 'sound/nibbler_post_bad.mp3',
 			postDelay: 5000,
 			sprite: ['img/Monster_hamster1.jpg','img/Monster_hamster2.jpg '],
@@ -92,7 +92,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'snarl',
 			preSound: SNARL,
-			soundDelay: 8000,
+			soundDelay: 20000,
 			postSound: 'sound/snarl_post_bad.mp3',
 			postDelay: 5000,
 			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
@@ -102,7 +102,7 @@ var RESULTS_CONFIG = {
 		{
 			name: 'snarl',
 			preSound: SNARL,
-			soundDelay: 8000,
+			soundDelay: 20000,
 			postSound: 'sound/snarl_post_bad.mp3',
 			postDelay: 5000,
 			sprite: ['img/Monster_tiger1.jpg','img/Monster_tiger2.jpg'],
@@ -114,7 +114,7 @@ var RESULTS_CONFIG = {
 	sister: {
 		name: 'sister',
 		preSound: 'sound/flap_pre_F.mp3',
-		soundDelay: 8000,
+		soundDelay: 20000,
 		postSound: 'sound/flap_post_bad.mp3',
 		postDelay: 5000,
 		sprite: ['img/Monster_Sister1.jpg','img/Monster_Sister1.jpg'],
