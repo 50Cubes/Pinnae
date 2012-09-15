@@ -30,6 +30,10 @@ var MenuView = new Class({
 		});
 		rep.adopt(headphonesIntro);
 		headphonesIntro.addCssAnimation('fadeOut');
+
+		setTimeout(function() {
+			headphonesIntro.dispose();
+		}, 5000);
 	},
 	onPlay: function(event) {
 		event.target.getParent('.view').fireEvent(VIEW_NAV, GameView);

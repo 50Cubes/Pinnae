@@ -16,7 +16,7 @@ var RESULTS_CONFIG = {
 			soundDelay: 1000,
 			postSound: 'sound/drop_post_good.mp3',
 			postDelay: 5000,
-			sprite: ['img/Grandpa_rock.jpg'],
+			sprite: ['img/Grandpa_toilet.jpg'],
 			anxietyChange: -10,
 			inventoryItem: false
 		},

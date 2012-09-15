@@ -9,9 +9,15 @@
 }
 
 div.start {
-  width: 100px;
-  height: 100px;
-  background-color: blue;
+	width: 4em;
+	background-color: blue;
+	background-color: #333333;
+	border-radius: 25px;
+	line-height: 1em;
+	font-size: 3em;
+	padding: 1em;
+	margin: 25% auto 0 auto;
+	text-align: center;
 }
 
 #meterFrame {
