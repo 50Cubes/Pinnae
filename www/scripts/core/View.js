@@ -26,19 +26,19 @@ var View = new Class({
 	},
 	stopSound: function(soundFilePath)
 	{
-		console.log("stopSound:", soundFilePath);
+		// console.log("stopSound:", soundFilePath);
 		var sound = this.options.sounds[soundFilePath];
 
 		if (!sound) return;
 
 		if (typeof sound.stop === 'function')
 		{ //cordova
-			console.log("stop sounds 1: soundFilePath: " + soundFilePath);
+			// console.log("stop sounds 1: soundFilePath: " + soundFilePath);
 			sound.stop();
 		}
 		else
 		{
-			console.log("stop sounds 2: soundFilePath: " + soundFilePath);
+			// console.log("stop sounds 2: soundFilePath: " + soundFilePath);
 			sound.pause();
 			if (sound.currentTime !== 0) sound.currentTime = 0;
 		}
@@ -46,7 +46,7 @@ var View = new Class({
 	},
 	playSound: function(soundFilePath, speed, loop)
 	{
-		console.log("playSound: " + soundFilePath);
+		// console.log("playSound: " + soundFilePath);
 		//TODO: Separate starting the loop from playing the sound so that all three sounds dont play at once the first time
 		var media = this.options.sounds[soundFilePath];
 		if (media)
@@ -86,14 +86,15 @@ var View = new Class({
 	deferSound: function(soundFilePath, speed){
 		//random varition on any deffered sound
 		var newSpeed = Number.random(speed * 0.5, speed * 2);
-		console.log('newSpeed:', newSpeed);
+		// console.log('newSpeed:', newSpeed);
 		this.loopSound(soundFilePath, newSpeed);
 	},
 	loopSound: function(soundFilePath, speed) {
-		console.log('speed:', speed);
+		// console.log('speed:', speed);
 		var timer = setTimeout(function()
 		{
 			this.playSound(soundFilePath, speed, true);
+			console.log('loopSound:', soundFilePath);
 			this.fireEvent(SOUND_PLAYED, soundFilePath);
 		}.bind(this), speed);
 		this.removeSoundTimer(soundFilePath);

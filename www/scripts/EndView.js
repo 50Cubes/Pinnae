@@ -15,11 +15,11 @@ var EndView = new Class({
 		var playButton = new Element('div.start', {
 			text: 'Play Again',
 			events: {
-				touch: this.onPlay
+				touch: this.onPlay.bind(this)
 			}
 		});
 		rep.adopt(playButton);
-		
+
 		this.playSound('sound/start_screen.mp3', 32000, true);
 	},
 	onPlay: function(event) {

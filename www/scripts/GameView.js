@@ -65,6 +65,9 @@ var GameView = new Class(
 		// rep.adopt(goCenter);
 		// rep.adopt(goRight);
 
+		//listen for scary stuff
+		this.addEvent(SOUND_PLAYED, this.onSoundPlayed.bind(this));
+
 		//start game timeout (for some reason need to wait to initiate game)
 		setTimeout(function()
 		{
@@ -118,7 +121,6 @@ var GameView = new Class(
 			{				
 				this.deferSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay);	
 				this.options.unknownSounds.push(this.options.roomResults[i].options.preSound[i]);
-				this.addEvent(SOUND_PLAYED, this.onSoundPlayed.bind(this));
 			}
 		}
 		else
@@ -149,6 +151,7 @@ var GameView = new Class(
 	onSoundPlayed: function(soundFilePath) {
 		if(this.options.unknownSounds.indexOf(soundFilePath) !== -1)
 		{
+			console.log('that', soundFilePath, 'scary');
 			this.changeAnxiety(5);
 		}
 	},
