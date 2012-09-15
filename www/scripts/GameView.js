@@ -8,7 +8,8 @@ var GameView = new Class(
 		sounds: [],
 		roomResults: [],
 		roomResultsSoundTimers: [],
-		isHitByMonster: false
+		isHitByMonster: false,
+		lastDirection: -1
 	},
 	initialize: function(windowSize)
 	{
@@ -89,6 +90,13 @@ var GameView = new Class(
 			//TODO: get random results (var rand = Number.random(minNum, maxNum);)
 			//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
 			//		We will tweak this later to change the length of the game if its too long/short
+			
+			if (-1 != this.options.lastDirection)
+			{
+			  //footsteps sound
+			  this.playSound(FOOTSTEPS, 0, false);
+		  }
+		  
 			var rand_result_index = Math.floor(Math.random() * 10) % this.options.goodResults.length;
 			this.options.roomResults.push(this.options.goodResults[rand_result_index]);			
 			var cloned_results = this.options.badResults.slice(0);
@@ -115,6 +123,13 @@ var GameView = new Class(
 		else
 		{
 			console.log("========== HIT BY Monster replay same room!!!! ========");
+			
+			if (-1 != this.options.lastDirection)
+			{
+			  //slamdoor sound
+			  this.playSound(DOOR_SLAMMING[this.options.lastDirection], 0, false);
+			}
+			
 			if (this.options.player.options.anxiety >= 100)
 			{
 				this.onGameOver();
@@ -158,6 +173,7 @@ var GameView = new Class(
 			target = RESULT_RIGHT;
 			break;
 		}
+		this.options.lastDirection = target;
 		this.chooseResult(target);
 	},
 	chooseResult: function(direction)
@@ -181,7 +197,13 @@ var GameView = new Class(
 
 			this.stopSound(this.options.sounds[roomResult.options.preSound[i]], roomResult.options.preSound[i]);
 		}
-
+    
+    if (-1 != this.options.lastDirection)
+		{
+      //open door sound
+		  this.playSound(DOOR_CREAKING[this.options.lastDirection], 0, false);
+    }
+    
 		var result = this.options.roomResults[direction];
 
 		// display result (result.sprite)
