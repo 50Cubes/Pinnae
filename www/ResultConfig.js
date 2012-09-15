@@ -129,7 +129,7 @@ var RESULTS_CONFIG = {
 			soundDelay: 4000,
 			postSound: 'sound/flap_post_bad.mp3',
 			postDelay: 5000,
-			sprite: ['img/Monster_Bat1.jpg','img/Monster_Bat1.jpg'],
+			sprite: ['img/Monster_Bat1.jpg','img/Monster_Bat2.jpg'],
 			anxietyChange: 40,
 			inventoryItem: false
 		},
