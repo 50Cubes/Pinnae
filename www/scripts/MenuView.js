@@ -21,8 +21,8 @@ var MenuView = new Class( {
 		});
 		rep.adopt(playButton);
 		playButton.addCssAnimation('fadeIn');
-    
-    this.playSound('sound/start_screen.mp3', 32000, true);
+	
+		this.playSound('sound/start_screen.mp3', 32000, true);
 
 		var headphonesIntro = new Element('div#headphones.fullscreenImage', {
 			styles: {
@@ -32,7 +32,7 @@ var MenuView = new Class( {
 		});
 		rep.adopt(headphonesIntro);
 		headphonesIntro.addCssAnimation('fadeOut');
-    
+	
 		setTimeout(function() {
 			headphonesIntro.dispose();
 		}, 5000);

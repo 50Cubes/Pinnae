@@ -19,9 +19,11 @@ var EndView = new Class({
 			}
 		});
 		rep.adopt(playButton);
-
+		
+		this.playSound('sound/start_screen.mp3', 32000, true);
 	},
 	onPlay: function(event) {
+		this.stopSound('sound/start_screen.mp3');
 		event.target.getParent('.view').fireEvent(VIEW_NAV, GameView);
 	}
 });
