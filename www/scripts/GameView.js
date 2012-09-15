@@ -90,12 +90,12 @@ var GameView = new Class(
 			//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
 			//		We will tweak this later to change the length of the game if its too long/short
 			var rand_result_index = Math.floor(Math.random() * 10) % this.options.goodResults.length;
-			this.options.roomResults.push(this.options.goodResults[rand_result_index]);
+			this.options.roomResults.push(this.options.goodResults[rand_result_index]);			
 			var cloned_results = this.options.badResults.slice(0);
 			for (var i = 0; i < cloned_results.length; i++)
 			{
 				var rand_result_index = Math.floor(Math.random() * 1000) % cloned_results.length;
-				var rand_result = cloned_results[rand_result_index];
+				var rand_result = cloned_results[rand_result_index];				
 				if(rand_result.options.name != this.options.roomResults[0].options.name)
 				{
 				  this.options.roomResults.push(rand_result);
@@ -197,7 +197,7 @@ var GameView = new Class(
 				this.playRevealImage(result.options.sprite[1]);
 				sprite.addCssAnimation('tada');
 
-				this.options.isHitByMonster = false;
+				this.options.isHitByMonster = false;			
 				//after reveal the image, go to the next room
 				if (result.options.anxietyChange > 0)
 				{
@@ -211,12 +211,11 @@ var GameView = new Class(
 		}
 
 	  	this.playSound(result.options.postSound, 0, false);
-		setTimeout(this.enterRoom.bind(this), result.options.postDelay);
 		
 		var player = this.options.player;	
 		if(result.options.inventoryItem)
-		{
-			$('inv' + player.options.item).addClass('reveal');
+		{	
+			$('inv' + player.options.items).addClass('reveal');
 			player.options.items++;
 			if(player.options.items >= 3)
 			{
@@ -226,7 +225,7 @@ var GameView = new Class(
 		}
 
 		//update player anxiety
-		player.options.anxiety += result.options.anxietyChange;
+		player.options.anxiety += result.options.anxietyChange;			
 		//update meter
 		$('meter').setStyle('height', player.options.anxiety + '%');
 
@@ -235,6 +234,8 @@ var GameView = new Class(
 			this.onGameOver();
 			return;
 		}
+		setTimeout(this.enterRoom.bind(this), result.options.postDelay);
+
 	},
 	playRevealImage: function(image_url)
 	{
