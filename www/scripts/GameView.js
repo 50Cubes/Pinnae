@@ -348,8 +348,7 @@ var GameView = new Class(
 	},
 	deferSound: function(soundFilePath, speed){
 		//random varition on any deffered sound
-		var halfSpeed = speed * 0.5;
-		var newSpeed = Number.random(halfSpeed, speed);
+		var newSpeed = Number.random(speed * 0.5, speed * 2);
 		console.log('newSpeed:', newSpeed);
 
 		this.options.roomResultsSoundTimers.push(
