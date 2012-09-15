@@ -1,4 +1,4 @@
-var EndView = new Class({
+var WinView = new Class({
 	Extends: View,
 	initialize: function(windowSize){
 		//super init
