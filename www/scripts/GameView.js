@@ -90,34 +90,34 @@ var GameView = new Class(
 			//TODO: set inventoryItem to true for 1 item (should only happen every 2 rooms...or reduce the chance so its around every 2 rooms) 
 			//		We will tweak this later to change the length of the game if its too long/short
 			var rand_result_index = Math.floor(Math.random() * 10) % this.options.goodResults.length;
-			this.options.roomResults.push(this.options.goodResults[rand_result_index])
-
+			this.options.roomResults.push(this.options.goodResults[rand_result_index]);
 			var cloned_results = this.options.badResults.slice(0);
-			for (var i = 0; i < 2; i++)
+			for (var i = 0; i < cloned_results.length; i++)
 			{
 				var rand_result_index = Math.floor(Math.random() * 1000) % cloned_results.length;
 				var rand_result = cloned_results[rand_result_index];
-				this.options.roomResults.push(rand_result);
+				if(rand_result.options.name != this.options.roomResults[0].options.name)
+				{
+				  this.options.roomResults.push(rand_result);
+				  if(this.options.roomResults.length >= 3)
+				  {
+				  	break;
+				  }
+				}
 				cloned_results.splice(rand_result_index, 1);
-				console.log("clone result length:" + cloned_results.length);
-
-				var pre_sound = rand_result.options.preSound[i];
-				var sound_delay = rand_result.options.soundDelay;
-
-				console.log("rand result index: " + rand_result_index + "; presound: " + pre_sound + "; sound_delay: " + sound_delay);
-				this.playSound(pre_sound, sound_delay, true);
 			}
 			shuffle(this.options.roomResults);
+			for(var i = 0; i < this.options.roomResults.length; i++)
+			{				
+			  this.playSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
+			}
 		}
 		else
 		{
 			console.log("========== HIT BY Monster replay same room!!!! ========");
-			for (var i = 0; i < 2; i++)
+			for(var i = 0; i < this.options.roomResults.length; i++)
 			{
-				var rand_result = this.options.roomResults[i];
-				var pre_sound = rand_result.options.preSound[i];
-				var sound_delay = rand_result.options.soundDelay;
-				this.playSound(pre_sound, sound_delay, true);
+			  this.playSound(this.options.roomResults[i].options.preSound[i], this.options.roomResults[i].options.soundDelay, true);	
 			}
 		}
 		this.options.isHitByMonster = false;
@@ -235,7 +235,6 @@ var GameView = new Class(
 			this.onGameOver();
 			return;
 		}
-
 	},
 	playRevealImage: function(image_url)
 	{
